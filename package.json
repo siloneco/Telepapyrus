@@ -16,7 +16,7 @@
     "eslint": "8.45.0",
     "eslint-config-next": "13.4.12",
     "highlight.js": "^11.8.0",
-    "marked": "^5.1.2",
+    "marked": "^7.0.0",
     "marked-highlight": "^2.0.1",
     "mysql": "^2.18.1",
     "next": "13.4.12",
