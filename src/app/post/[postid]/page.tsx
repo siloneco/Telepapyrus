@@ -32,7 +32,7 @@ async function getPost(id: string) {
 
 export default async function Page({ params }: { params: { postid: string } }) {
     const data = await getPost(params.postid)
-    const html = marked.parse(data.content, { mangle: false, headerIds: false })
+    const html: string | Promise<string | undefined> = marked.parse(data.content, { async: false, mangle: false, headerIds: false }) || ""
 
     return (
         <div className={styles.article}>
