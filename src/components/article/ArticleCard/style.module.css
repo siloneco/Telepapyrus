@@ -1,0 +1,29 @@
+.card {
+    height: calc(100% - 2rem);
+    width: calc(100% - 2rem);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: #fff;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.05);
+}
+
+.title {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.date {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.linkWithoutStyle {
+    text-decoration: inherit;
+    color: inherit;
+}

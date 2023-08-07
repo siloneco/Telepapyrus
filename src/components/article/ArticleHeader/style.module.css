@@ -1,0 +1,11 @@
+.date {
+    font-size: 0.8rem;
+    color: #747474;
+    margin-top: 0.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+}
