@@ -11,7 +11,7 @@ import "./style/HighlightjsFont.css"
 const marked = new Marked(
     markedHighlight.markedHighlight({
         langPrefix: 'hljs language-',
-        highlight(code: any, lang: any) {
+        highlight(code: string, lang: string) {
             const language = hljs.getLanguage(lang) ? lang : 'plaintext';
             return hljs.highlight(code, { language }).value;
         }
@@ -19,7 +19,7 @@ const marked = new Marked(
 );
 
 const renderer = {
-    code(code: any, language: any) {
+    code(code: string, language: string) {
         const highlighted = hljs.highlight(code, { language }).value;
         return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`;
     }
