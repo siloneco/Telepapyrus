@@ -13,7 +13,7 @@ export default async function Page() {
       <h1>Posts</h1>
       <div className={styles.grid}>
         {data.map((post: any, index: number) => (
-          <ArticleCard key={index} id={post.id} title={post.title} date={post.date} tags={post.tags} />
+          <ArticleCard key={index} id={post.id} title={post.title} date={post.formatted_date} tags={post.tags} />
         ))}
       </div>
     </main>

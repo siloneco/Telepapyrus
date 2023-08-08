@@ -61,7 +61,7 @@ export async function GET(
             id: postId,
             content: results[0].content,
             title: results[0].title,
-            date: results[0].date,
+            formatted_date: results[0].date,
             tags: tags
         })
 
