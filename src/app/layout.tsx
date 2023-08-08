@@ -1,5 +1,6 @@
-// import './globals.css'
 import { Inter } from 'next/font/google'
+import HeaderNav from '@/components/layout/HeaderNav'
+import resetStyle from '@/components/style/Reset.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,7 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ backgroundColor: "#f5f5f5" }} className={inter.className}>{children}</body>
+      <body style={{ backgroundColor: "#f5f5f5" }} className={`${inter.className} ${resetStyle.reset}`}>
+        <HeaderNav />
+        <div>{children}</div>
+      </body>
     </html>
   )
 }
