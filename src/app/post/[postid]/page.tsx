@@ -12,18 +12,12 @@ const marked = new Marked(
     markedHighlight.markedHighlight({
         langPrefix: 'hljs language-',
         highlight(code: string, lang: string) {
+            lang = lang.split(':')[0]
             const language = hljs.getLanguage(lang) ? lang : 'plaintext'
             return hljs.highlight(code, { language }).value
         }
     })
 )
-
-const renderer = {
-    code(code: string, language: string) {
-        const highlighted = hljs.highlight(code, { language }).value
-        return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`
-    }
-}
 
 async function getPost(id: string) {
     const res = await fetch(`http://localhost:3000/api/post/${id}`, { next: { revalidate: 60 } })
