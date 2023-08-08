@@ -1,5 +1,5 @@
-import ArticleTag from "../ArticleTag";
-import styles from "./style.module.css";
+import ArticleTag from "../ArticleTag"
+import styles from "./style.module.css"
 import Link from 'next/link'
 
 export default function ArticleCard({ id, title, date, tags }: { id: string, title: string, date: string, tags: string[] }) {

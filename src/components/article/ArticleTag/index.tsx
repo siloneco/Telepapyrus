@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import styles from "./style.module.css";
+import styles from "./style.module.css"
 
 export default function ArticleTag({ tag }: { tag: string }) {
     return (

@@ -1,27 +1,27 @@
-const hljs = require('highlight.js');
-const markedHighlight = require('marked-highlight');
+const hljs = require('highlight.js')
+const markedHighlight = require('marked-highlight')
 
-import { Marked } from "marked";
-import ArticleHeader from '@/components/article/ArticleHeader';
-import styles from "./style/style.module.css";
+import { Marked } from "marked"
+import ArticleHeader from '@/components/article/ArticleHeader'
+import styles from "./style/style.module.css"
 
-import 'highlight.js/styles/github.css';
+import 'highlight.js/styles/github.css'
 import "./style/HighlightjsFont.css"
 
 const marked = new Marked(
     markedHighlight.markedHighlight({
         langPrefix: 'hljs language-',
         highlight(code: string, lang: string) {
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-            return hljs.highlight(code, { language }).value;
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext'
+            return hljs.highlight(code, { language }).value
         }
     })
-);
+)
 
 const renderer = {
     code(code: string, language: string) {
-        const highlighted = hljs.highlight(code, { language }).value;
-        return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`;
+        const highlighted = hljs.highlight(code, { language }).value
+        return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`
     }
 }
 

@@ -1,5 +1,5 @@
-import ArticleTag from "../ArticleTag";
-import styles from "./style.module.css";
+import ArticleTag from "../ArticleTag"
+import styles from "./style.module.css"
 
 export default function ArticleHeader({ title, date, tags }: { title: string, date: string, tags: string[] }) {
     return (
