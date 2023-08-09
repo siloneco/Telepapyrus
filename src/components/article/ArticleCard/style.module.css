@@ -1,6 +1,4 @@
 .card {
-    height: calc(100% - 2rem);
-    width: calc(100% - 2rem);
     padding: 1rem;
     border-radius: 0.5rem;
     background-color: #fff;
@@ -26,4 +24,10 @@
 .linkWithoutStyle {
     text-decoration: inherit;
     color: inherit;
+}
+
+@media (max-width: 500px) {
+    .card {
+        margin: 0px 1rem;
+    }
 }
