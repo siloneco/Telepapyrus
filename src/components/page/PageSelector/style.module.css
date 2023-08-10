@@ -1,0 +1,22 @@
+.pageButton {
+    background-color: #eeeeee;
+    border: 1px solid #555555;
+    border-radius: 5px;
+    padding: 7px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.pageButtonCurrent {
+    background-color: #cacaca;
+    /* color: #fff; */
+    cursor: default;
+}
+
+.pageSelector {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
