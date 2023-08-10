@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, MysqlError } from 'mysql'
 
-const mainQuery = 'SELECT `id`, `title`, DATE_FORMAT(date, \'%Y/%m/%d\') AS formatted_date  FROM `articles` ORDER BY `date` ASC;'
+const mainQuery = 'SELECT `id`, `title`, DATE_FORMAT(date, \'%Y/%m/%d\') AS formatted_date, DATE_FORMAT(last_updated, \'%Y/%m/%d\') AS last_updated FROM `articles` ORDER BY `date` ASC;'
 
 const tagsQuery = 'SELECT `id`, `tag` FROM `tags` WHERE `id` IN (?);'
 

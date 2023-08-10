@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: { postid: string } }) {
 
     return (
         <div className={styles.article}>
-            <ArticleHeader title={data.title} date={data.formatted_date} tags={data.tags} />
+            <ArticleHeader title={data.title} date={data.formatted_date} lastUpdated={data.last_updated} tags={data.tags} />
             <div dangerouslySetInnerHTML={{ __html: html }}></div>
         </div>
     )

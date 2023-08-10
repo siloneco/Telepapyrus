@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, MysqlError } from 'mysql'
 
-const query = 'SELECT `id`, `title`, `content`, DATE_FORMAT(date, \'%Y/%m/%d\') AS date FROM `articles` WHERE `id` = ?;'
+const query = 'SELECT `id`, `title`, `content`, DATE_FORMAT(date, \'%Y/%m/%d\') AS date, DATE_FORMAT(last_updated, \'%Y/%m/%d\') AS last_updated FROM `articles` WHERE `id` = ?;'
 
 export async function GET(
     request: Request,
@@ -62,6 +62,7 @@ export async function GET(
             content: results[0].content,
             title: results[0].title,
             formatted_date: results[0].date,
+            last_updated: results[0].last_updated,
             tags: tags
         })
 
