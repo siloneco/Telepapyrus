@@ -1,8 +1,10 @@
 .card {
+    width: 100%;
     padding: 1rem;
     border-radius: 0.5rem;
     background-color: #fff;
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.05);
+    margin-bottom: 1rem;
 }
 
 .title {
@@ -10,9 +12,17 @@
     margin-bottom: 0px;
 }
 
+.dateContainer {
+    display: flex;
+    align-items: center;
+}
+
 .date {
     font-size: 0.8rem;
     color: #999;
+    display: flex;
+    align-items: center;
+    margin: 0.5rem 0 0 0;
 }
 
 .tags {
@@ -26,8 +36,10 @@
     color: inherit;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 550px) {
     .card {
-        margin: 0px 1rem;
+        width: 80%;
+        margin-left: 1rem;
+        margin-right: 1rem;
     }
 }

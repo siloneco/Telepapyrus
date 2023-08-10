@@ -11,9 +11,9 @@ export default async function Page() {
   return (
     <main className={styles.main}>
       <h1>Posts</h1>
-      <div className={styles.grid}>
+      <div className={styles.articleContainer}>
         {data.map((post: any, index: number) => (
-          <ArticleCard key={index} id={post.id} title={post.title} date={post.formatted_date} tags={post.tags} />
+          <ArticleCard key={index} id={post.id} title={post.title} date={post.formatted_date} lastUpdated={post.formatted_date} tags={post.tags} />
         ))}
       </div>
     </main>
