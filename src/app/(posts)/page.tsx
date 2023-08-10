@@ -13,6 +13,7 @@ export default async function Page() {
       <h1>Posts</h1>
       <div className={styles.articleContainer}>
         {data.map((post: any, index: number) => (
+          /* TODO: Implement last updated date */
           <ArticleCard key={index} id={post.id} title={post.title} date={post.formatted_date} lastUpdated={post.formatted_date} tags={post.tags} />
         ))}
       </div>
