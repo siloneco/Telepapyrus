@@ -1,12 +1,12 @@
 const hljs = require('highlight.js')
 const markedHighlight = require('marked-highlight')
 
-import { Marked } from "marked"
+import { Marked } from 'marked'
 import ArticleHeader from '@/components/article/ArticleHeader'
-import styles from "./style/style.module.css"
+import styles from './style/style.module.css'
 
 import 'highlight.js/styles/github.css'
-import "./style/HighlightjsFont.css"
+import './style/HighlightjsFont.css'
 
 const marked = new Marked(
     markedHighlight.markedHighlight({
@@ -26,7 +26,7 @@ async function getPost(id: string) {
 
 export default async function Page({ params }: { params: { postid: string } }) {
     const data = await getPost(params.postid)
-    const html: string = (marked.parse(data.content, { async: false, mangle: false, headerIds: false }) || "") as string
+    const html: string = (marked.parse(data.content, { async: false, mangle: false, headerIds: false }) || '') as string
 
     return (
         <div className={styles.article}>

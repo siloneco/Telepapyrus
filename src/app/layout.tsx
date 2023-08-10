@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body style={{ backgroundColor: "#f5f5f5" }} className={`${inter.className} ${resetStyle.reset}`}>
+    <html lang='en'>
+      <body style={{ backgroundColor: '#f5f5f5' }} className={`${inter.className} ${resetStyle.reset}`}>
         <HeaderNav />
         <div>{children}</div>
       </body>

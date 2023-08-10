@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
-import { getConnectionPool } from "@/lib/database/MysqlConnectionPool"
-import { PoolConnection, Pool, MysqlError } from "mysql"
+import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
+import { PoolConnection, Pool, MysqlError } from 'mysql'
 
 const query = 'SELECT `tag` FROM `tags` WHERE `id` = ?;'
 

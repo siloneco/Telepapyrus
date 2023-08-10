@@ -1,4 +1,4 @@
-import { createPool, Pool } from "mysql"
+import { createPool, Pool } from 'mysql'
 
 let connectionPool: Pool
 
@@ -7,11 +7,11 @@ const getConnectionPool = async () => {
         return connectionPool
     }
 
-    const hostname: string = process.env.DATABASE_HOST || "localhost"
+    const hostname: string = process.env.DATABASE_HOST || 'localhost'
     const port: number = Number(process.env.DATABASE_PORT) || 3306
-    const user: string = process.env.DATABASE_USER || "root"
-    const password: string = process.env.DATABASE_PASSWORD || "password"
-    const database: string = process.env.DATABASE_SCHEMA || "telepapyrus"
+    const user: string = process.env.DATABASE_USER || 'root'
+    const password: string = process.env.DATABASE_PASSWORD || 'password'
+    const database: string = process.env.DATABASE_SCHEMA || 'telepapyrus'
 
     connectionPool = createPool({
         connectionLimit: 10,
