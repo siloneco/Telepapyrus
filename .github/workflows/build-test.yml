@@ -40,7 +40,7 @@ jobs:
           key: ${{ runner.os }}-mysql-cli
       - name: Install MySQL CLI
         if: steps.cache-mysql-cli.outputs.cache-hit != 'true'
-        run: apt-get update && apt-get -y install mysql-client
+        run: sudo apt-get update && sudo apt-get -y install mysql-client
 
       - name: Setup MariaDB
         run: 'mysql -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
