@@ -1,3 +1,4 @@
+import { Metadata, ResolvingMetadata } from 'next'
 import styles from './page.module.css'
 import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
@@ -10,6 +11,20 @@ async function getPosts(page: number) {
 async function getMaxPageNumber() {
   const res = await fetch(`http://localhost:3000/api/internal/pages`, { next: { revalidate: 60 } })
   return (await res.json()).max
+}
+
+type Props = {
+  params: { postid: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  return {
+    title: "Silolab Blog | しろらぼブログ",
+  }
 }
 
 export default async function Page({ params }: { params: { slug: string[] } }) {

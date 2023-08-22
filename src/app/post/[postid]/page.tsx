@@ -1,6 +1,7 @@
 const hljs = require('highlight.js')
 const markedHighlight = require('marked-highlight')
 
+import { Metadata, ResolvingMetadata } from 'next'
 import { Marked } from 'marked'
 import ArticleHeader from '@/components/article/ArticleHeader'
 import styles from './style/style.module.css'
@@ -22,6 +23,22 @@ const marked = new Marked(
 async function getPost(id: string) {
     const res = await fetch(`http://localhost:3000/api/post/${id}`, { next: { revalidate: 60 } })
     return res.json()
+}
+
+type Props = {
+    params: { postid: string }
+    searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata(
+    { params, searchParams }: Props,
+    parent: ResolvingMetadata
+): Promise<Metadata> {
+    const data = await getPost(params.postid)
+
+    return {
+        title: `${data.title} | Silolab Blog`,
+    }
 }
 
 export default async function Page({ params }: { params: { postid: string } }) {
