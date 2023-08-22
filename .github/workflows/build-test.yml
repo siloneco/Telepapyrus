@@ -17,6 +17,13 @@ jobs:
     timeout-minutes: 5
     permissions:
       contents: read
+    services:
+      mariadb:
+        image: mariadb:10.11.2
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: passwd
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,6 +32,32 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
 
+      - name: Cache MySQL CLI
+        id: cache-mysql-cli
+        uses: actions/cache@v3
+        with:
+          path: /usr/bin/mysql
+          key: ${{ runner.os }}-mysql-cli
+      - name: Install MySQL CLI
+        if: steps.cache-mysql-cli.outputs.cache-hit != 'true'
+        run: apt-get update && apt-get -y install mysql-client
+
+      - name: Setup MariaDB
+        run: 'mysql -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
+
+      - run: cp ./.github/workflows/test-data/.env.test ./.env.local
+
+      - name: Cache node_modules
+        id: cache-node_modules-cli
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+      - name: npm install
+        if: steps.cache-node_modules-cli.outputs.cache-hit != 'true'
+        run: npm install
+
       - run: node --version
       - run: npm --version
+
       - run: npm run build
