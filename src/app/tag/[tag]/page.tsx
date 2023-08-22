@@ -13,9 +13,9 @@ export default async function Page({ params }: { params: { tag: string } }) {
         <main className={styles.main}>
             <h1>{`Posts - ${params.tag}`}</h1>
             <div className={styles.grid}>
-                {data.map((post: any, index: number) => (
+                {/* {data.map((post: any, index: number) => (
                     <ArticleCard key={index} id={post.id} title={post.title} date={post.date} tags={post.tags} />
-                ))}
+                ))} */}
             </div>
         </main>
     )
