@@ -32,14 +32,13 @@ jobs:
           cache: 'npm'
           cache-dependency-path: 'package-lock.json'
 
-      - name: Cache MySQL CLI
-        id: cache-mysql-cli
-        uses: actions/cache@v3
+      - name: Check MySQL CLI existence
+        id: check-mysql-cli
+        uses: andstor/file-existence-action@v1
         with:
-          path: /usr/bin/mysql
-          key: ${{ runner.os }}-mysql-cli
+          files: "/usr/bin/mysql"
       - name: Install MySQL CLI
-        if: steps.cache-mysql-cli.outputs.cache-hit != 'true'
+        if: steps.check-mysql-cli.outputs.files_exists == 'false'
         run: sudo apt-get update && sudo apt-get -y install mysql-client
 
       - name: Setup MariaDB
