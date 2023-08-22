@@ -43,7 +43,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get -y install mysql-client
 
       - name: Setup MariaDB
-        run: 'mysql -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
+        run: 'mysql --protocol=tcp -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
 
       - run: cp ./.github/workflows/test-data/.env.test ./.env.local
 
