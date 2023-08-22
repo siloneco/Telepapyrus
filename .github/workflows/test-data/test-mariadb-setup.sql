@@ -39,4 +39,28 @@ INSERT INTO `telepapyrus`.`tags` VALUES
 ('test-2','TestTag1'),
 ('test-3','TestTag2');
 
-CREATE VIEW `telepapyrus`.`pages` AS select `t`.`row_num` DIV 10 + 1 AS `page`,`t`.`date` AS `date` from (select `telepapyrus`.`articles`.`date` AS `date`,row_number() over ( order by `telepapyrus`.`articles`.`date` desc) AS `row_num` from `telepapyrus`.`articles`) `t` where `t`.`row_num` MOD 10 = 1 or `t`.`date` = (select max(`telepapyrus`.`articles`.`date`) from `telepapyrus`.`articles`);
+CREATE VIEW `telepapyrus`.`pages` AS
+select
+  `t`.`row_num` DIV 10 + 1 AS `page`,
+  `t`.`date` AS `date`
+from
+  (
+    select
+      `telepapyrus`.`articles`.`date` AS `date`,
+      row_number() over (
+        order by
+          `telepapyrus`.`articles`.`date` desc
+      ) AS `row_num`
+    from
+      `telepapyrus`.`articles`
+  ) `t`
+where
+  `t`.`row_num` MOD 10 = 1
+  or `t`.`date` = (
+    select
+      max(
+        `telepapyrus`.`articles`.`date`
+      )
+    from
+      `telepapyrus`.`articles`
+  );
