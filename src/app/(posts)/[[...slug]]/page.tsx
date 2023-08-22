@@ -2,8 +2,9 @@ import { Metadata, ResolvingMetadata } from 'next'
 import styles from './page.module.css'
 import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
+import { PostOverview } from '@/components/types/Post'
 
-async function getPosts(page: number) {
+async function getPosts(page: number): Promise<Array<PostOverview>> {
   const res = await fetch(`http://localhost:3000/api/posts/` + page, { next: { revalidate: 60 } })
   return res.json()
 }
@@ -36,12 +37,12 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
     }
   }
 
-  const data = await getPosts(page)
+  const data: Array<PostOverview> = await getPosts(page)
   return (
     <main className={styles.main}>
       <h1>Posts</h1>
       <div className={styles.articleContainer}>
-        {data.map((post: any, index: number) => (
+        {data.map((post: PostOverview, index: number) => (
           <ArticleCard key={index} id={post.id} title={post.title} date={post.formatted_date} lastUpdated={post.last_updated} tags={post.tags} />
         ))}
         <PageSelector currentPage={page} totalPages={await getMaxPageNumber()} />
