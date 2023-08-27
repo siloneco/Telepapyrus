@@ -10,6 +10,9 @@
     "labels": [
         "dependencies"
     ],
+    "schedule": [
+        "after 9:00 before 23:00"
+    ],
     "assignees": [
         "siloneco"
     ],
