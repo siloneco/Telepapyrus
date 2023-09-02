@@ -19,7 +19,7 @@ jobs:
       contents: read
     services:
       mariadb:
-        image: mariadb:11.1.2@sha256:a104070983c2a9ab542d6142de858457dd15d2cabd7ac26e4ca3891d7721e73e
+        image: mariadb:11.1.2@sha256:3238087b31d1794d4dfe43099bfcd9e506780601d29d9cf5aae31abfd58cedd3
         ports:
           - 3306:3306
         env:
