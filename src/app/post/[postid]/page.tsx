@@ -44,7 +44,7 @@ export async function generateMetadata(
 
 export default async function Page({ params }: { params: { postid: string } }) {
     const data: Post = await getPost(params.postid)
-    const html: string = (marked.parse(data.content, { async: false, mangle: false, headerIds: false }) || '') as string
+    const html: string = (marked.parse(data.content, { async: false }) || '') as string
 
     return (
         <div className={styles.article}>
