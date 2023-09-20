@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
-import { PoolConnection, Pool, MysqlError } from 'mysql'
+import { PoolConnection, Pool, QueryError } from 'mysql2'
 
 const query = 'SELECT `tag` FROM `tags` WHERE `id` = ?;'
 
@@ -12,7 +12,7 @@ export async function GET(
 
     const connection: PoolConnection = await new Promise((resolve, reject) => {
         getConnectionPool().then((connectionPool: Pool) => {
-            connectionPool.getConnection((error: MysqlError, connection: PoolConnection) => {
+            connectionPool.getConnection((error: NodeJS.ErrnoException | null, connection: PoolConnection) => {
                 if (error) {
                     reject(error)
                 }
@@ -27,7 +27,7 @@ export async function GET(
 
     try {
         const results: Array<any> = await new Promise((resolve, reject) => {
-            connection.query(query, [postId], (error: MysqlError | null, results: any) => {
+            connection.query(query, [postId], (error: QueryError | null, results: any) => {
                 if (error) {
                     reject(error)
                 }
