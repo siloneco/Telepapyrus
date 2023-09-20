@@ -1,4 +1,4 @@
-import { createPool, Pool } from 'mysql'
+import { createPool, Pool } from 'mysql2'
 
 let connectionPool: Pool
 

@@ -17,7 +17,7 @@
     "highlight.js": "^11.8.0",
     "marked": "^9.0.0",
     "marked-highlight": "^2.0.1",
-    "mysql": "^2.18.1",
+    "mysql2": "^3.6.1",
     "next": "13.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -25,6 +25,6 @@
     "typescript": "5.2.2"
   },
   "devDependencies": {
-    "@types/mysql": "2.15.21"
+    "@types/mysql": "^2.15.21"
   }
 }

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
-import { PoolConnection, Pool, MysqlError } from 'mysql'
+import { PoolConnection, Pool, QueryError } from 'mysql2'
 
 const pageBoundaryQuery = 'SELECT `date` FROM `pages` WHERE `page` = ?;'
 const mainQuery = 'SELECT `id`, `title`, DATE_FORMAT(date, \'%Y/%m/%d\') AS formatted_date, DATE_FORMAT(last_updated, \'%Y/%m/%d\') AS last_updated FROM `articles` WHERE `date` <= ? ORDER BY `date` DESC LIMIT 10;'
@@ -14,7 +14,7 @@ export async function GET(request: Request, { params }: { params: { page: string
 
     const connection: PoolConnection = await new Promise((resolve, reject) => {
         getConnectionPool().then((connectionPool: Pool) => {
-            connectionPool.getConnection((error: MysqlError, connection: PoolConnection) => {
+            connectionPool.getConnection((error: NodeJS.ErrnoException | null, connection: PoolConnection) => {
                 if (error) {
                     reject(error)
                 }
@@ -29,7 +29,7 @@ export async function GET(request: Request, { params }: { params: { page: string
 
     try {
         const pagenationResults: Array<any> = await new Promise((resolve, reject) => {
-            connection.query(pageBoundaryQuery, page, (error: MysqlError | null, results: any) => {
+            connection.query(pageBoundaryQuery, page, (error: QueryError | null, results: any) => {
                 if (error) {
                     reject(error)
                 }
@@ -44,7 +44,7 @@ export async function GET(request: Request, { params }: { params: { page: string
         const bounadryDate = pagenationResults[0].date
 
         const results: Array<any> = await new Promise((resolve, reject) => {
-            connection.query(mainQuery, bounadryDate, (error: MysqlError | null, results: any) => {
+            connection.query(mainQuery, bounadryDate, (error: QueryError | null, results: any) => {
                 if (error) {
                     reject(error)
                 }
@@ -58,7 +58,7 @@ export async function GET(request: Request, { params }: { params: { page: string
 
         const tagsResult: Array<any> = await new Promise((resolve, reject) => {
             const ids: Array<number> = results.map((result: any) => result.id)
-            connection.query(tagsQuery, [ids], (error: MysqlError | null, results: any) => {
+            connection.query(tagsQuery, [ids], (error: QueryError | null, results: any) => {
                 if (error) {
                     reject(error)
                 }
