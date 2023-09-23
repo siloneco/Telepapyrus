@@ -24,7 +24,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   return {
-    title: "Silolab Blog | しろらぼブログ",
+    title: 'Silolab Blog | しろらぼブログ',
   }
 }
 
