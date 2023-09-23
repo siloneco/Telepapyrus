@@ -28,6 +28,15 @@
             ],
             "matchCurrentVersion": "!/^0/",
             "automerge": true
+        },
+        {
+            "matchPackageNames": [
+                "actions/checkout",
+                "actions/cache",
+                "actions/setup-node",
+                "mariadb"
+            ],
+            "pinDigests": false
         }
     ]
 }

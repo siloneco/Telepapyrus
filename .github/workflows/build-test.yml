@@ -19,14 +19,14 @@ jobs:
       contents: read
     services:
       mariadb:
-        image: mariadb:11.1.2@sha256:5d851e999b84625ef9810589e832686cae58453452698ee69e2980041e626eb2
+        image: mariadb:11.1.2
         ports:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: passwd
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
-      - uses: actions/setup-node@5e21ff4d9bc1a8cf6de233a3057d20ec6b3fb69d # v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
         with:
           node-version: '20.5.1'
           cache: 'npm'
@@ -48,7 +48,7 @@ jobs:
 
       - name: Cache node_modules
         id: cache-node_modules-cli
-        uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3
+        uses: actions/cache@v3
         with:
           path: ./node_modules
           key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
