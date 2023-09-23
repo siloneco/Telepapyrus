@@ -45,7 +45,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
         {data.map((post: PostOverview, index: number) => (
           <ArticleCard key={index} id={post.id} title={post.title} date={post.formatted_date} lastUpdated={post.last_updated} tags={post.tags} />
         ))}
-        <PageSelector currentPage={page} totalPages={await getMaxPageNumber()} />
+        <PageSelector path={'/'} currentPage={page} totalPages={await getMaxPageNumber()} />
       </div>
     </main>
   )

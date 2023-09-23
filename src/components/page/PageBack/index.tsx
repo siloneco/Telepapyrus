@@ -2,11 +2,11 @@ import Link from 'next/link'
 import styles from '@/components/style/PagingButton.module.css'
 import linkStyle from '@/components/style/LinkStyle.module.css'
 
-export default function PageBack({ page, bright }: { page: number, bright: boolean }) {
+export default function PageBack({ path, page, bright }: { path: string, page: number, bright: boolean }) {
     return (
         <Link
             key={page}
-            href={`/${page}`}
+            href={path + page}
             className={`${linkStyle.linkWithoutStyle} ${styles.pageButton}`}
             prefetch={false}
         >
