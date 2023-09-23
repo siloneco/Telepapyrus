@@ -1,0 +1,44 @@
+.button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 40px;
+    padding: 5px;
+    background-color: white;
+    border-radius: 5px;
+    color: #000000;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+    background-color: #e0e0e0;
+}
+
+.buttonDark {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 40px;
+    padding: 5px;
+    margin-right: 20px;
+    background-color: #f3f3f3;
+    border: none;
+    border-radius: 5px;
+    color: #555555;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.buttonDark:hover {
+    background-color: #e0e0e0;
+    color: #000000;
+}
