@@ -10,7 +10,7 @@ export default function PageSelector({ currentPage, totalPages }: { currentPage:
     for (let i = 0; i < pageNumbers.length; i++) {
         const page = pageNumbers[i]
 
-        if (page <= lastAddedPageNum) {
+        if (page > totalPages || page <= lastAddedPageNum) {
             continue
         }
 
