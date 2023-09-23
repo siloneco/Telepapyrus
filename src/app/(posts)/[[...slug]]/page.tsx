@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import styles from './page.module.css'
+import styles from '@/components/style/Posts.module.css'
 import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
 import { PostOverview } from '@/components/types/Post'
