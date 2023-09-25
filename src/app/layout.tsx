@@ -19,6 +19,9 @@ export default function RootLayout({
       <body style={{ backgroundColor: '#f5f5f5' }} className={`${inter.className} ${resetStyle.reset}`}>
         <HeaderNav />
         <div>{children}</div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '50px' }}>
+          <p style={{ color: "gray" }}>Contribute to this blog software in <a href="https://github.com/siloneco/Telepapyrus" style={{ color: 'gray' }}>siloneco/Telepapyrus</a></p>
+        </div>
       </body>
     </html>
   )
