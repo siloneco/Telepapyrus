@@ -1,5 +1,11 @@
 const hljs = require('highlight.js')
 const markedHighlight = require('marked-highlight')
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+const purify = DOMPurify(window);
 
 import { Metadata, ResolvingMetadata } from 'next'
 import { Marked } from 'marked'
@@ -44,12 +50,14 @@ export async function generateMetadata(
 
 export default async function Page({ params }: { params: { postid: string } }) {
     const data: Post = await getPost(params.postid)
-    const html: string = (marked.parse(data.content, { async: false }) || '') as string
+    const sanitizedHtml: string = purify.sanitize(
+        marked.parse(data.content, { async: false })
+    );
 
     return (
         <div className={styles.article}>
             <ArticleHeader title={data.title} date={data.formatted_date} lastUpdated={data.last_updated} tags={data.tags} />
-            <div dangerouslySetInnerHTML={{ __html: html }}></div>
+            <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }}></div>
         </div>
     )
 }
