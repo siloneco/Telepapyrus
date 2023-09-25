@@ -21,15 +21,37 @@
     padding: 0px 1rem;
 }
 
+.leftContent {
+    display: flex;
+    align-items: center;
+}
+
+.rightContent {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .navLinks {
-    padding: 1rem;
+    padding: 0 1rem;
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 3.5rem;
     transition: background-color 0.1s ease-in-out;
+    border-radius: 0px;
+    color: black;
 }
 
 .navLinks:hover {
     background-color: #eeeeee;
+}
+
+.simpleIcon {
+    font-size: 1.5rem;
+    padding-right: 5px;
+    color: black;
+    padding-right: 0px;
 }
