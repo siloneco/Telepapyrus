@@ -40,7 +40,6 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   const data: Array<PostOverview> = await getPosts(page)
   return (
     <main className={styles.main}>
-      <h1>Posts</h1>
       <div className={styles.articleContainer}>
         {data.map((post: PostOverview, index: number) => (
           <ArticleCard key={index} id={post.id} title={post.title} date={post.formatted_date} lastUpdated={post.last_updated} tags={post.tags} />
