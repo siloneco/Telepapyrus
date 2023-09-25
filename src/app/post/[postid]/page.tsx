@@ -22,7 +22,7 @@ const marked = new Marked(
 )
 
 async function getPost(id: string): Promise<Post> {
-    const res = await fetch(`http://localhost:3000/api/post/${id}`, { next: { revalidate: 60 } })
+    const res = await fetch(`http://localhost:3000/api/internal/post/${id}`, { next: { revalidate: 60 } })
     return res.json()
 }
 
