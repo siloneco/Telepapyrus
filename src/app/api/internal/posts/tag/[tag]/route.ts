@@ -5,5 +5,5 @@ export async function GET(
     request: Request,
     { params }: { params: { tag: string } }
 ) {
-    return NextResponse.redirect(`http://localhost:3000/api/posts/tag/${params.tag}/1`)
+    return NextResponse.redirect(`http://localhost:3000/api/internal/posts/tag/${params.tag}/1`)
 }
