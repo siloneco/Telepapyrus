@@ -1,7 +1,7 @@
 .tag {
-    background-color: #e3e3e3;
+    background-color: #cce3de;
     border-radius: 5px;
-    color: #4a4a4a;
+    color: #535353;
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 600;
@@ -10,4 +10,12 @@
     text-decoration: none;
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
+    box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.05);
+    transition: all 0.1s ease-in-out;
+}
+
+.tag:hover {
+    background-color: #d5f1e8;
+    color: #535353;
+    box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.3);
 }
