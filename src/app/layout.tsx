@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import HeaderNav from '@/components/layout/HeaderNav'
 import resetStyle from '@/components/style/Reset.module.css'
+import NextAuthProvider from '@/components/layout/NextAuth'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,7 +14,9 @@ export default function RootLayout({
     <html lang='jp'>
       <body style={{ backgroundColor: '#f5f5f5' }} className={`${inter.className} ${resetStyle.reset}`}>
         <HeaderNav />
-        <div>{children}</div>
+        <NextAuthProvider>
+          <div>{children}</div>
+        </NextAuthProvider>
         <div style={{ padding: '0px 1rem' }}>
           <hr style={{ maxWidth: '50rem', marginBottom: '0px' }} />
         </div>
