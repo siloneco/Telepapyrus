@@ -10,7 +10,7 @@ export default function HeaderNav() {
         <nav className={styles.navBackground}>
             <div className={styles.navContent}>
                 <div className={styles.leftContent}>
-                    <Link href={'/'} className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><FaHome className={styles.simpleIcon} style={{ paddingRight: "5px" }} /></Link>
+                    <Link href={'/'} className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><FaHome className={styles.simpleIcon} /></Link>
                 </div>
                 <div className={styles.rightContent}>
                     <a href="https://github.com/siloneco">

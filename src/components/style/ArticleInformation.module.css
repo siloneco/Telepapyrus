@@ -1,3 +1,9 @@
+.title {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: white;
+}
+
 .dateContainer {
     display: flex;
     align-items: center;
@@ -8,10 +14,15 @@
     color: #C1C1C1;
     display: flex;
     align-items: center;
-    margin: 0.5rem 0;
+    margin: 0.5rem 0.5rem 0 0;
+}
+
+.dateIcon {
+    padding-right: 2px;
 }
 
 .tags {
     display: flex;
     flex-wrap: wrap;
+    margin-top: 0.5rem;
 }

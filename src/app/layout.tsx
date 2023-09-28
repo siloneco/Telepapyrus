@@ -1,5 +1,6 @@
 import { Inter } from 'next/font/google'
 import HeaderNav from '@/components/layout/HeaderNav'
+import styles from '@/components/style/Layout.module.css'
 import resetStyle from '@/components/style/Reset.module.css'
 import NextAuthProvider from '@/components/layout/NextAuth'
 
@@ -12,16 +13,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang='jp'>
-      <body style={{ backgroundColor: '#191C24' }} className={`${inter.className} ${resetStyle.reset}`}>
+      <body className={`${inter.className} ${resetStyle.reset} ${styles.body}`}>
         <HeaderNav />
         <NextAuthProvider>
           <div>{children}</div>
         </NextAuthProvider>
         <div style={{ padding: '0px 1rem' }}>
-          <hr color='#636363' style={{ maxWidth: '50rem', marginBottom: '0px', color: '#636363' }} />
+          <hr color='#636363' className={styles.bar} />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'center', height: '75px', padding: '0px 1rem' }}>
-          <p style={{ color: "#C1C1C1" }}>Contribute to this blog software in <a href="https://github.com/siloneco/Telepapyrus" style={{ color: '#C1C1C1' }}>siloneco/Telepapyrus</a></p>
+        <div className={styles.footer}>
+          <p className={styles.footerText}>Contribute to this blog software in <a href="https://github.com/siloneco/Telepapyrus" className={styles.footerText}>siloneco/Telepapyrus</a></p>
         </div>
       </body>
     </html>

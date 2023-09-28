@@ -1,0 +1,20 @@
+.body {
+    background-color: #191C24;
+}
+
+.bar {
+    max-width: 50rem;
+    margin-bottom: 0px;
+    color: #636363;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    height: 75px;
+    padding: 0px 1rem;
+}
+
+.footerText {
+    color: #C1C1C1;
+}

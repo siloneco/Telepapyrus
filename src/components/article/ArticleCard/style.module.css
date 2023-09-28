@@ -3,43 +3,13 @@
     padding: 1rem;
     border-radius: 0.5rem;
     background-color: #292E3D;
-    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.05);
+    border: 1px solid #636363;
     transition: box-shadow 0.2s ease-in-out;
     margin-bottom: 1rem;
 }
 
 .card:hover {
     box-shadow: 0 0 0.5rem rgb(211, 211, 211);
-}
-
-.title {
-    margin-top: 0px;
-    margin-bottom: 0px;
-    color: white;
-}
-
-.dateContainer {
-    display: flex;
-    align-items: center;
-}
-
-.date {
-    font-size: 0.8rem;
-    color: #C1C1C1;
-    display: flex;
-    align-items: center;
-    margin: 0.5rem 0 0 0;
-}
-
-.tags {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-}
-
-.linkWithoutStyle {
-    text-decoration: inherit;
-    color: inherit;
 }
 
 @media (max-width: 550px) {

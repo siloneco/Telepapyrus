@@ -1,19 +1,19 @@
 import ArticleTag from '../ArticleTag'
-import styles from './style.module.css'
+import articleStyle from '@/components/style/ArticleInformation.module.css'
 import { FaRegClock } from 'react-icons/fa'
 
 export default function ArticleHeader({ title, date, lastUpdated, tags }: { title: string, date: string, lastUpdated: string | null, tags: string[] }) {
     return (
         <div>
-            <h1 style={{ marginBottom: '0px', color: 'white' }}>{title}</h1>
+            <h1 className={articleStyle.title}>{title}</h1>
             <div>
-                <div className={styles.dateContainer}>
-                    <p className={styles.date} style={{ marginRight: '0.5rem' }}>
-                        <FaRegClock style={{ paddingRight: '2px' }} />{date}
+                <div className={articleStyle.dateContainer}>
+                    <p className={articleStyle.date} >
+                        <FaRegClock className={articleStyle.dateIcon} />{date}
                     </p>
-                    {lastUpdated && <p className={styles.date}>(最終更新: {lastUpdated})</p>}
+                    {lastUpdated && <p className={articleStyle.date}>(最終更新: {lastUpdated})</p>}
                 </div>
-                <div className={styles.tags}>
+                <div className={articleStyle.tags}>
                     {tags.map((tag, index) => <ArticleTag key={index} tag={tag} />)}
                 </div>
             </div>
