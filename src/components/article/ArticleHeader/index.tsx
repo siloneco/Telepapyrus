@@ -5,7 +5,7 @@ import { FaRegClock } from 'react-icons/fa'
 export default function ArticleHeader({ title, date, lastUpdated, tags }: { title: string, date: string, lastUpdated: string | null, tags: string[] }) {
     return (
         <div>
-            <h1 style={{ marginBottom: '0px' }}>{title}</h1>
+            <h1 style={{ marginBottom: '0px', color: 'white' }}>{title}</h1>
             <div>
                 <div className={styles.dateContainer}>
                     <p className={styles.date} style={{ marginRight: '0.5rem' }}>
@@ -17,7 +17,7 @@ export default function ArticleHeader({ title, date, lastUpdated, tags }: { titl
                     {tags.map((tag, index) => <ArticleTag key={index} tag={tag} />)}
                 </div>
             </div>
-            <hr />
+            <hr color='#636363' />
         </div>
     )
 }

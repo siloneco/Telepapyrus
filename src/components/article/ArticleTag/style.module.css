@@ -1,7 +1,7 @@
 .tag {
-    background-color: #cce3de;
+    background-color: #B8DEE0;
     border-radius: 5px;
-    color: #535353;
+    color: black;
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 600;
@@ -15,7 +15,7 @@
 }
 
 .tag:hover {
-    background-color: #d5f1e8;
-    color: #535353;
+    background-color: #C4BECB;
+    color: black;
     box-shadow: 0 0 0.2rem rgba(0, 0, 0, 0.3);
 }

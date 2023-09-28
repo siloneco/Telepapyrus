@@ -12,16 +12,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang='jp'>
-      <body style={{ backgroundColor: '#f5f5f5' }} className={`${inter.className} ${resetStyle.reset}`}>
+      <body style={{ backgroundColor: '#191C24' }} className={`${inter.className} ${resetStyle.reset}`}>
         <HeaderNav />
         <NextAuthProvider>
           <div>{children}</div>
         </NextAuthProvider>
         <div style={{ padding: '0px 1rem' }}>
-          <hr style={{ maxWidth: '50rem', marginBottom: '0px' }} />
+          <hr color='#636363' style={{ maxWidth: '50rem', marginBottom: '0px', color: '#636363' }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'center', height: '75px', padding: '0px 1rem' }}>
-          <p style={{ color: "gray" }}>Contribute to this blog software in <a href="https://github.com/siloneco/Telepapyrus" style={{ color: 'gray' }}>siloneco/Telepapyrus</a></p>
+          <p style={{ color: "#C1C1C1" }}>Contribute to this blog software in <a href="https://github.com/siloneco/Telepapyrus" style={{ color: '#C1C1C1' }}>siloneco/Telepapyrus</a></p>
         </div>
       </body>
     </html>

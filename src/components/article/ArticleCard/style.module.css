@@ -2,19 +2,20 @@
     width: 100%;
     padding: 1rem;
     border-radius: 0.5rem;
-    background-color: #fff;
+    background-color: #292E3D;
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.05);
     transition: box-shadow 0.2s ease-in-out;
     margin-bottom: 1rem;
 }
 
 .card:hover {
-    box-shadow: 0 0 0.7rem rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 0.5rem rgb(211, 211, 211);
 }
 
 .title {
     margin-top: 0px;
     margin-bottom: 0px;
+    color: white;
 }
 
 .dateContainer {
@@ -24,7 +25,7 @@
 
 .date {
     font-size: 0.8rem;
-    color: #999;
+    color: #C1C1C1;
     display: flex;
     align-items: center;
     margin: 0.5rem 0 0 0;

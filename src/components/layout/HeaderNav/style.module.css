@@ -5,9 +5,10 @@
     align-items: center;
     width: 100%;
     height: 3.5rem;
-    background-color: #fff;
+    background-color: #111318;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
+    border-bottom: 1px solid #636363;
 }
 
 .navContent {
@@ -46,12 +47,12 @@
 }
 
 .navLinks:hover {
-    background-color: #eeeeee;
+    background-color: #222630;
 }
 
 .simpleIcon {
     font-size: 1.5rem;
     padding-right: 5px;
-    color: black;
+    color: #FFFBFE;
     padding-right: 0px;
 }

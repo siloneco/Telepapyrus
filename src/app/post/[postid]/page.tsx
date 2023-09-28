@@ -13,7 +13,7 @@ import ArticleHeader from '@/components/article/ArticleHeader'
 import { Post } from '@/components/types/Post'
 import styles from './style/style.module.css'
 
-import 'highlight.js/styles/github.css'
+import 'highlight.js/styles/atom-one-dark.css'
 import './style/HighlightjsFont.css'
 
 const marked = new Marked(
