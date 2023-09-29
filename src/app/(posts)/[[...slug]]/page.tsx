@@ -5,7 +5,7 @@ import PageSelector from '@/components/page/PageSelector'
 import { PostOverview } from '@/components/types/Post'
 
 async function getPosts(page: number): Promise<Array<PostOverview>> {
-  const res = await fetch(`http://localhost:3000/api/internal/posts/` + page, { next: { revalidate: 60 } })
+  const res = await fetch(`http://localhost:3000/api/internal/posts/all/${page}`, { next: { revalidate: 60 } })
   return res.json()
 }
 

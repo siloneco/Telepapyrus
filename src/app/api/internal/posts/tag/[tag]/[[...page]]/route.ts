@@ -15,12 +15,15 @@ const tagsQuery = 'SELECT `id`, `tag` FROM `tags` WHERE `id` IN (?);'
 
 export async function GET(
     request: Request,
-    { params }: { params: { tag: string, page: string } }
+    { params }: { params: { tag: string, page: string[] } }
 ) {
     const tag: string = params.tag
-    const page: number = parseInt(params.page)
-    if (isNaN(page)) {
-        return NextResponse.json({ error: 'Bad Request' }, { status: 400 })
+    let page: number = 1
+    if (params.page !== undefined) {
+        page = parseInt(params.page[0])
+        if (isNaN(page)) {
+            return NextResponse.json({ error: 'Bad Request' }, { status: 400 })
+        }
     }
 
     const connection: PoolConnection = await new Promise((resolve, reject) => {
