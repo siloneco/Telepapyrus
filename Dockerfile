@@ -16,7 +16,7 @@ COPY ./src ./src
 COPY package.json .
 COPY tsconfig.json .
 COPY next.config.js .
-COPY .env.build ./.env.local
+COPY .env.build.local ./.env.local
 
 RUN npm run build
 
