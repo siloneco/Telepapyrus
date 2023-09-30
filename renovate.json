@@ -34,7 +34,8 @@
                 "actions/checkout",
                 "actions/cache",
                 "actions/setup-node",
-                "mariadb"
+                "mariadb",
+                "node"
             ],
             "pinDigests": false
         }
