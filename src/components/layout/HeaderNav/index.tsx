@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import styles from './style.module.css'
 import linkStyle from '@/components/style/LinkStyle.module.css'
-import { FaGithub, FaHome } from 'react-icons/fa';
+import { FaGithub, FaHome } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import { SiMisskey } from 'react-icons/si'
 

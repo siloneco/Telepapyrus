@@ -1,31 +1,33 @@
-const hljs = require('highlight.js')
-const markedHighlight = require('marked-highlight')
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
-
-const window = new JSDOM('').window;
-const DOMPurify = createDOMPurify(window);
-const purify = DOMPurify(window);
+const createDOMPurify = require('dompurify')
+const { JSDOM } = require('jsdom')
+const window = new JSDOM('').window
+const DOMPurify = createDOMPurify(window)
+const purify = DOMPurify(window)
 
 import { Metadata, ResolvingMetadata } from 'next'
-import { Marked } from 'marked'
 import ArticleHeader from '@/components/article/ArticleHeader'
 import { Post } from '@/components/types/Post'
 import styles from './style/style.module.css'
+import { MDXRemote } from 'next-mdx-remote/rsc'
+import rehypePrettyCode from 'rehype-pretty-code'
+import './style/codeBlockStyle.css'
 
-import 'highlight.js/styles/atom-one-dark.css'
-import './style/HighlightjsFont.css'
+import { SerializeOptions } from 'next-mdx-remote/dist/types'
 
-const marked = new Marked(
-    markedHighlight.markedHighlight({
-        langPrefix: 'hljs language-',
-        highlight(code: string, lang: string) {
-            lang = lang.split(':')[0]
-            const language = hljs.getLanguage(lang) ? lang : 'plaintext'
-            return hljs.highlight(code, { language }).value
-        }
-    })
-)
+const rpcOptions = {
+    defaultLang: 'plaintext',
+    theme: 'slack-dark',
+    keepBackground: false,
+    grid: false,
+}
+
+const mdxOptions: SerializeOptions = {
+    mdxOptions: {
+        rehypePlugins: [
+            [rehypePrettyCode, rpcOptions]
+        ]
+    }
+}
 
 async function getPost(id: string): Promise<Post> {
     const res = await fetch(`http://localhost:3000/api/internal/post/${id}`, { next: { revalidate: 60 } })
@@ -48,16 +50,18 @@ export async function generateMetadata(
     }
 }
 
+const components = {}
+
 export default async function Page({ params }: { params: { postid: string } }) {
     const data: Post = await getPost(params.postid)
-    const sanitizedHtml: string = purify.sanitize(
-        marked.parse(data.content, { async: false })
-    );
+    const sanitized: string = purify.sanitize(data.content)
 
     return (
         <div className={styles.article}>
             <ArticleHeader title={data.title} date={data.formatted_date} lastUpdated={data.last_updated} tags={data.tags} />
-            <div dangerouslySetInnerHTML={{ __html: sanitizedHtml }}></div>
+            <MDXRemote source={sanitized} components={{ ...components }}
+                options={{ ...mdxOptions }}
+            />
         </div>
     )
 }
