@@ -1,15 +1,16 @@
 div[data-rehype-pretty-code-fragment] {
-    padding: 5px;
+    padding: 5px 0px;
     border-radius: 8px;
     background-color: #272727;
 }
 
-div[data-rehype-pretty-code-fragment]>pre>code {
+code {
     font-family: "Sans Mono", "Consolas", "Courier", monospace;
+    counter-reset: line;
 }
 
-code {
-    counter-reset: line;
+pre>code {
+    display: grid;
 }
 
 code>[data-line]::before {
@@ -19,7 +20,7 @@ code>[data-line]::before {
     display: inline-block;
     width: 1rem;
     margin-right: 1.5rem;
-    margin-left: 0.3rem;
+    margin-left: 1.0rem;
     text-align: right;
     color: gray;
 }
@@ -35,5 +36,18 @@ code[data-line-numbers-max-digits='3']>[data-line]::before {
 div[data-rehype-pretty-code-title] {
     color: rgb(196, 196, 196);
     width: fit-content;
-    padding: 5px 5px 0px 5px;
+    padding: 5px 5px 0px 15px;
+}
+
+span[data-highlighted-chars] {
+    background-color: #3D3D3D;
+}
+
+span[data-highlighted-line] {
+    background-color: #3D3D3D;
+    border-left: 2px solid #60a5fa;
+}
+
+pre>code>span {
+    border-left: 2px solid #00000000;
 }
