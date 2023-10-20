@@ -1,18 +1,13 @@
-const createDOMPurify = require('dompurify')
-const { JSDOM } = require('jsdom')
-const window = new JSDOM('').window
-const DOMPurify = createDOMPurify(window)
-const purify = DOMPurify(window)
-
 import { Metadata, ResolvingMetadata } from 'next'
 import ArticleHeader from '@/components/article/ArticleHeader'
 import { Post } from '@/components/types/Post'
 import styles from './style/style.module.css'
 import { MDXRemote } from 'next-mdx-remote/rsc'
-import rehypePrettyCode from 'rehype-pretty-code'
-import './style/codeBlockStyle.css'
 
+import rehypePrettyCode from 'rehype-pretty-code'
+import rehypeSanitize from 'rehype-sanitize'
 import { SerializeOptions } from 'next-mdx-remote/dist/types'
+import './style/codeBlockStyle.css'
 
 const rpcOptions = {
     defaultLang: 'plaintext',
@@ -24,8 +19,9 @@ const rpcOptions = {
 const mdxOptions: SerializeOptions = {
     mdxOptions: {
         rehypePlugins: [
-            [rehypePrettyCode, rpcOptions]
-        ]
+            rehypeSanitize,
+            [rehypePrettyCode, rpcOptions],
+        ],
     }
 }
 
@@ -54,12 +50,10 @@ const components = {}
 
 export default async function Page({ params }: { params: { postid: string } }) {
     const data: Post = await getPost(params.postid)
-    const sanitized: string = purify.sanitize(data.content)
-
     return (
         <div className={styles.article}>
             <ArticleHeader title={data.title} date={data.formatted_date} lastUpdated={data.last_updated} tags={data.tags} />
-            <MDXRemote source={sanitized} components={{ ...components }}
+            <MDXRemote source={data.content} components={{ ...components }}
                 options={{ ...mdxOptions }}
             />
         </div>
