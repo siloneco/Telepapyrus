@@ -4,6 +4,8 @@ import GithubProvider from "next-auth/providers/github"
 const clientId: string = process.env.GITHUB_ID || ""
 const clientSecret: string = process.env.GITHUB_SECRET || ""
 
+const ownerEmail: string | null = process.env.OWNER_EMAIL || null
+
 const handler = NextAuth({
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
@@ -31,6 +33,11 @@ const handler = NextAuth({
             }) => e.primary).email;
 
             user.email = primaryEmail;
+
+            if (ownerEmail == null || user.email !== ownerEmail) {
+                return false;
+            }
+
             return true;
         }
     },
