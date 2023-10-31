@@ -66,6 +66,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    needs: build-test
     permissions:
       contents: read
     steps:
