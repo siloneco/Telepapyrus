@@ -30,6 +30,6 @@
   },
   "devDependencies": {
     "@types/mysql": "2.15.23",
-    "eslint-plugin-unused-imports": "^3.0.0"
+    "eslint-plugin-unused-imports": "3.0.0"
   }
 }
