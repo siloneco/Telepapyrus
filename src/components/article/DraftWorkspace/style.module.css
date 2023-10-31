@@ -1,0 +1,48 @@
+.mainContainer {
+    color: white;
+    margin: 0 auto;
+    margin-top: 3em;
+    max-width: 50rem;
+    padding: 0 1rem;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    padding-bottom: 8px;
+}
+
+.navText {
+    margin: 0px;
+    color: rgb(179, 179, 179);
+}
+
+.modeChangeButton {
+    font-size: 1rem;
+    padding: 6px 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    border: rgb(129, 129, 129) 1px solid;
+    border-radius: 8px;
+    background-color: rgb(31, 31, 31);
+    margin-right: 8px;
+    color: rgb(196, 196, 196);
+}
+
+.modeChangeButtonActive {
+    border: rgb(54, 175, 212) 1px solid;
+    color: white;
+}
+
+.submitButton {
+    font-size: 1rem;
+    padding: 6px 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    border: #25b67a 1px solid;
+    border-radius: 8px;
+    background-color: #2d8b64;
+    margin-right: 8px;
+    color: white;
+}
