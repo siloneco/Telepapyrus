@@ -4,7 +4,7 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 
 const query = 'SELECT MAX(`page`) as max FROM `pages`;'
 
-export async function GET(request: Request) {
+export async function GET(_req: Request) {
     const connection: PoolConnection = await new Promise((resolve, reject) => {
         getConnectionPool().then((connectionPool: Pool) => {
             connectionPool.getConnection((error: NodeJS.ErrnoException | null, connection: PoolConnection) => {

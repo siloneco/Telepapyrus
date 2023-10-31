@@ -15,30 +15,30 @@ const handler = NextAuth({
         }),
     ],
     callbacks: {
-        async signIn({ user, account, profile, email, credentials }) {
-            if (account?.provider !== 'github') return true;
+        async signIn({ user, account }) {
+            if (account?.provider !== 'github') return true
 
             const emailRes = await fetch('https://api.github.com/user/emails', {
                 headers: {
                     Authorization: `token ${account.access_token}`,
                 },
-            });
+            })
 
-            const emails = await emailRes.json();
+            const emails = await emailRes.json()
             const primaryEmail = emails.find((e: {
                 email: string,
                 verified: boolean,
                 primary: boolean,
                 visibility: 'public' | 'private'
-            }) => e.primary).email;
+            }) => e.primary).email
 
-            user.email = primaryEmail;
+            user.email = primaryEmail
 
             if (ownerEmail == null || user.email !== ownerEmail) {
-                return false;
+                return false
             }
 
-            return true;
+            return true
         }
     },
 })

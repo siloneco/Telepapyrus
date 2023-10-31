@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState, useTransition } from "react"
 import { TabContext } from "../DraftWorkspace"
 
-export default function DraftPreview({ id, baseUrl, children }: { id: string, baseUrl: string, children: any }) {
+export default function DraftPreview({ children }: { children: any }) {
     const router = useRouter()
-    const [isPending, startTransition] = useTransition()
+    const [_, startTransition] = useTransition()
     const { active, registerOnMount } = useContext(TabContext)
     const [loading, setLoading] = useState(false)
 

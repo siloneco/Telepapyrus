@@ -20,10 +20,7 @@ type Props = {
     searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata(
-    { params, searchParams }: Props,
-    parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
     return {
         title: 'Silolab Blog | しろらぼブログ',
     }

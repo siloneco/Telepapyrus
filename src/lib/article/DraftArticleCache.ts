@@ -1,4 +1,4 @@
-const map = new Map<string, string>();
+const map = new Map<string, string>()
 
 const setDraftData = async (key: string, data: string) => {
     map.set(key, data)

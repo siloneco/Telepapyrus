@@ -9,8 +9,8 @@ export default function Page({ params }: { params: { postid: string } }) {
     const postid: string = params.postid
     return (
         <DraftWorkspace id={postid} baseUrl={baseUrl}>
-            <DraftEditor id={postid} baseUrl={baseUrl} />
-            <DraftPreview id={postid} baseUrl={baseUrl}>
+            <DraftEditor />
+            <DraftPreview>
                 <DraftContentProvider postid={postid} />
             </DraftPreview>
         </DraftWorkspace>

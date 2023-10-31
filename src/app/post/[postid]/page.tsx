@@ -14,10 +14,7 @@ type Props = {
     searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata(
-    { params, searchParams }: Props,
-    parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
     const data: Post = await getPost(params.postid)
 
     return {

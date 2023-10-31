@@ -8,9 +8,9 @@ type TabState = 'write' | 'preview'
 const TabContext = createContext(
     {
         active: 'write',
-        setActive: (tab: TabState) => { },
-        setContent: (content: string) => { },
-        registerOnMount: (key: TabState, fn: () => Promise<void>) => { },
+        setActive: (_tab: TabState) => { },
+        setContent: (_content: string) => { },
+        registerOnMount: (_key: TabState, _fn: () => Promise<void>) => { },
     }
 )
 
@@ -78,7 +78,12 @@ export default function DraftWorkspace({ id, baseUrl, children }: { id: string, 
             body: JSON.stringify({ key: id, content: content }),
         })
 
-        // TODO: show result and error handling
+        // TODO: implement more safety check and error handling
+        if (res.status == 200) {
+            console.log('submit success')
+        } else {
+            console.log('submit failed')
+        }
     }
 
     return (
