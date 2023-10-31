@@ -1,8 +1,10 @@
 import { Inter } from 'next/font/google'
 import HeaderNav from '@/components/layout/HeaderNav'
-import styles from '@/components/style/Layout.module.css'
+import styles from '@/components/style/layout/Layout.module.css'
 import resetStyle from '@/components/style/Reset.module.css'
 import NextAuthProvider from '@/components/layout/NextAuth'
+
+import '@/components/style/layout/global.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
