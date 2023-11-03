@@ -3,6 +3,7 @@ import styles from '@/components/style/Posts.module.css'
 import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
 import { PostOverview } from '@/components/types/Post'
+import { notFound } from 'next/navigation'
 
 async function getPosts(page: number): Promise<Array<PostOverview>> {
   const res = await fetch(`http://localhost:3000/api/internal/posts/all/${page}`, { next: { revalidate: 60 } })
@@ -30,7 +31,7 @@ export default async function Page({ params }: { params: { slug: string[] } }) {
   if (params.slug !== undefined && params.slug.length > 0) {
     page = parseInt(params.slug[0])
     if (isNaN(page)) {
-      page = 1
+      notFound()
     }
   }
 

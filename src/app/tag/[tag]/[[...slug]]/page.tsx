@@ -4,14 +4,23 @@ import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
 import { PostOverview } from '@/components/types/Post'
 import ArticleTag from '@/components/article/ArticleTag'
+import { notFound } from 'next/navigation'
 
-async function getPosts(tag: string): Promise<Array<PostOverview>> {
+async function getPosts(tag: string): Promise<Array<PostOverview> | null> {
     const res = await fetch(`http://localhost:3000/api/internal/posts/tag/${tag}`, { next: { revalidate: 60 } })
+    if (res.status === 404) {
+        return null
+    }
+
     return res.json()
 }
 
-async function getMaxPageNumber(tag: string) {
+async function getMaxPageNumber(tag: string): Promise<{ max: number } | null> {
     const res = await fetch(`http://localhost:3000/api/internal/pages/tag/${tag}`, { next: { revalidate: 60 } })
+    if (res.status === 404) {
+        return null
+    }
+
     return (await res.json()).max
 }
 
@@ -36,7 +45,13 @@ export default async function Page({ params }: { params: { tag: string, slug: st
     }
 
     const tag: string = params.tag
-    const data: Array<PostOverview> = await getPosts(tag)
+    const data: Array<PostOverview> | null = await getPosts(tag)
+    const maxPageNum: number | undefined = (await getMaxPageNumber(tag))?.max
+
+    if (data === null || maxPageNum === undefined) {
+        notFound()
+    }
+
     return (
         <main className={styles.main} style={{ marginTop: '2rem' }}>
             <div className={styles.pageHeader}>
