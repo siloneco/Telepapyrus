@@ -1,6 +1,6 @@
 'use client'
 
-import { signOut } from "next-auth/react"
+import { signOut } from 'next-auth/react'
 
 // TODO: Delete
 // This is a debugging page for future implementation of protected pages

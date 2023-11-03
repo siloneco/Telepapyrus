@@ -1,8 +1,8 @@
-import NextAuth from "next-auth"
-import GithubProvider from "next-auth/providers/github"
+import NextAuth from 'next-auth'
+import GithubProvider from 'next-auth/providers/github'
 
-const clientId: string = process.env.GITHUB_ID || ""
-const clientSecret: string = process.env.GITHUB_SECRET || ""
+const clientId: string = process.env.GITHUB_ID || ''
+const clientSecret: string = process.env.GITHUB_SECRET || ''
 
 const ownerEmail: string | null = process.env.OWNER_EMAIL || null
 

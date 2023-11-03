@@ -13,13 +13,13 @@ export default function HeaderNav() {
                     <Link href={'/'} className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><FaHome className={styles.simpleIcon} /></Link>
                 </div>
                 <div className={styles.rightContent}>
-                    <a href="https://github.com/siloneco" target='_blank' rel='noopener noreferrer'>
+                    <a href='https://github.com/siloneco' target='_blank' rel='noopener noreferrer'>
                         <div className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><FaGithub className={styles.simpleIcon} /></div>
                     </a>
-                    <a href="https://twitter.com/si1oneco" target='_blank' rel='noopener noreferrer'>
+                    <a href='https://twitter.com/si1oneco' target='_blank' rel='noopener noreferrer'>
                         <div className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><FaXTwitter className={styles.simpleIcon} /></div>
                     </a>
-                    <a href="https://misskey.io/@siloneco" target='_blank' rel='noopener noreferrer'>
+                    <a href='https://misskey.io/@siloneco' target='_blank' rel='noopener noreferrer'>
                         <div className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><SiMisskey className={styles.simpleIcon} /></div>
                     </a>
                 </div>

@@ -66,5 +66,5 @@ export async function POST(request: Request) {
         connection.release()
     }
 
-    return NextResponse.json({ status: "OK" }, { status: 200 })
+    return NextResponse.json({ status: 'OK' }, { status: 200 })
 }

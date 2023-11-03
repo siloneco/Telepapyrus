@@ -41,7 +41,7 @@ export default async function Page({ params }: { params: { tag: string, slug: st
         <main className={styles.main} style={{ marginTop: '2rem' }}>
             <div className={styles.pageHeader}>
                 <ArticleTag tag={tag} />
-                <h3 style={{ margin: "0px" }}>が付いている記事</h3>
+                <h3 style={{ margin: '0px' }}>が付いている記事</h3>
             </div>
             <div className={styles.articleContainer}>
                 {data.map((post: PostOverview, index: number) => (

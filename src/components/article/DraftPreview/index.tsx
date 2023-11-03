@@ -1,8 +1,8 @@
 'use client'
 
-import { useRouter } from "next/navigation"
-import { useContext, useEffect, useState, useTransition } from "react"
-import { TabContext } from "../DraftWorkspace"
+import { useRouter } from 'next/navigation'
+import { useContext, useEffect, useState, useTransition } from 'react'
+import { TabContext } from '../DraftWorkspace'
 
 export default function DraftPreview({ children }: { children: any }) {
     const router = useRouter()

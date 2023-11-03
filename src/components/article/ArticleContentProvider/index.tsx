@@ -1,4 +1,4 @@
-import { getDraftData } from "@/lib/article/DraftArticleCache"
+import { getDraftData } from '@/lib/article/DraftArticleCache'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
 
 export default async function DraftContentProvider({ postid }: { postid: string }) {

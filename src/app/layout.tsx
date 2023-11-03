@@ -24,7 +24,7 @@ export default function RootLayout({
           <hr color='#636363' className={styles.bar} />
         </div>
         <div className={styles.footer}>
-          <p className={styles.footerText}>Contribute to this blog software at <a href="https://github.com/siloneco/Telepapyrus" target="_blank" rel="noopener noreferrer" className={styles.footerText}>siloneco/Telepapyrus</a></p>
+          <p className={styles.footerText}>Contribute to this blog software at <a href='https://github.com/siloneco/Telepapyrus' target='_blank' rel='noopener noreferrer' className={styles.footerText}>siloneco/Telepapyrus</a></p>
         </div>
       </body>
     </html>

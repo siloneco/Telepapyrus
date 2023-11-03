@@ -100,7 +100,7 @@ export default function DraftWorkspace(
     return (
         <TabContext.Provider value={providerValue}>
             <div className={styles.mainContainer}>
-                <input className={styles.titleInput} placeholder="Title" value={title} onChange={(e) => { setTitle(e.target.value) }} />
+                <input className={styles.titleInput} placeholder='Title' value={title} onChange={(e) => { setTitle(e.target.value) }} />
                 <div className={styles.nav}>
                     <button onClick={() => { switchTab('write') }} className={writeButtonClass} disabled={activeTab === 'write'}>Draft</button>
                     <button onClick={() => { switchTab('preview') }} className={previewButtonClass} disabled={activeTab === 'preview'}>Preview</button>

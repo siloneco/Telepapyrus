@@ -1,4 +1,4 @@
-import { withAuth } from "next-auth/middleware"
+import { withAuth } from 'next-auth/middleware'
 
 const ownerEmail: string | null = process.env.OWNER_EMAIL || null
 
@@ -13,4 +13,4 @@ export default withAuth({
     }
 })
 
-export const config = { matcher: ["/(admin/.*)", "/(api/admin/.*)"] }
+export const config = { matcher: ['/(admin/.*)', '/(api/admin/.*)'] }

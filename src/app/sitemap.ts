@@ -39,7 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const currentTime: number = new Date().getTime()
         for (const result of results) {
             const date: Date = new Date(result.date)
-            let changeFreq: "daily" | "always" | "hourly" | "weekly" | "monthly" | "yearly" | "never" = 'daily'
+            let changeFreq: 'daily' | 'always' | 'hourly' | 'weekly' | 'monthly' | 'yearly' | 'never' = 'daily'
 
             if (currentTime - date.getTime() > 86400000 * 30) {
                 // a month passed since last update
