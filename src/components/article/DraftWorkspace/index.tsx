@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, createContext, useEffect } from 'react'
+import { PostSubmitFormat } from '@/components/types/PostSubmit'
 import styles from './style.module.css'
 
 type TabState = 'write' | 'preview'
@@ -19,8 +20,32 @@ type MountEventFunc = {
     fn: () => Promise<void>,
 }
 
-export default function DraftWorkspace({ id, baseUrl, children }: { id: string, baseUrl: string, children: any }) {
+async function postArticle(baseUrl: string, id: string, title: string, content: string, tags: Array<string>) {
+    const postObject: PostSubmitFormat = {
+        id: id,
+        title: title,
+        content: content,
+        tags: tags,
+    }
+
+    const res = await fetch(`${baseUrl}/api/admin/create-post`, {
+        method: 'POST',
+        body: JSON.stringify(postObject),
+    })
+
+    // TODO: implement more safety check and error handling
+    if (res.status == 200) {
+        console.log('submit success')
+    } else {
+        console.log('submit failed')
+    }
+}
+
+export default function DraftWorkspace(
+    { id, baseUrl, children }: { id: string, baseUrl: string, children: any }
+) {
     const [activeTab, setActiveTag] = useState<TabState>('write')
+    const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
 
     const [onMount, setOnMount] = useState<MountEventFunc[]>([])
@@ -72,28 +97,16 @@ export default function DraftWorkspace({ id, baseUrl, children }: { id: string, 
         }
     })
 
-    const submit = async () => {
-        const res = await fetch(`${baseUrl}/api/admin/submit`, {
-            method: 'POST',
-            body: JSON.stringify({ key: id, content: content }),
-        })
-
-        // TODO: implement more safety check and error handling
-        if (res.status == 200) {
-            console.log('submit success')
-        } else {
-            console.log('submit failed')
-        }
-    }
-
     return (
         <TabContext.Provider value={providerValue}>
             <div className={styles.mainContainer}>
+                <input className={styles.titleInput} placeholder="Title" value={title} onChange={(e) => { setTitle(e.target.value) }} />
                 <div className={styles.nav}>
                     <button onClick={() => { switchTab('write') }} className={writeButtonClass} disabled={activeTab === 'write'}>Draft</button>
                     <button onClick={() => { switchTab('preview') }} className={previewButtonClass} disabled={activeTab === 'preview'}>Preview</button>
                     <p className={styles.navText}>{minToRead} min to read</p>
-                    <button onClick={submit} className={styles.submitButton} style={{ marginLeft: 'auto', marginRight: '0px' }}>Submit</button>
+                    {/* TODO: implement selecting tags */}
+                    <button onClick={() => postArticle(baseUrl, id, title, content, [])} className={styles.submitButton} style={{ marginLeft: 'auto', marginRight: '0px' }}>Submit</button>
                 </div>
                 {children}
             </div>

@@ -3,7 +3,21 @@
     margin: 0 auto;
     margin-top: 3em;
     max-width: 50rem;
-    padding: 0 1rem;
+    padding: 0px;
+}
+
+.titleInput {
+    font-size: 1.3rem;
+    font-family: "Sans Mono", "Consolas", 'Noto Sans KR', sans-serif;
+    color: white;
+    outline: none;
+    border: rgb(81, 81, 81) 1px solid;
+    border-radius: 12px;
+    background-color: rgb(43, 44, 44);
+    padding: 8px 5px 8px 15px;
+    width: calc(100% - 20px);
+    margin-bottom: 1rem;
+
 }
 
 .nav {
