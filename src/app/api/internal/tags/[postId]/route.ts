@@ -11,7 +11,7 @@ type Props = {
 }
 
 export async function GET(request: Request, { params }: Props) {
-    const postId = params.postId
+    const { postId } = params
 
     const connection: PoolConnection = await new Promise((resolve, reject) => {
         getConnectionPool().then((connectionPool: Pool) => {

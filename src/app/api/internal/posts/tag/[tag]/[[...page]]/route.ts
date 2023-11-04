@@ -21,7 +21,7 @@ type Props = {
 }
 
 export async function GET(request: Request, { params }: Props) {
-    const tag: string = params.tag
+    const { tag } = params
     let page: number = 1
     if (params.page !== undefined) {
         page = parseInt(params.page[0])

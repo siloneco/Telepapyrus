@@ -51,7 +51,7 @@ export default async function Page({ params }: Props) {
         }
     }
 
-    const tag: string = params.tag
+    const { tag } = params
     const data: Array<PostOverview> | null = await getPosts(tag)
     const maxPageNum: number | undefined = (await getMaxPageNumber(tag))?.max
 

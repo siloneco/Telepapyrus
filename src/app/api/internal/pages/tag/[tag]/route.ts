@@ -11,7 +11,7 @@ type Props = {
 }
 
 export async function GET(request: Request, { params }: Props) {
-    const tag: string = params.tag
+    const { tag } = params
     const connection: PoolConnection = await new Promise((resolve, reject) => {
         getConnectionPool().then((connectionPool: Pool) => {
             connectionPool.getConnection((error: NodeJS.ErrnoException | null, connection: PoolConnection) => {

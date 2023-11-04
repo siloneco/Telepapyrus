@@ -11,7 +11,7 @@ type Props = {
 }
 
 export async function GET(request: Request, { params }: Props) {
-    const postId = params.postId
+    const { postId } = params
 
     const fetchTags = fetch(`http://localhost:3000/api/internal/tags/${postId}`, { next: { revalidate: 60 } })
 

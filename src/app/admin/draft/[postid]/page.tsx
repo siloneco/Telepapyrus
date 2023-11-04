@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default function Page({ params }: Props) {
-    const postid: string = params.postid
+    const { postid } = params
     return (
         <DraftWorkspace id={postid} baseUrl={baseUrl}>
             <DraftEditor />
