@@ -2,7 +2,7 @@ import { createPool, Pool } from 'mysql2'
 
 let connectionPool: Pool
 
-const getConnectionPool = async () => {
+async function getConnectionPool() {
     if (connectionPool) {
         return connectionPool
     }
