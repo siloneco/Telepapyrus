@@ -27,7 +27,7 @@ export default function ArticleCard({ id, title, date, lastUpdated, tags }: Prop
                     {lastUpdated && <p className={articleStyle.date}>(最終更新: {lastUpdated})</p>}
                 </div>
                 <div className={articleStyle.tags}>
-                    {tags.map((tag, index) => <ArticleTag key={index} tag={tag} />)}
+                    {tags.map((tag) => <ArticleTag key={tag} tag={tag} />)}
                 </div>
             </div>
         </div>

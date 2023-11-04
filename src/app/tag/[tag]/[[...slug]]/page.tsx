@@ -66,8 +66,8 @@ export default async function Page({ params }: Props) {
                 <h3 style={{ margin: '0px' }}>が付いている記事</h3>
             </div>
             <div className={styles.articleContainer}>
-                {data.map((post: PostOverview, index: number) => (
-                    <ArticleCard key={index} id={post.id} title={post.title} date={post.formatted_date} lastUpdated={post.last_updated} tags={post.tags} />
+                {data.map((post: PostOverview) => (
+                    <ArticleCard key={post.id} id={post.id} title={post.title} date={post.formatted_date} lastUpdated={post.last_updated} tags={post.tags} />
                 ))}
                 <PageSelector path={`/tag/${tag}/`} currentPage={page} totalPages={maxPageNum} />
             </div>
