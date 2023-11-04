@@ -2,14 +2,16 @@ import { useState, useEffect } from "react"
 import { TabState, SwitchEventCallback } from "./type"
 import { TabContextProps, IUseDraftWorkspace } from "./type"
 
-async function saveDraft(baseUrl: string, id: string, content: string) {
+const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || 'http://localhost:3000'
+
+async function saveDraft(id: string, content: string) {
     await fetch(`${baseUrl}/api/admin/save-draft`, {
         method: 'PUT',
         body: JSON.stringify({ key: id, content: content }),
     })
 }
 
-export function useDraftWorkspaceHooks(baseUrl: string, id: string): IUseDraftWorkspace {
+export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
     const [activeTab, setActiveTag] = useState<TabState>('write')
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
@@ -22,7 +24,7 @@ export function useDraftWorkspaceHooks(baseUrl: string, id: string): IUseDraftWo
         }
 
         if (activeTab === 'write') {
-            await saveDraft(baseUrl, id, content)
+            await saveDraft(id, content)
         }
 
         await onMount.find((e) => e.key === tab)?.fn()

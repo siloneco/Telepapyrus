@@ -7,6 +7,8 @@ import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'
 import styles from './style.module.css'
 
+const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || 'http://localhost:3000'
+
 export const TabContext = createContext(
     {
         active: 'write',
@@ -17,7 +19,6 @@ export const TabContext = createContext(
 )
 
 async function postArticle(
-    baseUrl: string,
     id: string,
     title: string,
     content: string,
@@ -45,11 +46,10 @@ async function postArticle(
 
 type Props = {
     id: string,
-    baseUrl: string,
     children: React.ReactNode
 }
 
-export default function DraftWorkspace({ id, baseUrl, children }: Props) {
+export default function DraftWorkspace({ id, children }: Props) {
     const {
         title,
         setTitle,
@@ -57,7 +57,7 @@ export default function DraftWorkspace({ id, baseUrl, children }: Props) {
         activeTab,
         switchTab,
         tabContextProviderValue,
-    }: IUseDraftWorkspace = useDraftWorkspaceHooks(baseUrl, id)
+    }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
 
     const writeButtonClass = activeTab === 'write' ? `${styles.modeChangeButton} ${styles.modeChangeButtonActive}` : styles.modeChangeButton
     const previewButtonClass = activeTab === 'preview' ? `${styles.modeChangeButton} ${styles.modeChangeButtonActive}` : styles.modeChangeButton
@@ -73,7 +73,7 @@ export default function DraftWorkspace({ id, baseUrl, children }: Props) {
                     <button onClick={() => { switchTab('preview') }} className={previewButtonClass} disabled={activeTab === 'preview'}>Preview</button>
                     <p className={styles.navText}>{minToRead} min to read</p>
                     {/* TODO: implement selecting tags */}
-                    <button onClick={() => postArticle(baseUrl, id, title, content, [])} className={styles.submitButton} style={{ marginLeft: 'auto', marginRight: '0px' }}>Submit</button>
+                    <button onClick={() => postArticle(id, title, content, [])} className={styles.submitButton} style={{ marginLeft: 'auto', marginRight: '0px' }}>Submit</button>
                 </div>
                 {children}
             </div>
