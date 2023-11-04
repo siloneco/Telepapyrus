@@ -8,11 +8,11 @@ import '@/components/style/layout/global.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function RootLayout({
-  children,
-}: {
+type Props = {
   children: React.ReactNode
-}) {
+}
+
+export default function RootLayout({ children }: Props) {
   return (
     <html lang='jp'>
       <body className={`${inter.className} ${resetStyle.reset} ${styles.body}`}>

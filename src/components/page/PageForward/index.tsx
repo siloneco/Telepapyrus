@@ -2,7 +2,12 @@ import Link from 'next/link'
 import styles from '@/components/style/PagingButton.module.css'
 import linkStyle from '@/components/style/LinkStyle.module.css'
 
-export default function PageForward({ path, page }: { path: string, page: number }) {
+type Props = {
+    path: string,
+    page: number
+}
+
+export default function PageForward({ path, page }: Props) {
     return (
         <Link
             key={page}

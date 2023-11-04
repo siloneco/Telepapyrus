@@ -4,7 +4,11 @@ import { useRouter } from 'next/navigation'
 import { useContext, useEffect, useState, useTransition } from 'react'
 import { TabContext } from '../DraftWorkspace'
 
-export default function DraftPreview({ children }: { children: any }) {
+type Props = {
+    children: React.ReactNode
+}
+
+export default function DraftPreview({ children }: Props) {
     const router = useRouter()
     const [_, startTransition] = useTransition()
     const { active, registerOnMount } = useContext(TabContext)

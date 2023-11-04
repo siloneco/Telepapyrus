@@ -15,18 +15,24 @@ async function getMaxPageNumber() {
   return (await res.json()).max
 }
 
-type Props = {
+type MetadataProps = {
   params: { postid: string }
   searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata({ }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ }: MetadataProps, _parent: ResolvingMetadata): Promise<Metadata> {
   return {
     title: 'Silolab Blog | しろらぼブログ',
   }
 }
 
-export default async function Page({ params }: { params: { slug: string[] } }) {
+type Props = {
+  params: {
+    slug: string[]
+  }
+}
+
+export default async function Page({ params }: Props) {
   let page: number = 1
   if (params.slug !== undefined && params.slug.length > 0) {
     page = parseInt(params.slug[0])

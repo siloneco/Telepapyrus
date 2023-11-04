@@ -20,7 +20,13 @@ type MountEventFunc = {
     fn: () => Promise<void>,
 }
 
-async function postArticle(baseUrl: string, id: string, title: string, content: string, tags: Array<string>) {
+async function postArticle(
+    baseUrl: string,
+    id: string,
+    title: string,
+    content: string,
+    tags: string[]
+) {
     const postObject: PostSubmitFormat = {
         id: id,
         title: title,
@@ -41,9 +47,13 @@ async function postArticle(baseUrl: string, id: string, title: string, content: 
     }
 }
 
-export default function DraftWorkspace(
-    { id, baseUrl, children }: { id: string, baseUrl: string, children: any }
-) {
+type Props = {
+    id: string,
+    baseUrl: string,
+    children: React.ReactNode
+}
+
+export default function DraftWorkspace({ id, baseUrl, children }: Props) {
     const [activeTab, setActiveTag] = useState<TabState>('write')
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')

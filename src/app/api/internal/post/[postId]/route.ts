@@ -4,10 +4,13 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 
 const query = 'SELECT `id`, `title`, `content`, DATE_FORMAT(date, \'%Y/%m/%d\') AS date, DATE_FORMAT(last_updated, \'%Y/%m/%d\') AS last_updated FROM `articles` WHERE `id` = ?;'
 
-export async function GET(
-    request: Request,
-    { params }: { params: { postId: string } }
-) {
+type Props = {
+    params: {
+        postId: string
+    }
+}
+
+export async function GET(request: Request, { params }: Props) {
     const postId = params.postId
 
     const fetchTags = fetch(`http://localhost:3000/api/internal/tags/${postId}`, { next: { revalidate: 60 } })

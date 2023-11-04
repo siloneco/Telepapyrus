@@ -13,12 +13,12 @@ async function getPost(id: string): Promise<Post | null> {
     return res.json()
 }
 
-type Props = {
+type MetadataProps = {
     params: { postid: string }
     searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata({ params }: Props, _parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({ params }: MetadataProps, _parent: ResolvingMetadata): Promise<Metadata> {
     const data: Post | null = await getPost(params.postid)
 
     if (data === null) {
@@ -32,7 +32,13 @@ export async function generateMetadata({ params }: Props, _parent: ResolvingMeta
     }
 }
 
-export default async function Page({ params }: { params: { postid: string } }) {
+type Props = {
+    params: {
+        postid: string
+    }
+}
+
+export default async function Page({ params }: Props) {
     const data: Post | null = await getPost(params.postid)
 
     if (data === null) {

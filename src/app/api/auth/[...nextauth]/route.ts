@@ -6,6 +6,13 @@ const clientSecret: string = process.env.GITHUB_SECRET || ''
 
 const ownerEmail: string | null = process.env.OWNER_EMAIL || null
 
+type GitHubEmail = {
+    email: string,
+    verified: boolean,
+    primary: boolean,
+    visibility: 'public' | 'private'
+}
+
 const handler = NextAuth({
     secret: process.env.NEXTAUTH_SECRET,
     providers: [
@@ -25,12 +32,7 @@ const handler = NextAuth({
             })
 
             const emails = await emailRes.json()
-            const primaryEmail = emails.find((e: {
-                email: string,
-                verified: boolean,
-                primary: boolean,
-                visibility: 'public' | 'private'
-            }) => e.primary).email
+            const primaryEmail = emails.find((e: GitHubEmail) => e.primary).email
 
             user.email = primaryEmail
 

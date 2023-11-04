@@ -6,7 +6,13 @@ const pageBoundaryQuery = 'SELECT `date` FROM `pages` WHERE `page` = ?;'
 const mainQuery = 'SELECT `id`, `title`, DATE_FORMAT(date, \'%Y/%m/%d\') AS formatted_date, DATE_FORMAT(last_updated, \'%Y/%m/%d\') AS last_updated FROM `articles` WHERE `date` <= ? ORDER BY `date` DESC LIMIT 10;'
 const tagsQuery = 'SELECT `id`, `tag` FROM `tags` WHERE `id` IN (?);'
 
-export async function GET(request: Request, { params }: { params: { page: string[] } }) {
+type Props = {
+    params: {
+        page: string[]
+    }
+}
+
+export async function GET(request: Request, { params }: Props) {
     let page: number = 1
     if (params.page !== undefined) {
         page = parseInt(params.page[0])

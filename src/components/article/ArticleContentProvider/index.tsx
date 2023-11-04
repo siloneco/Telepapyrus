@@ -1,7 +1,11 @@
 import { getDraftData } from '@/lib/article/DraftArticleCache'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
 
-export default async function DraftContentProvider({ postid }: { postid: string }) {
+type Props = {
+    postid: string
+}
+
+export default async function DraftContentProvider({ postid }: Props) {
     const content: string | undefined = await getDraftData(postid)
 
     if (content === undefined) {

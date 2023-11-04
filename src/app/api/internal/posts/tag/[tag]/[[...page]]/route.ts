@@ -13,10 +13,14 @@ WHERE tag = ? ORDER BY date DESC LIMIT 2 OFFSET ?;
 `
 const tagsQuery = 'SELECT `id`, `tag` FROM `tags` WHERE `id` IN (?);'
 
-export async function GET(
-    request: Request,
-    { params }: { params: { tag: string, page: string[] } }
-) {
+type Props = {
+    params: {
+        tag: string,
+        page: string[]
+    }
+}
+
+export async function GET(request: Request, { params }: Props) {
     const tag: string = params.tag
     let page: number = 1
     if (params.page !== undefined) {

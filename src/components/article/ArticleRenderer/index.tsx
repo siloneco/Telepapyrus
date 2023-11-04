@@ -26,7 +26,11 @@ const mdxOptions: SerializeOptions = {
 
 const components = {}
 
-export default async function ArticleRenderer({ content }: { content: string }) {
+type Props = {
+    content: string
+}
+
+export default async function ArticleRenderer({ content }: Props) {
     return (
         <MDXRemote source={content} components={{ ...components }}
             options={{ ...mdxOptions }}

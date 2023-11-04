@@ -5,7 +5,15 @@ import linkStyle from '@/components/style/LinkStyle.module.css'
 import Link from 'next/link'
 import { FaRegClock } from 'react-icons/fa'
 
-export default function ArticleCard({ id, title, date, lastUpdated, tags }: { id: string, title: string, date: string, lastUpdated: string | null, tags: string[] }) {
+type Props = {
+    id: string,
+    title: string,
+    date: string,
+    lastUpdated: string | null,
+    tags: string[]
+}
+
+export default function ArticleCard({ id, title, date, lastUpdated, tags }: Props) {
     return (
         <div className={styles.card}>
             <Link href={'/post/' + id} className={linkStyle.linkWithoutStyle}>

@@ -4,10 +4,13 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 
 const query = 'SELECT `tag` FROM `tags` WHERE `id` = ?;'
 
-export async function GET(
-    request: Request,
-    { params }: { params: { postId: string } }
-) {
+type Props = {
+    params: {
+        postId: string
+    }
+}
+
+export async function GET(request: Request, { params }: Props) {
     const postId = params.postId
 
     const connection: PoolConnection = await new Promise((resolve, reject) => {

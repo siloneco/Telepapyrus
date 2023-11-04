@@ -4,10 +4,13 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 
 const query = 'SELECT COUNT(`id`) AS count FROM `tags` WHERE `tag` = ?;'
 
-export async function GET(
-    request: Request,
-    { params }: { params: { tag: string } }
-) {
+type Props = {
+    params: {
+        tag: string
+    }
+}
+
+export async function GET(request: Request, { params }: Props) {
     const tag: string = params.tag
     const connection: PoolConnection = await new Promise((resolve, reject) => {
         getConnectionPool().then((connectionPool: Pool) => {
