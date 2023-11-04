@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { Pool, PoolConnection, QueryError } from 'mysql2'
-import { PostSubmitFormat } from '@/components/types/PostSubmit'
+import { PostSubmitFormat } from '@/components/types/PostSubmitFormat'
 
 const mainSql = 'INSERT INTO articles (id, title, content, date) VALUES (?, ?, ?, current_time())'
 const tagSql = 'INSERT INTO tags (id, tag) VALUES (?, ?)'

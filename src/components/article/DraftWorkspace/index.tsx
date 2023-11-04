@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, createContext, useEffect } from 'react'
-import { PostSubmitFormat } from '@/components/types/PostSubmit'
+import { PostSubmitFormat } from '@/components/types/PostSubmitFormat'
 import styles from './style.module.css'
 
 type TabState = 'write' | 'preview'
