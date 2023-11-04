@@ -1,12 +1,13 @@
 'use client'
 
-import { useState, createContext, useEffect } from 'react'
+import { createContext } from 'react'
 import { PostSubmitFormat } from '@/components/types/PostSubmitFormat'
+import { TabState } from './type'
+import { IUseDraftWorkspace } from './type'
+import { useDraftWorkspaceHooks } from './hook'
 import styles from './style.module.css'
 
-type TabState = 'write' | 'preview'
-
-const TabContext = createContext(
+export const TabContext = createContext(
     {
         active: 'write',
         setActive: (_tab: TabState) => { },
@@ -14,11 +15,6 @@ const TabContext = createContext(
         registerOnMount: (_key: TabState, _fn: () => Promise<void>) => { },
     }
 )
-
-type MountEventFunc = {
-    key: string,
-    fn: () => Promise<void>,
-}
 
 async function postArticle(
     baseUrl: string,
@@ -54,61 +50,22 @@ type Props = {
 }
 
 export default function DraftWorkspace({ id, baseUrl, children }: Props) {
-    const [activeTab, setActiveTag] = useState<TabState>('write')
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
-
-    const [onMount, setOnMount] = useState<MountEventFunc[]>([])
-
-    async function switchTab(tab: TabState) {
-        if (activeTab === tab) {
-            return
-        }
-
-        if (activeTab === 'write') {
-            await fetch(`${baseUrl}/api/admin/save-draft`, {
-                method: 'PUT',
-                body: JSON.stringify({ key: id, content: content }),
-            })
-        }
-
-        await onMount.find((e) => e.key === tab)?.fn()
-
-        setActiveTag(tab)
-    }
-
-    const registerOnMount = (key: TabState, fn: () => Promise<void>) => {
-        if (onMount.find((e) => e.key === key)) {
-            return
-        }
-        setOnMount((prev) => {
-            return [...prev, { key: key, fn: fn }]
-        })
-    }
-
-    const providerValue = {
-        active: activeTab,
-        setActive: setActiveTag,
-        setContent: setContent,
-        registerOnMount: registerOnMount,
-    }
+    const {
+        title,
+        setTitle,
+        content,
+        activeTab,
+        switchTab,
+        tabContextProviderValue,
+    }: IUseDraftWorkspace = useDraftWorkspaceHooks(baseUrl, id)
 
     const writeButtonClass = activeTab === 'write' ? `${styles.modeChangeButton} ${styles.modeChangeButtonActive}` : styles.modeChangeButton
     const previewButtonClass = activeTab === 'preview' ? `${styles.modeChangeButton} ${styles.modeChangeButtonActive}` : styles.modeChangeButton
 
     const minToRead = Math.ceil(content.length / 70) / 10
 
-    useEffect(() => {
-        window.onbeforeunload = (e) => {
-            if (content.length > 0) {
-                e.preventDefault()
-                return ''
-            }
-        }
-    })
-
     return (
-        <TabContext.Provider value={providerValue}>
+        <TabContext.Provider value={tabContextProviderValue}>
             <div className={styles.mainContainer}>
                 <input className={styles.titleInput} placeholder='Title' value={title} onChange={(e) => { setTitle(e.target.value) }} />
                 <div className={styles.nav}>
@@ -123,5 +80,3 @@ export default function DraftWorkspace({ id, baseUrl, children }: Props) {
         </TabContext.Provider>
     )
 }
-
-export { TabContext }
