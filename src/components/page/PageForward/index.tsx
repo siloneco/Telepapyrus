@@ -11,7 +11,7 @@ export default function PageForward({ path, page }: Props) {
     return (
         <Link
             key={page}
-            href={path + page}
+            href={`${path}${page}`}
             className={`${linkStyle.linkWithoutStyle} ${styles.pageButton}`}
             prefetch={false}
         >

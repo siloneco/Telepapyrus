@@ -16,7 +16,7 @@ type Props = {
 export default function ArticleCard({ id, title, date, lastUpdated, tags }: Props) {
     return (
         <div className={styles.card}>
-            <Link href={'/post/' + id} className={linkStyle.linkWithoutStyle}>
+            <Link href={`/post/${id}`} className={linkStyle.linkWithoutStyle}>
                 <h2 className={articleStyle.title}>{title}</h2>
             </Link>
             <div>

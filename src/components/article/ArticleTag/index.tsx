@@ -7,6 +7,6 @@ type Props = {
 
 export default function ArticleTag({ tag }: Props) {
     return (
-        <Link className={styles.tag} href={'/tag/' + tag}>{tag}</Link>
+        <Link className={styles.tag} href={`/tag/${tag}`}>{tag}</Link>
     )
 }
