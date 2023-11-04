@@ -5,9 +5,11 @@ import PageSelector from '@/components/page/PageSelector'
 import { PostOverview } from '@/components/types/Post'
 import ArticleTag from '@/components/article/ArticleTag'
 import { notFound } from 'next/navigation'
+import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
+
 
 async function getPosts(tag: string): Promise<Array<PostOverview> | null> {
-    const res = await fetch(`http://localhost:3000/api/internal/posts/tag/${tag}`, { next: { revalidate: 60 } })
+    const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/internal/posts/tag/${tag}`, { next: { revalidate: 60 } })
     if (res.status === 404) {
         return null
     }
@@ -16,7 +18,7 @@ async function getPosts(tag: string): Promise<Array<PostOverview> | null> {
 }
 
 async function getMaxPageNumber(tag: string): Promise<{ max: number } | null> {
-    const res = await fetch(`http://localhost:3000/api/internal/pages/tag/${tag}`, { next: { revalidate: 60 } })
+    const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/internal/pages/tag/${tag}`, { next: { revalidate: 60 } })
     if (res.status === 404) {
         return null
     }

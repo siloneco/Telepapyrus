@@ -4,14 +4,15 @@ import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
 import { PostOverview } from '@/components/types/Post'
 import { notFound } from 'next/navigation'
+import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 
 async function getPosts(page: number): Promise<Array<PostOverview>> {
-  const res = await fetch(`http://localhost:3000/api/internal/posts/all/${page}`, { next: { revalidate: 60 } })
+  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/internal/posts/all/${page}`, { next: { revalidate: 60 } })
   return res.json()
 }
 
 async function getMaxPageNumber() {
-  const res = await fetch(`http://localhost:3000/api/internal/pages`, { next: { revalidate: 60 } })
+  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/internal/pages`, { next: { revalidate: 60 } })
   return (await res.json()).max
 }
 

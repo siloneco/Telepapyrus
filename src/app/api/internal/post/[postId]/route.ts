@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
+import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 
 const query = 'SELECT `id`, `title`, `content`, DATE_FORMAT(date, \'%Y/%m/%d\') AS date, DATE_FORMAT(last_updated, \'%Y/%m/%d\') AS last_updated FROM `articles` WHERE `id` = ?;'
 
@@ -13,7 +14,7 @@ type Props = {
 export async function GET(request: Request, { params }: Props) {
     const { postId } = params
 
-    const fetchTags = fetch(`http://localhost:3000/api/internal/tags/${postId}`, { next: { revalidate: 60 } })
+    const fetchTags = fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/internal/tags/${postId}`, { next: { revalidate: 60 } })
 
     const connection: PoolConnection = await new Promise((resolve, reject) => {
         getConnectionPool().then((connectionPool: Pool) => {

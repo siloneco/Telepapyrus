@@ -5,9 +5,10 @@ import { PostSubmitFormat } from '@/components/types/PostSubmitFormat'
 import { TabState } from './type'
 import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'
+import { INTERNAL_BACKEND_HOSTNAME } from "@/lib/constants/API"
 import styles from './style.module.css'
 
-const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || 'http://localhost:3000'
+const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
 
 export const TabContext = createContext(
     {

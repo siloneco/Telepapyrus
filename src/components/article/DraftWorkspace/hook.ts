@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react"
 import { TabState, SwitchEventCallback } from "./type"
 import { TabContextProps, IUseDraftWorkspace } from "./type"
+import { INTERNAL_BACKEND_HOSTNAME } from "@/lib/constants/API"
 
-const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || 'http://localhost:3000'
+const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
 
 async function saveDraft(id: string, content: string) {
     await fetch(`${baseUrl}/api/admin/save-draft`, {
