@@ -1,11 +1,13 @@
-const map = new Map<string, string>()
+import { PostSubmitFormat } from "@/components/types/PostSubmitFormat"
 
-const setDraftData = async (key: string, data: string) => {
-    map.set(key, data)
+const map = new Map<string, PostSubmitFormat>()
+
+const setDraftData = async (data: PostSubmitFormat) => {
+    map.set(data.id, data)
 }
 
-const getDraftData = async (key: string) => {
-    return map.get(key)
+const getDraftData = async (id: string) => {
+    return map.get(id)
 }
 
 export { setDraftData, getDraftData }

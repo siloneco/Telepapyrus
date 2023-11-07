@@ -2,13 +2,33 @@ import { useState, useEffect } from "react"
 import { TabState, SwitchEventCallback } from "./type"
 import { TabContextProps, IUseDraftWorkspace } from "./type"
 import { INTERNAL_BACKEND_HOSTNAME } from "@/lib/constants/API"
+import { PostSubmitFormat } from "@/components/types/PostSubmitFormat"
 
 const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
 
-async function saveDraft(id: string, content: string) {
-    await fetch(`${baseUrl}/api/admin/save-draft`, {
+async function cacheDraft(id: string, title: string, content: string) {
+    const data: PostSubmitFormat = {
+        id: id,
+        title: title,
+        content: content,
+    }
+
+    await fetch(`${baseUrl}/api/admin/draft/cache`, {
         method: 'PUT',
-        body: JSON.stringify({ key: id, content: content }),
+        body: JSON.stringify(data),
+    })
+}
+
+async function saveDraft(id: string, title: string, content: string) {
+    const data: PostSubmitFormat = {
+        id: id,
+        title: title,
+        content: content,
+    }
+
+    await fetch(`${baseUrl}/api/admin/draft/save`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
     })
 }
 
@@ -25,7 +45,8 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
         }
 
         if (activeTab === 'write') {
-            await saveDraft(id, content)
+            await cacheDraft(id, title, content)
+            saveDraft(id, title, content) // don't wait for this
         }
 
         await onMount.find((e) => e.key === tab)?.fn()

@@ -56,12 +56,14 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: res.errorMsg }, { status: 409 })
         }
 
-        const tagPromise = []
-        for (const tag of data.tags) {
-            tagPromise.push(insertTagRecord(connection, data.id, tag))
-        }
+        if (data.tags !== undefined) {
+            const tagPromise = []
+            for (const tag of data.tags) {
+                tagPromise.push(insertTagRecord(connection, data.id, tag))
+            }
 
-        await Promise.all(tagPromise)
+            await Promise.all(tagPromise)
+        }
     } finally {
         connection.release()
     }
