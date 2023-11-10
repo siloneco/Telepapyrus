@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import styles from './style.module.css'
 import linkStyle from '@/components/style/LinkStyle.module.css'
+import clsx from 'clsx'
 import { FaGithub, FaHome } from 'react-icons/fa'
 import { FaXTwitter } from 'react-icons/fa6'
 import { SiMisskey } from 'react-icons/si'
@@ -14,13 +15,13 @@ export default function HeaderNav() {
                 </div>
                 <div className={styles.rightContent}>
                     <a href='https://github.com/siloneco' target='_blank' rel='noopener noreferrer'>
-                        <div className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><FaGithub className={styles.simpleIcon} /></div>
+                        <div className={clsx(linkStyle.linkWithoutStyle, styles.navLinks)}><FaGithub className={styles.simpleIcon} /></div>
                     </a>
                     <a href='https://twitter.com/si1oneco' target='_blank' rel='noopener noreferrer'>
-                        <div className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><FaXTwitter className={styles.simpleIcon} /></div>
+                        <div className={clsx(linkStyle.linkWithoutStyle, styles.navLinks)}><FaXTwitter className={styles.simpleIcon} /></div>
                     </a>
                     <a href='https://misskey.io/@siloneco' target='_blank' rel='noopener noreferrer'>
-                        <div className={`${linkStyle.linkWithoutStyle} ${styles.navLinks}`}><SiMisskey className={styles.simpleIcon} /></div>
+                        <div className={clsx(linkStyle.linkWithoutStyle, styles.navLinks)}><SiMisskey className={styles.simpleIcon} /></div>
                     </a>
                 </div>
             </div >

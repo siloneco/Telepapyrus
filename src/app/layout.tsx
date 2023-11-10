@@ -3,6 +3,7 @@ import HeaderNav from '@/components/layout/HeaderNav'
 import styles from '@/components/style/layout/Layout.module.css'
 import resetStyle from '@/components/style/Reset.module.css'
 import NextAuthProvider from '@/components/layout/NextAuth'
+import clsx from 'clsx'
 
 import '@/components/style/layout/global.css'
 
@@ -15,7 +16,7 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang='jp'>
-      <body className={`${inter.className} ${resetStyle.reset} ${styles.body}`}>
+      <body className={clsx(inter.className, resetStyle.reset, styles.body)}>
         <HeaderNav />
         <NextAuthProvider>
           <div>{children}</div>

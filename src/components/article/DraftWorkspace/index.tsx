@@ -6,6 +6,7 @@ import { TabState } from './type'
 import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'
 import { INTERNAL_BACKEND_HOSTNAME } from "@/lib/constants/API"
+import clsx from 'clsx'
 import styles from './style.module.css'
 
 const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
@@ -60,9 +61,6 @@ export default function DraftWorkspace({ id, children }: Props) {
         tabContextProviderValue,
     }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
 
-    const writeButtonClass = activeTab === 'write' ? `${styles.modeChangeButton} ${styles.modeChangeButtonActive}` : styles.modeChangeButton
-    const previewButtonClass = activeTab === 'preview' ? `${styles.modeChangeButton} ${styles.modeChangeButtonActive}` : styles.modeChangeButton
-
     const minToRead = Math.ceil(content.length / 70) / 10
 
     return (
@@ -70,8 +68,20 @@ export default function DraftWorkspace({ id, children }: Props) {
             <div className={styles.mainContainer}>
                 <input className={styles.titleInput} placeholder='Title' value={title} onChange={(e) => { setTitle(e.target.value) }} />
                 <div className={styles.nav}>
-                    <button onClick={() => { switchTab('write') }} className={writeButtonClass} disabled={activeTab === 'write'}>Draft</button>
-                    <button onClick={() => { switchTab('preview') }} className={previewButtonClass} disabled={activeTab === 'preview'}>Preview</button>
+                    <button
+                        onClick={() => { switchTab('write') }}
+                        className={clsx(styles.modeChangeButton, activeTab === 'write' && styles.modeChangeButtonActive)}
+                        disabled={activeTab === 'write'}
+                    >
+                        Draft
+                    </button>
+                    <button
+                        onClick={() => { switchTab('preview') }}
+                        className={clsx(styles.modeChangeButton, activeTab === 'preview' && styles.modeChangeButtonActive)}
+                        disabled={activeTab === 'preview'}
+                    >
+                        Preview
+                    </button>
                     <p className={styles.navText}>{minToRead} min to read</p>
                     {/* TODO: implement selecting tags */}
                     <button onClick={() => postArticle(id, title, content, [])} className={styles.submitButton} style={{ marginLeft: 'auto', marginRight: '0px' }}>Submit</button>

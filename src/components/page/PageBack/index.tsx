@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import clsx from 'clsx'
 import styles from '@/components/style/PagingButton.module.css'
 import linkStyle from '@/components/style/LinkStyle.module.css'
 
@@ -13,7 +14,7 @@ export default function PageBack({ path, page, bright }: Props) {
         <Link
             key={page}
             href={`${path}${page}`}
-            className={`${linkStyle.linkWithoutStyle} ${styles.pageButton}`}
+            className={clsx(linkStyle.linkWithoutStyle, styles.pageButton)}
             prefetch={false}
         >
             {bright && <div className={styles.button}>&lt; 前のページ</div>}
