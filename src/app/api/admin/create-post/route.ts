@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { Pool, PoolConnection, QueryError } from 'mysql2'
-import { PostSubmitFormat } from '@/components/types/PostSubmitFormat'
+import { Draft } from '@/components/types/Post'
 
 const mainSql = 'INSERT INTO articles (id, title, content, date) VALUES (?, ?, ?, current_time())'
 const tagSql = 'INSERT INTO tags (id, tag) VALUES (?, ?)'
@@ -21,7 +21,7 @@ async function insertTagRecord(connection: PoolConnection, id: string, tag: stri
 // This endpoint requires authentication. The blocking is done in middleware.ts
 
 export async function POST(request: Request) {
-    const data: PostSubmitFormat = await request.json()
+    const data: Draft = await request.json()
 
     const connection: PoolConnection = await new Promise((resolve, reject) => {
         getConnectionPool().then((connectionPool: Pool) => {

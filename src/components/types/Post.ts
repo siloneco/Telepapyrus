@@ -14,3 +14,10 @@ export type PostOverview = {
     last_updated: string | null,
     tags: Array<string>
 }
+
+export type Draft = {
+    id: string,
+    title: string,
+    content: string,
+    tags?: Array<string>
+}

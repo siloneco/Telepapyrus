@@ -2,12 +2,12 @@ import { useState, useEffect } from "react"
 import { TabState, SwitchEventCallback } from "./type"
 import { TabContextProps, IUseDraftWorkspace } from "./type"
 import { INTERNAL_BACKEND_HOSTNAME } from "@/lib/constants/API"
-import { PostSubmitFormat } from "@/components/types/PostSubmitFormat"
+import { Draft } from "@/components/types/Post"
 
 const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
 
 async function cacheDraft(id: string, title: string, content: string) {
-    const data: PostSubmitFormat = {
+    const data: Draft = {
         id: id,
         title: title,
         content: content,
@@ -20,7 +20,7 @@ async function cacheDraft(id: string, title: string, content: string) {
 }
 
 async function saveDraft(id: string, title: string, content: string) {
-    const data: PostSubmitFormat = {
+    const data: Draft = {
         id: id,
         title: title,
         content: content,

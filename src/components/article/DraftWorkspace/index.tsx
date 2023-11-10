@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext } from 'react'
-import { PostSubmitFormat } from '@/components/types/PostSubmitFormat'
+import { Draft } from '@/components/types/Post'
 import { TabState } from './type'
 import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'
@@ -26,7 +26,7 @@ async function postArticle(
     content: string,
     tags: string[]
 ) {
-    const postObject: PostSubmitFormat = {
+    const postObject: Draft = {
         id: id,
         title: title,
         content: content,

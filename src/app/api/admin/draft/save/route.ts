@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
-import { PostSubmitFormat } from '@/components/types/PostSubmitFormat'
+import { Draft } from '@/components/types/Post'
 
 const saveSql = 'INSERT INTO `drafts` (`id`, `title`, `content`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `content` = VALUE(`content`), `title` = VALUE(`title`);'
 
@@ -43,7 +43,7 @@ async function saveDraft(id: string, title: string, content: string) {
 
 // This endpoint requires authentication. The blocking is done in middleware.ts
 export async function POST(request: Request) {
-    const data: PostSubmitFormat = await request.json()
+    const data: Draft = await request.json()
     const result = await saveDraft(data.id, data.title, data.content)
 
     if (!result) {

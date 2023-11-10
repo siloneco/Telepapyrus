@@ -1,8 +1,8 @@
-import { PostSubmitFormat } from "@/components/types/PostSubmitFormat"
+import { Draft } from "@/components/types/Post"
 
-const map = new Map<string, PostSubmitFormat>()
+const map = new Map<string, Draft>()
 
-const setDraftData = async (data: PostSubmitFormat) => {
+const setDraftData = async (data: Draft) => {
     map.set(data.id, data)
 }
 

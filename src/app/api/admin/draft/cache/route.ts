@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
 import { setDraftData } from '@/lib/article/DraftArticleCache'
-import { PostSubmitFormat } from '@/components/types/PostSubmitFormat'
+import { Draft } from '@/components/types/Post'
 
 // This endpoint requires authentication. The blocking is done in middleware.ts
 export async function PUT(request: Request) {
-    const data: PostSubmitFormat = await request.json()
+    const data: Draft = await request.json()
     await setDraftData(data)
     return NextResponse.json({ status: 'ok' })
 }

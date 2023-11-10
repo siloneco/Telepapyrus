@@ -1,5 +1,5 @@
 import DraftEditor from '@/components/article/DraftEditor'
-import DraftContentProvider from '@/components/article/ArticleContentProvider'
+import DraftLoader from '@/components/article/DraftLoader'
 import DraftWorkspace from '@/components/article/DraftWorkspace'
 import DraftPreview from '@/components/article/DraftPreview'
 
@@ -15,7 +15,7 @@ export default function Page({ params }: Props) {
         <DraftWorkspace id={postid}>
             <DraftEditor />
             <DraftPreview>
-                <DraftContentProvider postid={postid} />
+                <DraftLoader postid={postid} />
             </DraftPreview>
         </DraftWorkspace>
     )
