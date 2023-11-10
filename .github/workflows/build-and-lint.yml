@@ -10,39 +10,11 @@ on:
       - 'renovate.json'
 
 jobs:
-  create-npm-cache:
-    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
-    name: Create npm Cache
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.5.1'
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
-
-      - name: Cache node_modules
-        id: cache-node_modules-cli
-        uses: actions/cache@v3
-        with:
-          path: ./node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
-      - run: node --version
-      - run: npm --version
-      - name: npm install
-        if: steps.cache-node_modules-cli.outputs.cache-hit != 'true'
-        run: npm install
-
   build-test:
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
-    name: Build
+    name: Build and Lint Test
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    needs: create-npm-cache
     permissions:
       contents: read
     services:
@@ -88,34 +60,3 @@ jobs:
       - run: npm --version
 
       - run: npm run build
-
-  lint:
-    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
-    name: Lint
-    runs-on: ubuntu-latest
-    timeout-minutes: 3
-    needs: create-npm-cache
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20.5.1'
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
-
-      - name: Cache node_modules
-        id: cache-node_modules-cli
-        uses: actions/cache@v3
-        with:
-          path: ./node_modules
-          key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
-      - name: npm install
-        if: steps.cache-node_modules-cli.outputs.cache-hit != 'true'
-        run: npm install
-
-      - run: node --version
-      - run: npm --version
-
-      - run: npm run lint
