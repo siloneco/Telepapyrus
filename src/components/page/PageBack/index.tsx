@@ -1,24 +1,34 @@
 import Link from 'next/link'
-import clsx from 'clsx'
-import styles from '@/components/style/PagingButton.module.css'
-import linkStyle from '@/components/style/LinkStyle.module.css'
+import { Button } from '@/components/ui/button'
+import { FaChevronLeft } from 'react-icons/fa'
+import { cn } from '@/lib/utils'
 
 type Props = {
-    path: string,
-    page: number,
-    bright: boolean
+  path: string
+  page: number
+  bright: boolean
 }
 
 export default function PageBack({ path, page, bright }: Props) {
-    return (
-        <Link
-            key={page}
-            href={`${path}${page}`}
-            className={clsx(linkStyle.linkWithoutStyle, styles.pageButton)}
-            prefetch={false}
-        >
-            {bright && <div className={styles.button}>&lt; 前のページ</div>}
-            {!bright && <div className={styles.buttonDark}>&lt; 前のページ</div>}
-        </Link>
-    )
+  return (
+    <Button
+      asChild
+      variant="secondary"
+      className={cn('mr-5', bright && 'border border-gray-400')}
+    >
+      <Link key={page} href={`${path}${page}`}>
+        {bright && (
+          <div className="flex flex-row items-center">
+            <FaChevronLeft className="mr-2" />
+            前のページ
+          </div>
+        )}
+        {!bright && (
+          <div className="flex flex-row items-center">
+            <FaChevronLeft className="mr-2" /> 前のページ
+          </div>
+        )}
+      </Link>
+    </Button>
+  )
 }

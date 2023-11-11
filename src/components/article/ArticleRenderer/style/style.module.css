@@ -1,7 +1,18 @@
-.article {
-    color: white;
-    margin: 0 auto;
-    margin-top: 3em;
-    max-width: 50rem;
-    padding: 0 1rem;
+.article pre,
+.article hr,
+.article p {
+  margin: 0;
+  padding: 0;
+}
+
+.article h1,
+.article h2,
+.article h3 {
+  margin: 0px;
+  margin-top: 1rem;
+  padding: 0;
+}
+.article code::before,
+.article code::after {
+  content: none;
 }

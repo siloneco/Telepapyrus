@@ -3,17 +3,15 @@ import ArticleRenderer from '@/components/article/ArticleRenderer'
 import { Draft } from '@/components/types/Post'
 
 type Props = {
-    postid: string
+  postid: string
 }
 
 export default async function DraftLoader({ postid }: Props) {
-    const data: Draft | undefined = await getDraftData(postid)
+  const data: Draft | undefined = await getDraftData(postid)
 
-    if (data === undefined) {
-        return (<p>undefined</p>)
-    }
+  if (data === undefined) {
+    return <p>undefined</p>
+  }
 
-    return (
-        <ArticleRenderer content={data.content} />
-    )
+  return <ArticleRenderer content={data.content} />
 }

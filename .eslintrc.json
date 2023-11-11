@@ -1,8 +1,6 @@
 {
   "extends": "next/core-web-vitals",
-  "plugins": [
-    "unused-imports"
-  ],
+  "plugins": ["unused-imports"],
   "rules": {
     "semi": [
       "error",
@@ -18,10 +16,7 @@
         "before": false
       }
     ],
-    "semi-style": [
-      "error",
-      "first"
-    ],
+    "semi-style": ["error", "first"],
     "no-extra-semi": "error",
     "no-unexpected-multiline": "error",
     "no-unreachable": "error",

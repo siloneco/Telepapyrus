@@ -4,11 +4,11 @@ import { SessionProvider } from 'next-auth/react'
 import { ReactNode } from 'react'
 
 type Props = {
-    children: ReactNode
+  children: ReactNode
 }
 
 const NextAuthProvider = ({ children }: Props) => {
-    return <SessionProvider>{children}</SessionProvider>
+  return <SessionProvider>{children}</SessionProvider>
 }
 
 export default NextAuthProvider

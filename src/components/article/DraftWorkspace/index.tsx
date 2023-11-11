@@ -5,89 +5,109 @@ import { Draft } from '@/components/types/Post'
 import { TabState } from './type'
 import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'
-import { INTERNAL_BACKEND_HOSTNAME } from "@/lib/constants/API"
-import clsx from 'clsx'
-import styles from './style.module.css'
+import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
-const baseUrl: string = process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
+const baseUrl: string =
+  process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
 
-export const TabContext = createContext(
-    {
-        active: 'write',
-        setActive: (_tab: TabState) => { },
-        setContent: (_content: string) => { },
-        registerOnMount: (_key: TabState, _fn: () => Promise<void>) => { },
-    }
-)
+export const TabContext = createContext({
+  active: 'write',
+  setActive: (_tab: TabState) => {},
+  setContent: (_content: string) => {},
+  registerOnMount: (_key: TabState, _fn: () => Promise<void>) => {},
+})
 
-async function postArticle(
-    id: string,
-    title: string,
-    content: string,
-    tags: string[]
+async function _postArticle(
+  id: string,
+  title: string,
+  content: string,
+  tags: string[],
 ) {
-    const postObject: Draft = {
-        id: id,
-        title: title,
-        content: content,
-        tags: tags,
-    }
+  const postObject: Draft = {
+    id: id,
+    title: title,
+    content: content,
+    tags: tags,
+  }
 
-    const res = await fetch(`${baseUrl}/api/admin/create-post`, {
-        method: 'POST',
-        body: JSON.stringify(postObject),
-    })
+  const res = await fetch(`${baseUrl}/api/admin/create-post`, {
+    method: 'POST',
+    body: JSON.stringify(postObject),
+  })
 
-    // TODO: implement more safety check and error handling
-    if (res.status == 200) {
-        console.log('submit success')
-    } else {
-        console.log('submit failed')
-    }
+  // TODO: implement more safety check and error handling
+  if (res.status == 200) {
+    console.log('submit success')
+  } else {
+    console.log('submit failed')
+  }
 }
 
 type Props = {
-    id: string,
-    children: React.ReactNode
+  id: string
+  children: React.ReactNode
 }
 
 export default function DraftWorkspace({ id, children }: Props) {
-    const {
-        title,
-        setTitle,
-        content,
-        activeTab,
-        switchTab,
-        tabContextProviderValue,
-    }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
+  const {
+    title,
+    setTitle,
+    content,
+    activeTab,
+    switchTab,
+    modalOpen,
+    setModalOpen,
+    tabContextProviderValue,
+  }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
 
-    const minToRead = Math.ceil(content.length / 70) / 10
+  const minToRead = Math.ceil(content.length / 70) / 10
 
-    return (
-        <TabContext.Provider value={tabContextProviderValue}>
-            <div className={styles.mainContainer}>
-                <input className={styles.titleInput} placeholder='Title' value={title} onChange={(e) => { setTitle(e.target.value) }} />
-                <div className={styles.nav}>
-                    <button
-                        onClick={() => { switchTab('write') }}
-                        className={clsx(styles.modeChangeButton, activeTab === 'write' && styles.modeChangeButtonActive)}
-                        disabled={activeTab === 'write'}
-                    >
-                        Draft
-                    </button>
-                    <button
-                        onClick={() => { switchTab('preview') }}
-                        className={clsx(styles.modeChangeButton, activeTab === 'preview' && styles.modeChangeButtonActive)}
-                        disabled={activeTab === 'preview'}
-                    >
-                        Preview
-                    </button>
-                    <p className={styles.navText}>{minToRead} min to read</p>
-                    {/* TODO: implement selecting tags */}
-                    <button onClick={() => postArticle(id, title, content, [])} className={styles.submitButton} style={{ marginLeft: 'auto', marginRight: '0px' }}>Submit</button>
-                </div>
-                {children}
-            </div>
-        </TabContext.Provider>
-    )
+  return (
+    <TabContext.Provider value={tabContextProviderValue}>
+      <div className="mx-auto max-w-3xl mt-8">
+        <Input
+          className="mb-3 text-base"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => {
+            setTitle(e.target.value)
+          }}
+        />
+        <div className="flex flex-row items-center mb-3">
+          <Button
+            variant="secondary"
+            className="text-base mr-2"
+            disabled={activeTab === 'write'}
+            onClick={() => {
+              switchTab('write')
+            }}
+          >
+            Draft
+          </Button>
+          <Button
+            variant="secondary"
+            className="text-base mr-2"
+            disabled={activeTab === 'preview'}
+            onClick={() => {
+              switchTab('preview')
+            }}
+          >
+            Preview
+          </Button>
+          <p className="text-base text-gray-400">{minToRead} min to read</p>
+          {/* TODO: implement selecting tags */}
+          <Button
+            variant="default"
+            onClick={() => setModalOpen(!modalOpen)}
+            className="ml-auto mr-0 text-base"
+          >
+            Post
+          </Button>
+        </div>
+        {children}
+      </div>
+    </TabContext.Provider>
+  )
 }

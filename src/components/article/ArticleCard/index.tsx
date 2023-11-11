@@ -1,39 +1,35 @@
 import ArticleTag from '../ArticleTag'
-import styles from './style.module.css'
-import articleStyle from '@/components/style/ArticleInformation.module.css'
-import linkStyle from '@/components/style/LinkStyle.module.css'
 import Link from 'next/link'
-import { FaRegClock } from 'react-icons/fa'
+import ArticlePostTime from '../ArticlePostTime'
 
 type Props = {
-    id: string,
-    title: string,
-    date: string,
-    lastUpdated: string | null,
-    tags: string[]
+  id: string
+  title: string
+  date: string
+  lastUpdated: string | null
+  tags: string[]
 }
 
-export default function ArticleCard({ id, title, date, lastUpdated, tags }: Props) {
-    const dateTime = date.replace(/\//g, '-')
-    const lastUpdatedDateTime = (lastUpdated !== undefined && lastUpdated !== null) ? lastUpdated?.replace(/\//g, '-') : ''
-
-    return (
-        <div className={styles.card}>
-            <Link href={`/post/${id}`} className={linkStyle.linkWithoutStyle}>
-                <h2 className={articleStyle.title}>{title}</h2>
-            </Link>
-            <div>
-                <div className={articleStyle.dateContainer}>
-                    <p className={articleStyle.date}>
-                        <FaRegClock className={articleStyle.dateIcon} />
-                        <time dateTime={dateTime}>{date}</time>
-                    </p>
-                    {lastUpdated && <p className={articleStyle.date}>(最終更新: <time dateTime={lastUpdatedDateTime}>{lastUpdated}</time>)</p>}
-                </div>
-                <div className={articleStyle.tags}>
-                    {tags.map((tag) => <ArticleTag key={tag} tag={tag} />)}
-                </div>
-            </div>
+export default function ArticleCard({
+  id,
+  title,
+  date,
+  lastUpdated,
+  tags,
+}: Props) {
+  return (
+    <div className="w-full mb-3 p-3 bg-secondary border border-gray-700 rounded-xl transition-shadow hover:shadow-[0_0_0.5rem_rgb(211,211,211)]">
+      <Link href={`/post/${id}`}>
+        <h1 className="text-2xl font-bold text-blue-100">{title}</h1>
+      </Link>
+      <div>
+        <ArticlePostTime date={date} lastUpdated={lastUpdated} />
+        <div>
+          {tags.map((tag) => (
+            <ArticleTag key={tag} tag={tag} />
+          ))}
         </div>
-    )
+      </div>
+    </div>
+  )
 }

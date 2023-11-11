@@ -1,21 +1,21 @@
 .body {
-    background-color: #191C24;
-    color: white;
+  background-color: #191c24;
+  color: white;
 }
 
 .bar {
-    max-width: 50rem;
-    margin-bottom: 0px;
-    color: #636363;
+  max-width: 50rem;
+  margin-bottom: 0px;
+  color: #636363;
 }
 
 .footer {
-    display: flex;
-    justify-content: center;
-    height: 75px;
-    padding: 0px 1rem;
+  display: flex;
+  justify-content: center;
+  height: 75px;
+  padding: 0px 1rem;
 }
 
 .footerText {
-    color: #C1C1C1;
+  color: #c1c1c1;
 }

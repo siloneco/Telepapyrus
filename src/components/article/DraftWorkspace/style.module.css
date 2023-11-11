@@ -1,62 +1,91 @@
 .mainContainer {
-    color: white;
-    margin: 0 auto;
-    margin-top: 3em;
-    max-width: 50rem;
-    padding: 0px;
+  color: white;
+  margin: 0 auto;
+  margin-top: 3em;
+  max-width: 50rem;
+  padding: 0px;
 }
 
 .titleInput {
-    font-size: 1.3rem;
-    font-family: "Sans Mono", "Consolas", 'Noto Sans KR', sans-serif;
-    color: white;
-    outline: none;
-    border: rgb(81, 81, 81) 1px solid;
-    border-radius: 12px;
-    background-color: rgb(43, 44, 44);
-    padding: 8px 5px 8px 15px;
-    width: calc(100% - 20px);
-    margin-bottom: 1rem;
-
+  font-size: 1.3rem;
+  font-family: 'Sans Mono', 'Consolas', 'Noto Sans KR', sans-serif;
+  color: white;
+  outline: none;
+  border: rgb(81, 81, 81) 1px solid;
+  border-radius: 12px;
+  background-color: rgb(43, 44, 44);
+  padding: 8px 5px 8px 15px;
+  width: calc(100% - 20px);
+  margin-bottom: 1rem;
 }
 
 .nav {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    padding-bottom: 8px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding-bottom: 8px;
 }
 
 .navText {
-    margin: 0px;
-    color: rgb(179, 179, 179);
+  margin: 0px;
+  color: rgb(179, 179, 179);
 }
 
 .modeChangeButton {
-    font-size: 1rem;
-    padding: 6px 14px;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    border: rgb(129, 129, 129) 1px solid;
-    border-radius: 8px;
-    background-color: rgb(31, 31, 31);
-    margin-right: 8px;
-    color: rgb(196, 196, 196);
+  font-size: 1rem;
+  padding: 6px 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  border: rgb(129, 129, 129) 1px solid;
+  border-radius: 8px;
+  background-color: rgb(31, 31, 31);
+  margin-right: 8px;
+  color: rgb(196, 196, 196);
 }
 
 .modeChangeButtonActive {
-    border: rgb(54, 175, 212) 1px solid;
-    color: white;
+  border: rgb(54, 175, 212) 1px solid;
+  color: white;
 }
 
 .submitButton {
-    font-size: 1rem;
-    padding: 6px 14px;
-    font-family: 'Noto Sans KR', sans-serif;
-    cursor: pointer;
-    border: #25b67a 1px solid;
-    border-radius: 8px;
-    background-color: #2d8b64;
-    margin-right: 8px;
-    color: white;
+  font-size: 1rem;
+  padding: 6px 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  border: #25b67a 1px solid;
+  border-radius: 8px;
+  background-color: #2d8b64;
+  margin-right: 8px;
+  color: white;
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.modalContainer {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(31, 31, 31);
+  border-radius: 12px;
+  padding: 1rem;
+  z-index: 101;
+  border: red 1px solid;
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
 }

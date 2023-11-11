@@ -1,12 +1,24 @@
 import Link from 'next/link'
-import styles from './style.module.css'
+import { badgeVariants } from '@/components/ui/badge'
+import { cn } from '@/lib/utils'
 
 type Props = {
-    tag: string
+  tag: string
 }
 
 export default function ArticleTag({ tag }: Props) {
-    return (
-        <Link className={styles.tag} href={`/tag/${tag}`}>{tag}</Link>
-    )
+  return (
+    <Link
+      key={tag}
+      href={`/tag/${tag}`}
+      className={cn(
+        badgeVariants({ variant: 'skyblue' }),
+        'mr-2',
+        'mb-2',
+        'text-xs',
+      )}
+    >
+      {tag}
+    </Link>
+  )
 }

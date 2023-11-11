@@ -2,20 +2,24 @@
 
 import { useContext } from 'react'
 import { TabContext } from '../DraftWorkspace'
-import styles from './style.module.css'
+import { cn } from '@/lib/utils'
+import { Textarea } from '@/components/ui/textarea'
 
 export default function DraftEditor() {
-    const { active, setContent } = useContext(TabContext)
+  const { active, setContent } = useContext(TabContext)
 
-    const display = active === 'write' ? 'block' : 'none'
-
-    return (
-        <div style={{ display: display }} className={styles.main}>
-            <textarea
-                placeholder='# Title'
-                className={styles.textarea}
-                onChange={(e) => setContent(e.target.value)}
-            />
-        </div>
-    )
+  return (
+    <div
+      className={cn({
+        ['block']: active === 'write',
+        ['hidden']: active !== 'write',
+      })}
+    >
+      <Textarea
+        placeholder="# Title"
+        onChange={(e) => setContent(e.target.value)}
+        className="font-mono w-full h-[calc(100vh-250px)] min-h-[500px] resize-none outline-none bg-gray-800 "
+      />
+    </div>
+  )
 }
