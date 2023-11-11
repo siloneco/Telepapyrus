@@ -26,15 +26,15 @@ jobs:
           MYSQL_ROOT_PASSWORD: passwd
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
       - uses: actions/setup-node@v4
         with:
           node-version: 20.5.1
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          run_install: false
 
       - name: Get pnpm store directory
         shell: bash
