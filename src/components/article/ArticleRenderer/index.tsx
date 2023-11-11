@@ -2,7 +2,6 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
-import { SerializeOptions } from 'next-mdx-remote/dist/types'
 import './style/codeBlockStyle.css'
 
 const rpcOptions = {
@@ -12,7 +11,7 @@ const rpcOptions = {
     grid: false,
 }
 
-const mdxOptions: SerializeOptions = {
+const mdxOptions: any = {
     mdxOptions: {
         remarkPlugins: [
             remarkGfm
