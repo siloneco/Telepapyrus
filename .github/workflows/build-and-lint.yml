@@ -36,19 +36,6 @@ jobs:
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
-      - name: Get pnpm store directory
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ env.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
       - name: Check MySQL CLI existence
         id: check-mysql-cli
         uses: andstor/file-existence-action@20b4d2e596410855db8f9ca21e96fbe18e12930b # v2
@@ -63,11 +50,9 @@ jobs:
 
       - run: cp ./.github/workflows/test-data/.env.test ./.env.local
 
-      - name: pnpm install
-        if: steps.cache-node_modules-cli.outputs.cache-hit != 'true'
-        run: pnpm install --frozen-lockfile
-
       - run: node --version
       - run: pnpm --version
+
+      - run: pnpm install --frozen-lockfile
 
       - run: pnpm run build
