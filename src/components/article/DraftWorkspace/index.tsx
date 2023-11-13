@@ -8,6 +8,7 @@ import { useDraftWorkspaceHooks } from './hook'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import DraftSubmitDialog from '../submit-dialog/DraftSubmitDialog'
 
 const baseUrl: string =
   process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
@@ -57,8 +58,6 @@ export default function DraftWorkspace({ id, children }: Props) {
     content,
     activeTab,
     switchTab,
-    modalOpen,
-    setModalOpen,
     tabContextProviderValue,
   }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
 
@@ -69,7 +68,7 @@ export default function DraftWorkspace({ id, children }: Props) {
       <div className="mx-auto max-w-3xl mt-8">
         <Input
           className="mb-3 text-base"
-          placeholder="Title"
+          placeholder="記事のタイトルを入力"
           value={title}
           onChange={(e) => {
             setTitle(e.target.value)
@@ -97,14 +96,7 @@ export default function DraftWorkspace({ id, children }: Props) {
             Preview
           </Button>
           <p className="text-base text-gray-400">{minToRead} min to read</p>
-          {/* TODO: implement selecting tags */}
-          <Button
-            variant="default"
-            onClick={() => setModalOpen(!modalOpen)}
-            className="ml-auto mr-0 text-base"
-          >
-            Post
-          </Button>
+          <DraftSubmitDialog title={title} setTitle={setTitle} />
         </div>
         {children}
       </div>
