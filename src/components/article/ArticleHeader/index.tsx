@@ -20,7 +20,7 @@ export default function ArticleHeader({
       <h1 className="text-3xl">{title}</h1>
       <ArticlePostTime date={date} lastUpdated={lastUpdated} />
       {tags.map((tag) => (
-        <ArticleTag key={tag} tag={tag} />
+        <ArticleTag key={tag} tag={tag} className="mr-2 mb-2" />
       ))}
       <Separator />
     </div>

@@ -26,7 +26,7 @@ export default function ArticleCard({
         <ArticlePostTime date={date} lastUpdated={lastUpdated} />
         <div>
           {tags.map((tag) => (
-            <ArticleTag key={tag} tag={tag} />
+            <ArticleTag key={tag} tag={tag} className="mr-2 mt-2" />
           ))}
         </div>
       </div>

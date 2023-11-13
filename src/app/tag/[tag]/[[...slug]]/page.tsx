@@ -72,36 +72,10 @@ export default async function Page({ params }: Props) {
   return (
     <div>
       <div className="flex flex-row justify-center mt-7">
-        <ArticleTag tag={tag} />
+        <ArticleTag tag={tag} noLink className="mr-2" />
         <h3>が付いている記事</h3>
       </div>
       <PostList posts={data} currentPage={page} totalPages={maxPageNum} />
     </div>
   )
-
-  // return (
-  //   <main className={styles.main} style={{ marginTop: '2rem' }}>
-  //     <div className={styles.pageHeader}>
-  //       <ArticleTag tag={tag} />
-  //       <h3 style={{ margin: '0px' }}>が付いている記事</h3>
-  //     </div>
-  //     <div className={styles.articleContainer}>
-  //       {data.map((post: PostOverview) => (
-  //         <ArticleCard
-  //           key={post.id}
-  //           id={post.id}
-  //           title={post.title}
-  //           date={post.formatted_date}
-  //           lastUpdated={post.last_updated}
-  //           tags={post.tags}
-  //         />
-  //       ))}
-  //       <PageSelector
-  //         path={`/tag/${tag}/`}
-  //         currentPage={page}
-  //         totalPages={maxPageNum}
-  //       />
-  //     </div>
-  //   </main>
-  // )
 }

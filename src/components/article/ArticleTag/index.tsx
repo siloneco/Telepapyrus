@@ -4,21 +4,29 @@ import { cn } from '@/lib/utils'
 
 type Props = {
   tag: string
+  noLink?: boolean
+  className?: string
 }
 
-export default function ArticleTag({ tag }: Props) {
-  return (
-    <Link
-      key={tag}
-      href={`/tag/${tag}`}
-      className={cn(
-        badgeVariants({ variant: 'skyblue' }),
-        'mr-2',
-        'mb-2',
-        'text-xs',
-      )}
-    >
-      {tag}
-    </Link>
+export default function ArticleTag({ tag, noLink = false, className }: Props) {
+  const applyClassName: string = cn(
+    badgeVariants({ variant: 'skyblue' }),
+    'text-xs',
+    'h-6',
+    className,
   )
+
+  if (!noLink) {
+    return (
+      <Link key={tag} href={`/tag/${tag}`} className={applyClassName}>
+        {tag}
+      </Link>
+    )
+  } else {
+    return (
+      <span key={tag} className={applyClassName}>
+        {tag}
+      </span>
+    )
+  }
 }
