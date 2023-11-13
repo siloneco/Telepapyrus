@@ -5,6 +5,7 @@ import { SiMisskey } from 'react-icons/si'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import DiscordButton from '../DiscordButton'
 
 const iconCss: string = 'text-2xl pr-5 text-white pr-0'
 
@@ -39,6 +40,7 @@ export default function HeaderNav() {
                 <FaXTwitter className={cn(iconCss)} />
               </a>
             </Button>
+            <DiscordButton />
             <Button asChild variant="ghost">
               <a
                 href="https://misskey.io/@siloneco"
