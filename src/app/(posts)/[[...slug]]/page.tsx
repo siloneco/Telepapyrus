@@ -1,10 +1,10 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { PostOverview } from '@/components/types/Post'
+import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 import PostList from '@/components/layout/PostList'
 
-async function getPosts(page: number): Promise<Array<PostOverview>> {
+async function getPosts(page: number): Promise<Array<ArticleOverview>> {
   const res = await fetch(
     `${INTERNAL_BACKEND_HOSTNAME}/api/internal/posts/all/${page}`,
     { next: { revalidate: 60 } },
@@ -48,7 +48,7 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const data: Array<PostOverview> = await getPosts(page)
+  const data: Array<ArticleOverview> = await getPosts(page)
   const maxPage: number = await getMaxPageNumber()
 
   return (

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { Pool, PoolConnection, QueryError } from 'mysql2'
-import { Draft } from '@/components/types/Post'
+import { Draft } from '@/components/types/Article'
 
 const mainSql =
   'INSERT INTO articles (id, title, content, date) VALUES (?, ?, ?, current_time())'

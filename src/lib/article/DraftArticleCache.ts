@@ -1,4 +1,4 @@
-import { Draft } from '@/components/types/Post'
+import { Draft } from '@/components/types/Article'
 
 const map = new Map<string, Draft>()
 

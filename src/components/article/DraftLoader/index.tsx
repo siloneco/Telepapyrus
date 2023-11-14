@@ -1,6 +1,6 @@
 import { getDraftData } from '@/lib/article/DraftArticleCache'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
-import { Draft } from '@/components/types/Post'
+import { Draft } from '@/components/types/Article'
 
 type Props = {
   postid: string

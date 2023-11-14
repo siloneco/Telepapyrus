@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { TabState, SwitchEventCallback } from './type'
 import { TabContextProps, IUseDraftWorkspace } from './type'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
-import { Draft } from '@/components/types/Post'
+import { Draft } from '@/components/types/Article'
 
 const baseUrl: string =
   process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME

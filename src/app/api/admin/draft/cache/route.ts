@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { setDraftData } from '@/lib/article/DraftArticleCache'
-import { Draft } from '@/components/types/Post'
+import { Draft } from '@/components/types/Article'
 
 // This endpoint requires authentication. The blocking is done in middleware.ts
 export async function PUT(request: Request) {

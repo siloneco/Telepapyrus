@@ -1,4 +1,4 @@
-export type Post = {
+export type Article = {
   id: string
   title: string
   content: string
@@ -7,7 +7,7 @@ export type Post = {
   tags: Array<string>
 }
 
-export type PostOverview = {
+export type ArticleOverview = {
   id: string
   title: string
   formatted_date: string

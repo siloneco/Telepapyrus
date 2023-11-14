@@ -1,9 +1,9 @@
-import { PostOverview } from '@/components/types/Post'
+import { ArticleOverview } from '@/components/types/Article'
 import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
 
 type Props = {
-  posts: Array<PostOverview>
+  posts: Array<ArticleOverview>
   currentPage: number
   totalPages: number
 }
@@ -14,7 +14,7 @@ export default function PostList(data: Props) {
   return (
     <main>
       <div className="max-w-3xl mx-5 mt-5 md:mx-auto">
-        {posts.map((post: PostOverview, index: number) => (
+        {posts.map((post: ArticleOverview, index: number) => (
           <ArticleCard
             key={index}
             id={post.id}

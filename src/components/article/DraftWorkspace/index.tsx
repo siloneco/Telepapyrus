@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext } from 'react'
-import { Draft } from '@/components/types/Post'
+import { Draft } from '@/components/types/Article'
 import { TabState } from './type'
 import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'

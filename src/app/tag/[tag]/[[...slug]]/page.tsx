@@ -1,11 +1,11 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { PostOverview } from '@/components/types/Post'
+import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 import PostList from '@/components/layout/PostList'
 import ArticleTag from '@/components/article/ArticleTag'
 
-async function getPosts(tag: string): Promise<Array<PostOverview> | null> {
+async function getPosts(tag: string): Promise<Array<ArticleOverview> | null> {
   const res = await fetch(
     `${INTERNAL_BACKEND_HOSTNAME}/api/internal/posts/tag/${tag}`,
     { next: { revalidate: 60 } },
@@ -61,7 +61,7 @@ export default async function Page({ params }: Props) {
   }
 
   const { tag } = params
-  const data: Array<PostOverview> | null = await getPosts(tag)
+  const data: Array<ArticleOverview> | null = await getPosts(tag)
   const maxPageNum: number | null = await getMaxPageNumber(tag)
 
   if (data === null || maxPageNum === null) {

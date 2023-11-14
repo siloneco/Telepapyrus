@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
-import { Draft } from '@/components/types/Post'
+import { Draft } from '@/components/types/Article'
 
 const saveSql =
   'INSERT INTO `drafts` (`id`, `title`, `content`) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE `content` = VALUE(`content`), `title` = VALUE(`title`);'

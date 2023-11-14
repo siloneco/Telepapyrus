@@ -1,11 +1,11 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import ArticleHeader from '@/components/article/ArticleHeader'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
-import { Post } from '@/components/types/Post'
+import { Article } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 
-async function getPost(id: string): Promise<Post | null> {
+async function getPost(id: string): Promise<Article | null> {
   const res = await fetch(
     `${INTERNAL_BACKEND_HOSTNAME}/api/internal/post/${id}`,
     { next: { revalidate: 60 } },
@@ -25,7 +25,7 @@ export async function generateMetadata(
   { params }: MetadataProps,
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const data: Post | null = await getPost(params.postid)
+  const data: Article | null = await getPost(params.postid)
 
   if (data === null) {
     return {
@@ -45,7 +45,7 @@ type Props = {
 }
 
 export default async function Page({ params }: Props) {
-  const data: Post | null = await getPost(params.postid)
+  const data: Article | null = await getPost(params.postid)
 
   if (data === null) {
     notFound()
