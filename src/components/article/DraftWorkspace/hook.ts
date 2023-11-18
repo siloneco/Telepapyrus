@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { TabState, SwitchEventCallback } from './type'
 import { TabContextProps, IUseDraftWorkspace } from './type'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
@@ -28,7 +28,7 @@ async function saveDraft(id: string, title: string, content: string) {
   }
 
   await fetch(`${baseUrl}/api/v1/draft/${data.id}`, {
-    method: 'PUT',
+    method: 'POST',
     body: JSON.stringify(data),
   })
 }
@@ -38,6 +38,7 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
+  const [loadingDraft, setLoadingDraft] = useState(false)
 
   const [onMount, setOnMount] = useState<SwitchEventCallback[]>([])
 
@@ -82,27 +83,22 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
   const tabContextProviderValue: TabContextProps = {
     active: activeTab,
     setActive: setActiveTag,
+    content: content,
     setContent: setContent,
     registerOnMount: registerOnMount,
   }
-
-  useEffect(() => {
-    window.onbeforeunload = (e) => {
-      if (content.length > 0) {
-        e.preventDefault()
-        return ''
-      }
-    }
-  })
 
   return {
     title,
     setTitle,
     content,
+    setContent,
     activeTab,
     switchTab,
     modalOpen,
     setModalOpen,
+    loadingDraft,
+    setLoadingDraft,
     tabContextProviderValue,
     createArticle,
   }

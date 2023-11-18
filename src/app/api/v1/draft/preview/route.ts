@@ -13,5 +13,5 @@ export async function PUT(request: Request) {
 
   const data: Draft = await request.json()
   await setDraftData(data)
-  return NextResponse.json({ status: 'ok' }, { status: 204 })
+  return new Response(null, { status: 204 })
 }
