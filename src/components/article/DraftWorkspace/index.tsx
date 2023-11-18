@@ -7,6 +7,7 @@ import { useDraftWorkspaceHooks } from './hook'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import DraftSubmitDialog from '../submit-dialog/DraftSubmitDialog'
+import SaveButton from '@/components/misc/SaveButton'
 
 export const TabContext = createContext({
   active: 'write',
@@ -31,6 +32,9 @@ export default function DraftWorkspace({ id, children }: Props) {
     switchTab,
     loadingDraft,
     setLoadingDraft,
+    isSaved,
+    setSaved,
+    onSaveButtonClicked,
     tabContextProviderValue,
     createArticle,
   }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
@@ -59,6 +63,10 @@ export default function DraftWorkspace({ id, children }: Props) {
     fetchDraft()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    setSaved(false)
+  }, [setSaved, title, content])
 
   return (
     <TabContext.Provider value={tabContextProviderValue}>
@@ -93,11 +101,18 @@ export default function DraftWorkspace({ id, children }: Props) {
             Preview
           </Button>
           <p className="text-base text-gray-400">{minToRead} min to read</p>
-          <DraftSubmitDialog
-            title={title}
-            setTitle={setTitle}
-            createArticle={createArticle}
-          />
+          <div className="ml-auto flex items-center">
+            <SaveButton
+              checked={isSaved}
+              onClick={onSaveButtonClicked}
+              className="mr-4"
+            />
+            <DraftSubmitDialog
+              title={title}
+              setTitle={setTitle}
+              createArticle={createArticle}
+            />
+          </div>
         </div>
         {children}
       </div>
