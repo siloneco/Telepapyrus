@@ -1,17 +1,12 @@
 'use client'
 
 import { createContext } from 'react'
-import { Draft } from '@/components/types/Article'
 import { TabState } from './type'
 import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'
-import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import DraftSubmitDialog from '../submit-dialog/DraftSubmitDialog'
-
-const baseUrl: string =
-  process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
 
 export const TabContext = createContext({
   active: 'write',
@@ -19,32 +14,6 @@ export const TabContext = createContext({
   setContent: (_content: string) => {},
   registerOnMount: (_key: TabState, _fn: () => Promise<void>) => {},
 })
-
-async function _postArticle(
-  id: string,
-  title: string,
-  content: string,
-  tags: string[],
-) {
-  const postObject: Draft = {
-    id: id,
-    title: title,
-    content: content,
-    tags: tags,
-  }
-
-  const res = await fetch(`${baseUrl}/api/admin/create-post`, {
-    method: 'POST',
-    body: JSON.stringify(postObject),
-  })
-
-  // TODO: implement more safety check and error handling
-  if (res.status == 200) {
-    console.log('submit success')
-  } else {
-    console.log('submit failed')
-  }
-}
 
 type Props = {
   id: string
@@ -59,6 +28,7 @@ export default function DraftWorkspace({ id, children }: Props) {
     activeTab,
     switchTab,
     tabContextProviderValue,
+    createArticle,
   }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
 
   const minToRead = Math.ceil(content.length / 70) / 10
@@ -96,7 +66,11 @@ export default function DraftWorkspace({ id, children }: Props) {
             Preview
           </Button>
           <p className="text-base text-gray-400">{minToRead} min to read</p>
-          <DraftSubmitDialog title={title} setTitle={setTitle} />
+          <DraftSubmitDialog
+            title={title}
+            setTitle={setTitle}
+            createArticle={createArticle}
+          />
         </div>
         {children}
       </div>

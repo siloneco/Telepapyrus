@@ -36,15 +36,20 @@ const formSchema = z.object({
 type Props = {
   title: string
   setTitle: (_title: string) => void
+  createArticle: (_title: string, _tags: string[] | undefined) => void
 }
 
-export default function DraftSubmitDialog({ title, setTitle }: Props) {
+export default function DraftSubmitDialog({
+  title,
+  setTitle,
+  createArticle,
+}: Props) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    await createArticle(values.title, values.tags)
   }
 
   const onOpenChange = (open: boolean) => {

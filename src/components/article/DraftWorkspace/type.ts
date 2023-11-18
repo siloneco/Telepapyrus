@@ -21,4 +21,5 @@ export type IUseDraftWorkspace = {
   modalOpen: boolean
   setModalOpen: (_open: boolean) => void
   tabContextProviderValue: TabContextProps
+  createArticle: (_title: string, _tags: string[] | undefined) => Promise<void>
 }
