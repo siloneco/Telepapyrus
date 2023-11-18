@@ -6,17 +6,17 @@ import PostList from '@/components/layout/PostList'
 
 async function getPosts(page: number): Promise<Array<ArticleOverview>> {
   const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/internal/posts/all/${page}`,
+    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?page=${page}`,
     { next: { revalidate: 60 } },
   )
   return res.json()
 }
 
 async function getMaxPageNumber(): Promise<number> {
-  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/internal/pages`, {
+  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/count`, {
     next: { revalidate: 60 },
   })
-  return (await res.json()).max
+  return Math.ceil((await res.json()).count / 10)
 }
 
 type MetadataProps = {

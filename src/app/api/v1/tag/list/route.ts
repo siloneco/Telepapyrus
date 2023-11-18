@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
 
-const query = 'SELECT MAX(`page`) as max FROM `pages`;'
+const query = `
+SELECT tag FROM allowed_tags;
+`
 
 export async function GET(_req: Request) {
   const connection: PoolConnection = await new Promise((resolve, reject) => {
@@ -35,14 +37,9 @@ export async function GET(_req: Request) {
       })
     })
 
-    if (results.length == 0) {
-      return NextResponse.json(
-        { error: 'Internal Server Error' },
-        { status: 500 },
-      )
-    }
+    const tags: string[] = results.map((result: any) => result.tag)
 
-    return NextResponse.json(results[0])
+    return NextResponse.json({ tags: tags })
   } finally {
     connection.release()
   }

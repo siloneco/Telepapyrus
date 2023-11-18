@@ -6,10 +6,9 @@ import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 
 async function getPost(id: string): Promise<Article | null> {
-  const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/internal/post/${id}`,
-    { next: { revalidate: 60 } },
-  )
+  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`, {
+    next: { revalidate: 60 },
+  })
   if (res.status === 404) {
     return null
   }
@@ -55,7 +54,7 @@ export default async function Page({ params }: Props) {
     <div className="max-w-3xl mt-5 mx-3 md:mx-auto">
       <ArticleHeader
         title={data.title}
-        date={data.formatted_date}
+        date={data.date}
         lastUpdated={data.last_updated}
         tags={data.tags}
       />

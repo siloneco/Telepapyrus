@@ -7,7 +7,7 @@ import ArticleTag from '@/components/article/ArticleTag'
 
 async function getPosts(tag: string): Promise<Array<ArticleOverview> | null> {
   const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/internal/posts/tag/${tag}`,
+    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?tags=${tag}`,
     { next: { revalidate: 60 } },
   )
   if (res.status === 404) {
@@ -19,7 +19,7 @@ async function getPosts(tag: string): Promise<Array<ArticleOverview> | null> {
 
 async function getMaxPageNumber(tag: string): Promise<number | null> {
   const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/internal/pages/tag/${tag}`,
+    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/count?tags=${tag}`,
     { next: { revalidate: 60 } },
   )
   if (res.status === 404) {
@@ -27,7 +27,7 @@ async function getMaxPageNumber(tag: string): Promise<number | null> {
   }
 
   const json = await res.json()
-  return json.max
+  return Math.ceil(json.count / 10)
 }
 
 type MetadataProps = {

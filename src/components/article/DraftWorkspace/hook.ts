@@ -14,7 +14,7 @@ async function cacheDraft(id: string, title: string, content: string) {
     content: content,
   }
 
-  await fetch(`${baseUrl}/api/admin/draft/cache`, {
+  await fetch(`${baseUrl}/api/v1/draft/preview`, {
     method: 'PUT',
     body: JSON.stringify(data),
   })
@@ -27,7 +27,7 @@ async function saveDraft(id: string, title: string, content: string) {
     content: content,
   }
 
-  await fetch(`${baseUrl}/api/admin/draft/save`, {
+  await fetch(`${baseUrl}/api/v1/draft/${data.id}`, {
     method: 'PUT',
     body: JSON.stringify(data),
   })
@@ -65,6 +65,20 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
     })
   }
 
+  const createArticle = async (title: string, tags: string[] | undefined) => {
+    const data: Draft = {
+      id: id,
+      title: title,
+      content: content,
+      tags: tags,
+    }
+
+    await fetch(`${baseUrl}/api/v1/article/${id}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
   const tabContextProviderValue: TabContextProps = {
     active: activeTab,
     setActive: setActiveTag,
@@ -90,5 +104,6 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
     modalOpen,
     setModalOpen,
     tabContextProviderValue,
+    createArticle,
   }
 }

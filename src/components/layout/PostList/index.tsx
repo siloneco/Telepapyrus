@@ -19,7 +19,7 @@ export default function PostList(data: Props) {
             key={index}
             id={post.id}
             title={post.title}
-            date={post.formatted_date}
+            date={post.date}
             lastUpdated={post.last_updated}
             tags={post.tags}
           />
