@@ -22,7 +22,7 @@ export default function VisibilitySelector({ form }: Props) {
       name="visibility"
       render={({ field }) => {
         if (field.value === undefined) {
-          form.setValue('visibility', 'private')
+          form.setValue('visibility', 'public')
         }
 
         return (
@@ -45,7 +45,7 @@ export default function VisibilitySelector({ form }: Props) {
                 </FormItem>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
-                    <RadioGroupItem value="private" />
+                    <RadioGroupItem value="private" disabled />
                   </FormControl>
                   <FormLabel className="font-normal">非公開</FormLabel>
                   <FormDescription>
