@@ -53,6 +53,11 @@ export default function DraftWorkspace({ id, children }: Props) {
       const hostname = window.location.hostname
 
       const res = await fetch(`${protocol}//${hostname}/api/v1/draft/${id}`)
+
+      if (res.status !== 200) {
+        return
+      }
+
       const data = await res.json()
 
       setTitle(data.title)
