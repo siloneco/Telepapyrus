@@ -113,6 +113,7 @@ export default function DraftWorkspace({ id, children }: Props) {
               className="mr-4"
             />
             <DraftSubmitDialog
+              id={id}
               title={title}
               setTitle={setTitle}
               createArticle={createArticle}

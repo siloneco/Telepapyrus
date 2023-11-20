@@ -72,7 +72,10 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
     })
   }
 
-  const createArticle = async (title: string, tags: string[] | undefined) => {
+  const createArticle = async (
+    title: string,
+    tags: string[] | undefined,
+  ): Promise<boolean> => {
     const data: Draft = {
       id: id,
       title: title,
@@ -80,10 +83,12 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
       tags: tags,
     }
 
-    await fetch(`${baseUrl}/api/v1/article/${id}`, {
+    const res = await fetch(`${baseUrl}/api/v1/article/${id}`, {
       method: 'POST',
       body: JSON.stringify(data),
     })
+
+    return res.status === 200
   }
 
   const onSaveButtonClicked = async () => {

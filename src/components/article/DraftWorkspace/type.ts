@@ -28,5 +28,8 @@ export type IUseDraftWorkspace = {
   setSaved: (_saved: boolean) => void
   onSaveButtonClicked: () => Promise<void>
   tabContextProviderValue: TabContextProps
-  createArticle: (_title: string, _tags: string[] | undefined) => Promise<void>
+  createArticle: (
+    _title: string,
+    _tags: string[] | undefined,
+  ) => Promise<boolean>
 }

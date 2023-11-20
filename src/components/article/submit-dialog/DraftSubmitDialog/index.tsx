@@ -18,6 +18,8 @@ import TagSelector from '../form/TagSelector'
 import VisibilitySelector from '../form/VisibilitySelector'
 import ConfirmationCheckbox from '../form/ConfirmationCheckbox'
 import { useEffect, useState } from 'react'
+import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   title: z
@@ -49,22 +51,38 @@ async function getTags(): Promise<string[]> {
 }
 
 type Props = {
+  id: string
   title: string
   setTitle: (_title: string) => void
-  createArticle: (_title: string, _tags: string[] | undefined) => void
+  createArticle: (
+    _title: string,
+    _tags: string[] | undefined,
+  ) => Promise<boolean>
 }
 
 export default function DraftSubmitDialog({
+  id,
   title,
   setTitle,
   createArticle,
 }: Props) {
+  const [isPosting, setIsPosting] = useState(false)
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   })
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    await createArticle(values.title, values.tags)
+    setIsPosting(true)
+    const success: boolean = await createArticle(values.title, values.tags)
+
+    if (success) {
+      router.push(`/post/${id}`)
+    } else {
+      setIsPosting(false)
+      // error handling for user
+    }
   }
 
   const onOpenChange = (open: boolean) => {
@@ -105,12 +123,22 @@ export default function DraftSubmitDialog({
             {/* >>> form items */}
             <div className="flex justify-end">
               <DialogClose asChild>
-                <Button variant="secondary" className="mr-2 text-base">
+                <Button
+                  variant="secondary"
+                  className="mr-2 text-base"
+                  disabled={isPosting}
+                >
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit" className="text-base">
-                Submit
+              <Button type="submit" className="text-base" disabled={isPosting}>
+                {isPosting && (
+                  <>
+                    <Loader2 size={20} className="mr-2 animate-spin" />
+                    <p>Posting</p>
+                  </>
+                )}
+                {!isPosting && <p>Post</p>}
               </Button>
             </div>
           </form>
