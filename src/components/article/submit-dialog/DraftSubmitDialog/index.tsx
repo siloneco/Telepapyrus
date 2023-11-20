@@ -17,6 +17,7 @@ import TitleInput from '../form/TitleInput'
 import TagSelector from '../form/TagSelector'
 import VisibilitySelector from '../form/VisibilitySelector'
 import ConfirmationCheckbox from '../form/ConfirmationCheckbox'
+import { useEffect, useState } from 'react'
 
 const formSchema = z.object({
   title: z
@@ -32,6 +33,20 @@ const formSchema = z.object({
     .default('private'),
   confirm: z.literal<boolean>(true),
 })
+
+async function getTags(): Promise<string[]> {
+  const protocol = window.location.protocol
+  const hostname = window.location.hostname
+
+  const res = await fetch(`${protocol}//${hostname}/api/v1/tag/list`)
+  const { tags } = await res.json()
+
+  if (res.status !== 200 || !tags) {
+    return []
+  }
+
+  return tags
+}
 
 type Props = {
   title: string
@@ -60,6 +75,12 @@ export default function DraftSubmitDialog({
     }
   }
 
+  const [tags, setTags] = useState<string[]>([])
+
+  useEffect(() => {
+    getTags().then((tags) => setTags(tags))
+  }, [])
+
   return (
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
@@ -78,10 +99,7 @@ export default function DraftSubmitDialog({
           >
             {/* >>> form items */}
             <TitleInput form={form} />
-            <TagSelector
-              form={form}
-              tags={['test1', 'test2', 'test3', 'test4', 'test5']}
-            />
+            <TagSelector form={form} tags={tags} />
             <VisibilitySelector form={form} />
             <ConfirmationCheckbox form={form} />
             {/* >>> form items */}
