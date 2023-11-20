@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { TabState, SwitchEventCallback } from './type'
 import { TabContextProps, IUseDraftWorkspace } from './type'
-import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 import { Draft } from '@/components/types/Article'
 
-const baseUrl: string =
-  process.env.NEXT_PUBLIC_BASEURL || INTERNAL_BACKEND_HOSTNAME
+function getBaseUrl() {
+  const protocol = window.location.protocol
+  const host = window.location.host
+
+  return `${protocol}//${host}`
+}
 
 async function cacheDraft(id: string, title: string, content: string) {
   const data: Draft = {
@@ -14,7 +17,7 @@ async function cacheDraft(id: string, title: string, content: string) {
     content: content,
   }
 
-  await fetch(`${baseUrl}/api/v1/draft/preview`, {
+  await fetch(`${getBaseUrl()}/api/v1/draft/preview`, {
     method: 'PUT',
     body: JSON.stringify(data),
   })
@@ -31,7 +34,7 @@ async function saveDraft(
     content: content,
   }
 
-  const res = await fetch(`${baseUrl}/api/v1/draft/${data.id}`, {
+  const res = await fetch(`${getBaseUrl()}/api/v1/draft/${data.id}`, {
     method: 'POST',
     body: JSON.stringify(data),
   })
@@ -83,7 +86,7 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
       tags: tags,
     }
 
-    const res = await fetch(`${baseUrl}/api/v1/article/${id}`, {
+    const res = await fetch(`${getBaseUrl()}/api/v1/article/${id}`, {
       method: 'POST',
       body: JSON.stringify(data),
     })
