@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
 
+export const dynamic = 'force-dynamic'
+
 const mainQuery = `
 SELECT
   COUNT(*) AS count

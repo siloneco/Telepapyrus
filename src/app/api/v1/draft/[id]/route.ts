@@ -5,6 +5,8 @@ import { Draft } from '@/components/types/Article'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 
+export const dynamic = 'force-dynamic'
+
 const getQuery = `
 SELECT id, title, content FROM drafts WHERE id = ?;
 `

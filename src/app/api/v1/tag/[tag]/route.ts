@@ -4,6 +4,8 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 
+export const dynamic = 'force-dynamic'
+
 const getQuery = `
 SELECT tag FROM allowed_tags WHERE tag = ?;
 `
