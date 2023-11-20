@@ -5,17 +5,17 @@ import DraftPreview from '@/components/article/DraftPreview'
 
 type Props = {
   params: {
-    postid: string
+    id: string
   }
 }
 
 export default function Page({ params }: Props) {
-  const { postid } = params
+  const { id } = params
   return (
-    <DraftWorkspace id={postid}>
+    <DraftWorkspace id={id}>
       <DraftEditor />
       <DraftPreview>
-        <DraftLoader postid={postid} />
+        <DraftLoader id={id} />
       </DraftPreview>
     </DraftWorkspace>
   )

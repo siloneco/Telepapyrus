@@ -5,7 +5,7 @@ import { Article } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 
-async function getPost(id: string): Promise<Article | null> {
+async function getArticle(id: string): Promise<Article | null> {
   const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`, {
     next: { revalidate: 60 },
   })
@@ -24,7 +24,7 @@ export async function generateMetadata(
   { params }: MetadataProps,
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const data: Article | null = await getPost(params.id)
+  const data: Article | null = await getArticle(params.id)
 
   if (data === null) {
     return {
@@ -44,7 +44,7 @@ type PageProps = {
 }
 
 export default async function Page({ params }: PageProps) {
-  const data: Article | null = await getPost(params.id)
+  const data: Article | null = await getArticle(params.id)
 
   if (data === null) {
     notFound()

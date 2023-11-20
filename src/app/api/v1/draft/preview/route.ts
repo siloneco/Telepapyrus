@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { setDraftData } from '@/lib/article/DraftArticleCache'
+import { setDraftData } from '@/lib/article/DraftCache'
 import { Draft } from '@/components/types/Article'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'

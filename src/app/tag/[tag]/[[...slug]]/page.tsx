@@ -5,7 +5,9 @@ import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 import ArticleList from '@/components/layout/ArticleList'
 import ArticleTag from '@/components/article/ArticleTag'
 
-async function getPosts(tag: string): Promise<Array<ArticleOverview> | null> {
+async function getArticles(
+  tag: string,
+): Promise<Array<ArticleOverview> | null> {
   const res = await fetch(
     `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?tags=${tag}`,
     { next: { revalidate: 60 } },
@@ -30,13 +32,8 @@ async function getMaxPageNumber(tag: string): Promise<number | null> {
   return Math.ceil(json.count / 10)
 }
 
-type MetadataProps = {
-  params: { postid: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
 export async function generateMetadata(
-  {}: MetadataProps,
+  {},
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   return {
@@ -61,7 +58,7 @@ export default async function Page({ params }: Props) {
   }
 
   const { tag } = params
-  const data: Array<ArticleOverview> | null = await getPosts(tag)
+  const data: Array<ArticleOverview> | null = await getArticles(tag)
   const maxPageNum: number | null = await getMaxPageNumber(tag)
 
   if (data === null || maxPageNum === null) {
@@ -75,7 +72,7 @@ export default async function Page({ params }: Props) {
         <ArticleTag tag={tag} noLink className="mr-2" />
         <h3>が付いている記事</h3>
       </div>
-      <ArticleList posts={data} currentPage={page} totalPages={maxPageNum} />
+      <ArticleList articles={data} currentPage={page} totalPages={maxPageNum} />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 import ArticleList from '@/components/layout/ArticleList'
 
-async function getPosts(page: number): Promise<Array<ArticleOverview>> {
+async function getArticles(page: number): Promise<Array<ArticleOverview>> {
   const res = await fetch(
     `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?page=${page}`,
     { next: { revalidate: 60 } },
@@ -19,13 +19,8 @@ async function getMaxPageNumber(): Promise<number> {
   return Math.ceil((await res.json()).count / 10)
 }
 
-type MetadataProps = {
-  params: { postid: string }
-  searchParams: { [key: string]: string | string[] | undefined }
-}
-
 export async function generateMetadata(
-  {}: MetadataProps,
+  {},
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   return {
@@ -48,12 +43,12 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const data: Array<ArticleOverview> = await getPosts(page)
+  const data: Array<ArticleOverview> = await getArticles(page)
   const maxPage: number = await getMaxPageNumber()
 
   return (
     <div className="mt-10">
-      <ArticleList posts={data} currentPage={page} totalPages={maxPage} />
+      <ArticleList articles={data} currentPage={page} totalPages={maxPage} />
     </div>
   )
 }

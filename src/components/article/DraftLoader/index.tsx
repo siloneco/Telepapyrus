@@ -1,13 +1,13 @@
-import { getDraftData } from '@/lib/article/DraftArticleCache'
+import { getDraftData } from '@/lib/article/DraftCache'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
 import { Draft } from '@/components/types/Article'
 
 type Props = {
-  postid: string
+  id: string
 }
 
-export default async function DraftLoader({ postid }: Props) {
-  const data: Draft | undefined = await getDraftData(postid)
+export default async function DraftLoader({ id }: Props) {
+  const data: Draft | undefined = await getDraftData(id)
 
   if (data === undefined) {
     return <p>undefined</p>
