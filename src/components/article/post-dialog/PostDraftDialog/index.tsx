@@ -40,7 +40,12 @@ async function getTags(): Promise<string[]> {
   const protocol = window.location.protocol
   const hostname = window.location.hostname
 
-  const res = await fetch(`${protocol}//${hostname}/api/v1/tag/list`)
+  const res = await fetch(`${protocol}//${hostname}/api/v1/tag/list`, {
+    next: {
+      revalidate: 5,
+    },
+  })
+
   const { tags } = await res.json()
 
   if (res.status !== 200 || !tags) {
