@@ -1,6 +1,6 @@
 'use client'
 
-import { Check, PlusIcon } from 'lucide-react'
+import { Check, Loader2, PlusIcon } from 'lucide-react'
 import { UseFormReturn } from 'react-hook-form'
 
 import { cn } from '@/lib/utils'
@@ -27,13 +27,37 @@ import {
 } from '@/components/ui/popover'
 import ArticleTag from '@/components/article/ArticleTag'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { KeyboardEvent, useState } from 'react'
 
 type Props = {
   form: UseFormReturn<any, undefined>
   tags: string[]
+  addTag: (_tag: string) => Promise<boolean>
 }
 
-export default function TagSelector({ form, tags }: Props) {
+export default function TagSelector({ form, tags, addTag }: Props) {
+  const [creatingTag, setCreatingTag] = useState(false)
+  const [createTagInputValue, setCreateTagInputValue] = useState('')
+
+  const onEnterInCreatingTagInput = async (
+    e: KeyboardEvent<HTMLInputElement>,
+  ) => {
+    if (e.key !== 'Enter') {
+      return
+    }
+
+    const newTag = e.currentTarget.value
+    if (!newTag || newTag.length == 0) {
+      return
+    }
+
+    setCreatingTag(true)
+    await addTag(newTag)
+    setCreatingTag(false)
+
+    setCreateTagInputValue('')
+  }
+
   return (
     <FormField
       control={form.control}
@@ -95,6 +119,24 @@ export default function TagSelector({ form, tags }: Props) {
                             <span className="truncate">{tag}</span>
                           </CommandItem>
                         ))}
+                        <CommandItem>
+                          {!creatingTag && (
+                            <PlusIcon className="mr-2 h-4 w-4 opacity-60" />
+                          )}
+                          {creatingTag && (
+                            <Loader2 className="mr-2 h-4 w-4 opacity-60 animate-spin" />
+                          )}
+                          <input
+                            placeholder="新しいタグを作成"
+                            className="bg-transparent outline-none"
+                            value={createTagInputValue}
+                            onChange={(e) =>
+                              setCreateTagInputValue(e.target.value)
+                            }
+                            disabled={creatingTag}
+                            onKeyDown={onEnterInCreatingTagInput}
+                          />
+                        </CommandItem>
                       </CommandGroup>
                     </ScrollArea>
                   </Command>

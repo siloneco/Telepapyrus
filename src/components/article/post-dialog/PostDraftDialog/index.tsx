@@ -93,6 +93,29 @@ export default function PostDraftDialog({
     }
   }
 
+  const addTag = async (tag: string): Promise<boolean> => {
+    if (tags.includes(tag)) {
+      return false
+    }
+
+    const protocol = window.location.protocol
+    const hostname = window.location.hostname
+
+    const res = await fetch(`${protocol}//${hostname}/api/v1/tag/${tag}`, {
+      method: 'POST',
+    })
+
+    if (res.status === 200) {
+      setTags([...tags, tag])
+
+      const current: string[] = form.getValues('tags') || []
+      form.setValue('tags', [...current, tag])
+      return true
+    }
+
+    return false
+  }
+
   const [tags, setTags] = useState<string[]>([])
 
   useEffect(() => {
@@ -117,7 +140,7 @@ export default function PostDraftDialog({
           >
             {/* >>> form items */}
             <TitleInput form={form} />
-            <TagSelector form={form} tags={tags} />
+            <TagSelector form={form} tags={tags} addTag={addTag} />
             <VisibilitySelector form={form} />
             <ConfirmationCheckbox form={form} />
             {/* >>> form items */}
