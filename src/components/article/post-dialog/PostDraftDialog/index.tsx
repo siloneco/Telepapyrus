@@ -60,7 +60,7 @@ type Props = {
   ) => Promise<boolean>
 }
 
-export default function DraftSubmitDialog({
+export default function PostDraftDialog({
   id,
   title,
   setTitle,
@@ -78,7 +78,7 @@ export default function DraftSubmitDialog({
     const success: boolean = await createArticle(values.title, values.tags)
 
     if (success) {
-      router.push(`/post/${id}`)
+      router.push(`/article/${id}`)
     } else {
       setIsPosting(false)
       // error handling for user
@@ -103,7 +103,7 @@ export default function DraftSubmitDialog({
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button variant="default" className="ml-auto mr-0 text-base">
-          Submit
+          Post
         </Button>
       </DialogTrigger>
       <DialogContent>

@@ -19,7 +19,7 @@ export default function ArticleCard({
 }: Props) {
   return (
     <div className="w-full mb-3 p-3 bg-secondary border border-gray-700 rounded-xl transition-shadow hover:shadow-[0_0_0.5rem_rgb(211,211,211)]">
-      <Link href={`/post/${id}`}>
+      <Link href={`/article/${id}`}>
         <h1 className="text-2xl font-bold text-white">{title}</h1>
       </Link>
       <div>

@@ -8,7 +8,7 @@ type Props = {
   totalPages: number
 }
 
-export default function PostList(data: Props) {
+export default function ArticleList(data: Props) {
   const { posts, currentPage, totalPages } = data
 
   return (

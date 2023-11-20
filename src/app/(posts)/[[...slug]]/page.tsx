@@ -2,7 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
-import PostList from '@/components/layout/PostList'
+import ArticleList from '@/components/layout/ArticleList'
 
 async function getPosts(page: number): Promise<Array<ArticleOverview>> {
   const res = await fetch(
@@ -53,7 +53,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className="mt-10">
-      <PostList posts={data} currentPage={page} totalPages={maxPage} />
+      <ArticleList posts={data} currentPage={page} totalPages={maxPage} />
     </div>
   )
 }

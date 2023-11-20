@@ -39,12 +39,12 @@ export async function generateMetadata(
 
 type Props = {
   params: {
-    postid: string
+    id: string
   }
 }
 
 export default async function Page({ params }: Props) {
-  const data: Article | null = await getPost(params.postid)
+  const data: Article | null = await getPost(params.id)
 
   if (data === null) {
     notFound()

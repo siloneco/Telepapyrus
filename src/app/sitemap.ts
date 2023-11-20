@@ -3,8 +3,9 @@ import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
 
 const baseUrl = 'https://blog.silolab.net'
-const query =
-  'SELECT `id`, IFNULL(`last_updated`, `date`) as `date` FROM `articles`;'
+const query = `
+SELECT id, IFNULL(last_updated, date) as date FROM articles;
+`
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const connection: PoolConnection = await new Promise((resolve, reject) => {
@@ -62,7 +63,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       }
 
       sitemapData.push({
-        url: `${baseUrl}/post/${result.id}`,
+        url: `${baseUrl}/article/${result.id}`,
         lastModified: new Date(result.date),
         changeFrequency: changeFreq,
         priority: 0.5,

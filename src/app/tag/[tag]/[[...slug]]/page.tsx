@@ -2,7 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
-import PostList from '@/components/layout/PostList'
+import ArticleList from '@/components/layout/ArticleList'
 import ArticleTag from '@/components/article/ArticleTag'
 
 async function getPosts(tag: string): Promise<Array<ArticleOverview> | null> {
@@ -75,7 +75,7 @@ export default async function Page({ params }: Props) {
         <ArticleTag tag={tag} noLink className="mr-2" />
         <h3>が付いている記事</h3>
       </div>
-      <PostList posts={data} currentPage={page} totalPages={maxPageNum} />
+      <ArticleList posts={data} currentPage={page} totalPages={maxPageNum} />
     </div>
   )
 }

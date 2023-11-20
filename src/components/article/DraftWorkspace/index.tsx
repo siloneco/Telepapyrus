@@ -6,7 +6,7 @@ import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import DraftSubmitDialog from '../submit-dialog/DraftSubmitDialog'
+import PostDraftDialog from '../post-dialog/PostDraftDialog'
 import SaveButton from '@/components/misc/SaveButton'
 
 export const TabContext = createContext({
@@ -112,7 +112,7 @@ export default function DraftWorkspace({ id, children }: Props) {
               onClick={onSaveButtonClicked}
               className="mr-4"
             />
-            <DraftSubmitDialog
+            <PostDraftDialog
               id={id}
               title={title}
               setTitle={setTitle}
