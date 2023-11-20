@@ -41,9 +41,7 @@ async function getTags(): Promise<string[]> {
   const hostname = window.location.hostname
 
   const res = await fetch(`${protocol}//${hostname}/api/v1/tag/list`, {
-    next: {
-      revalidate: 5,
-    },
+    next: { revalidate: 5 },
   })
 
   const { tags } = await res.json()

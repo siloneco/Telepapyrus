@@ -5,6 +5,7 @@ import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 export async function PUT(request: Request) {
   // Require authentication

@@ -6,9 +6,7 @@ import { notFound } from 'next/navigation'
 import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
 
 async function getArticle(id: string): Promise<Article | null> {
-  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`, {
-    next: { revalidate: 60 },
-  })
+  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`)
   if (res.status === 404) {
     return null
   }

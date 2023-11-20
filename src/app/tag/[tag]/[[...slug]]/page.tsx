@@ -10,7 +10,6 @@ async function getArticles(
 ): Promise<Array<ArticleOverview> | null> {
   const res = await fetch(
     `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?tags=${tag}`,
-    { next: { revalidate: 60 } },
   )
   if (res.status === 404) {
     return null
@@ -22,7 +21,6 @@ async function getArticles(
 async function getMaxPageNumber(tag: string): Promise<number | null> {
   const res = await fetch(
     `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/count?tags=${tag}`,
-    { next: { revalidate: 60 } },
   )
   if (res.status === 404) {
     return null
