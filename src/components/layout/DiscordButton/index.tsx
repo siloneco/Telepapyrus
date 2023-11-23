@@ -11,9 +11,10 @@ import CopyButton from '@/components/misc/CopyButton'
 
 const iconCss: string = 'text-2xl pr-5 text-white pr-0'
 
-export default function DiscordButton() {
-  const username = 'siloneco'
-
+type Props = {
+  username: string
+}
+export default function DiscordButton({ username }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>

@@ -9,6 +9,11 @@ import DiscordButton from '../DiscordButton'
 
 const iconCss: string = 'text-2xl pr-5 text-white pr-0'
 
+const githubUsername: string | undefined = process.env.PROFILE_GITHUB_USERNAME
+const xUsername: string | undefined = process.env.PROFILE_X_USERNAME
+const discordUsername: string | undefined = process.env.PROFILE_DISCORD_USERNAME
+const misskeyUrl: string | undefined = process.env.PROFILE_MISSKEY_URL
+
 export default function HeaderNav() {
   return (
     <nav className="sticky top-0 shadow-sm">
@@ -22,34 +27,36 @@ export default function HeaderNav() {
             </Button>
           </div>
           <div className="content-end flex items-center ml-auto">
-            <Button asChild variant="ghost">
-              <a
-                href="https://github.com/siloneco"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaGithub className={cn(iconCss)} />
-              </a>
-            </Button>
-            <Button asChild variant="ghost">
-              <a
-                href="https://twitter.com/si1oneco"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <FaXTwitter className={cn(iconCss)} />
-              </a>
-            </Button>
-            <DiscordButton />
-            <Button asChild variant="ghost">
-              <a
-                href="https://misskey.io/@siloneco"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <SiMisskey className={cn(iconCss)} />
-              </a>
-            </Button>
+            {githubUsername && (
+              <Button asChild variant="ghost">
+                <a
+                  href={`https://github.com/${githubUsername}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaGithub className={cn(iconCss)} />
+                </a>
+              </Button>
+            )}
+            {xUsername && (
+              <Button asChild variant="ghost">
+                <a
+                  href={`https://twitter.com/${xUsername}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaXTwitter className={cn(iconCss)} />
+                </a>
+              </Button>
+            )}
+            {discordUsername && <DiscordButton username={discordUsername} />}
+            {misskeyUrl && (
+              <Button asChild variant="ghost">
+                <a href={misskeyUrl} target="_blank" rel="noopener noreferrer">
+                  <SiMisskey className={cn(iconCss)} />
+                </a>
+              </Button>
+            )}
           </div>
         </div>
       </div>
