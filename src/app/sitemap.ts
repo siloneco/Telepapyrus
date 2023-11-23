@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
 
-const baseUrl = process.env.BASEURL || ''
+const baseUrl = process.env.BASE_URL || ''
 const query = `
 SELECT id, IFNULL(last_updated, date) as date FROM articles;
 `
