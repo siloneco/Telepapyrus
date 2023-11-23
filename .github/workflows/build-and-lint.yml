@@ -19,7 +19,7 @@ jobs:
       contents: read
     services:
       mariadb:
-        image: mariadb:11.1.2
+        image: mariadb:11.2.2
         ports:
           - 3306:3306
         env:
