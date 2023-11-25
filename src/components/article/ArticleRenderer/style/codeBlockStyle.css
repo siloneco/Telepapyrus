@@ -39,9 +39,10 @@ code[data-line-numbers-max-digits='3'] > [data-line]::before {
 
 div[data-rehype-pretty-code-title] {
   color: rgb(196, 196, 196);
-  width: fit-content;
+  width: 100%;
   padding: 5px;
   padding-left: 15px;
+  display: flex;
 }
 
 span[data-highlighted-chars] {

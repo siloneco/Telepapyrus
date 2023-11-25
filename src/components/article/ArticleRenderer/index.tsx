@@ -5,6 +5,9 @@ import remarkGfm from 'remark-gfm'
 import style from './style/style.module.css'
 import './style/codeBlockStyle.css'
 import { cn } from '@/lib/utils'
+import CodeBlockTitle from './components/codeblock/CodeBlockTitle'
+import CodeBlockPre from './components/codeblock/CodeBlockPre'
+import CodeBlockDiv from './components/codeblock/CodeBlockDiv'
 
 const rpcOptions = {
   defaultLang: 'plaintext',
@@ -20,7 +23,18 @@ const mdxOptions: any = {
   },
 }
 
-const components = {}
+const components = {
+  div: (props: any) => {
+    if (props['data-rehype-pretty-code-title'] !== undefined) {
+      return <CodeBlockTitle {...props} />
+    }
+    if (props['data-rehype-pretty-code-fragment'] !== undefined) {
+      return <CodeBlockDiv {...props} />
+    }
+    return <div {...props} />
+  },
+  pre: (props: any) => <CodeBlockPre {...props} />,
+}
 
 type Props = {
   content: string
