@@ -46,7 +46,12 @@ function getRawCode(lines: Array<any>) {
 export default function CodeBlockPre(props: any) {
   const { setCode } = useContext(CodeContext)
 
-  setCode(getRawCode(props.children.props.children))
+  let lines = props.children.props.children
+  if (!isIterable(lines)) {
+    lines = [lines]
+  }
+
+  setCode(getRawCode(lines))
 
   return <pre {...props} />
 }
