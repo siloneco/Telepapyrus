@@ -29,6 +29,9 @@ const handler = NextAuth({
         headers: {
           Authorization: `token ${account.access_token}`,
         },
+        next: {
+          revalidate: 60,
+        },
       })
 
       const emails = await emailRes.json()

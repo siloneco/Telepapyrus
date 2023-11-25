@@ -6,7 +6,6 @@ import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 60
 
 const getQuery = `
 SELECT id, title, content FROM drafts WHERE id = ?;

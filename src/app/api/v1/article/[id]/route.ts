@@ -6,7 +6,6 @@ import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 
 export const dynamic = 'force-dynamic'
-export const revalidate = 60
 
 const getQuery = `
 SELECT

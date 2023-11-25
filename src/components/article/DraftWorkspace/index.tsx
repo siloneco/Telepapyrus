@@ -52,7 +52,9 @@ export default function DraftWorkspace({ id, children }: Props) {
       const protocol = window.location.protocol
       const hostname = window.location.hostname
 
-      const res = await fetch(`${protocol}//${hostname}/api/v1/draft/${id}`)
+      const res = await fetch(`${protocol}//${hostname}/api/v1/draft/${id}`, {
+        next: { revalidate: 1 },
+      })
 
       if (res.status !== 200) {
         return

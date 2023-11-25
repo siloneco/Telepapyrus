@@ -7,12 +7,15 @@ import ArticleList from '@/components/layout/ArticleList'
 async function getArticles(page: number): Promise<Array<ArticleOverview>> {
   const res = await fetch(
     `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?page=${page}`,
+    { next: { revalidate: 60 } },
   )
   return res.json()
 }
 
 async function getMaxPageNumber(): Promise<number> {
-  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/count`)
+  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/count`, {
+    next: { revalidate: 60 },
+  })
   return Math.ceil((await res.json()).count / 10)
 }
 
