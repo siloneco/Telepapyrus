@@ -4,35 +4,29 @@ import { useContext } from 'react'
 import { CodeContext } from './CodeBlockDiv'
 
 function isIterable(obj: any) {
-  // checks for null and undefined
   if (obj == null) {
     return false
   }
   return typeof obj[Symbol.iterator] === 'function'
 }
 
-function getRawCode(lines: Array<any>) {
+function getRawCode(lines: any[]) {
   let code = ''
   for (const line of lines) {
     if (line.props === undefined) {
       continue
     }
 
-    const lineChildren = line.props.children
+    const rawSpans = line.props.children
 
-    if (!isIterable(lineChildren)) {
-      // Check line is not empty, and then add content to the code
-      if (lineChildren !== undefined) {
-        code += lineChildren.props.children
-      }
-
-      // Add a new line
-      code += '\n'
+    if (rawSpans === undefined) {
       continue
     }
 
+    const spans = isIterable(rawSpans) ? rawSpans : [rawSpans]
+
     // Add each token to the code
-    for (const token of lineChildren) {
+    for (const token of spans) {
       code += token.props.children
     }
 
