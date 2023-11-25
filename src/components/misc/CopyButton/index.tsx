@@ -6,7 +6,7 @@ import { CheckIcon, CopyIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 type Props = {
-  className: string
+  className?: string
   value: string
 }
 
@@ -15,7 +15,9 @@ export default function CopyButton({ className, value }: Props) {
 
   const onClick = async () => {
     setCopied(true)
-    navigator.clipboard.writeText(value)
+    if (navigator.clipboard !== undefined) {
+      navigator.clipboard.writeText(value)
+    }
   }
 
   useEffect(() => {
