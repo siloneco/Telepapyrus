@@ -22,7 +22,7 @@ export default function CopyButton({ className, value }: Props) {
 
   useEffect(() => {
     if (copied) {
-      setTimeout(() => setCopied(false), 1000)
+      setTimeout(() => setCopied(false), 2000)
     }
   }, [copied])
 
