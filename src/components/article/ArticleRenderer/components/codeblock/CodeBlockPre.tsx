@@ -11,11 +11,9 @@ function isIterable(obj: any) {
   return typeof obj[Symbol.iterator] === 'function'
 }
 
-export default function CodeBlockPre(props: any) {
-  const { setCode } = useContext(CodeContext)
-
+function getRawCode(lines: Array<any>) {
   let code = ''
-  for (const line of props.children.props.children) {
+  for (const line of lines) {
     if (line.props === undefined) {
       continue
     }
@@ -42,7 +40,13 @@ export default function CodeBlockPre(props: any) {
     code += '\n'
   }
 
-  setCode(code)
+  return code
+}
+
+export default function CodeBlockPre(props: any) {
+  const { setCode } = useContext(CodeContext)
+
+  setCode(getRawCode(props.children.props.children))
 
   return <pre {...props} />
 }
