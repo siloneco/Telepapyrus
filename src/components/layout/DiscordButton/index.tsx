@@ -13,13 +13,14 @@ const iconCss: string = 'text-2xl pr-5 text-white pr-0'
 
 type Props = {
   username: string
+  className?: string
 }
-export default function DiscordButton({ username }: Props) {
+export default function DiscordButton({ username, className }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost">
-          <FaDiscord className={cn(iconCss)} />
+          <FaDiscord className={cn(iconCss, className)} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-52">

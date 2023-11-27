@@ -6,6 +6,10 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import DiscordButton from '../DiscordButton'
+import { getServerSession } from 'next-auth/next'
+import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { FolderLock } from 'lucide-react'
+import SignOutNavButton from '@/components/misc/SignOutNavButton'
 
 const iconCss: string = 'text-2xl pr-5 text-white pr-0'
 
@@ -14,7 +18,12 @@ const xUsername: string | undefined = process.env.PROFILE_X_USERNAME
 const discordUsername: string | undefined = process.env.PROFILE_DISCORD_USERNAME
 const misskeyUrl: string | undefined = process.env.PROFILE_MISSKEY_URL
 
-export default function HeaderNav() {
+export default async function HeaderNav() {
+  const session = await getServerSession(authOptions)
+  const isValidAdmin = session !== undefined && session !== null
+
+  const darkenCss: string = 'text-gray-600'
+
   return (
     <nav className="sticky top-0 shadow-sm">
       <div className="h-14 w-full bg-background flex flex-row justify-center items-center">
@@ -34,7 +43,9 @@ export default function HeaderNav() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaGithub className={cn(iconCss)} />
+                  <FaGithub
+                    className={cn(iconCss, isValidAdmin && darkenCss)}
+                  />
                 </a>
               </Button>
             )}
@@ -45,18 +56,35 @@ export default function HeaderNav() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaXTwitter className={cn(iconCss)} />
+                  <FaXTwitter
+                    className={cn(iconCss, isValidAdmin && darkenCss)}
+                  />
                 </a>
               </Button>
             )}
-            {discordUsername && <DiscordButton username={discordUsername} />}
+            {discordUsername && (
+              <DiscordButton
+                username={discordUsername}
+                className={cn(isValidAdmin && darkenCss)}
+              />
+            )}
             {misskeyUrl && (
               <Button asChild variant="ghost">
                 <a href={misskeyUrl} target="_blank" rel="noopener noreferrer">
-                  <SiMisskey className={cn(iconCss)} />
+                  <SiMisskey
+                    className={cn(iconCss, isValidAdmin && darkenCss)}
+                  />
                 </a>
               </Button>
             )}
+            {isValidAdmin && (
+              <Button asChild variant="ghost">
+                <a href="/admin/dashboard">
+                  <FolderLock className={cn(iconCss)} />
+                </a>
+              </Button>
+            )}
+            {isValidAdmin && <SignOutNavButton className={cn(iconCss)} />}
           </div>
         </div>
       </div>
