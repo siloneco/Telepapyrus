@@ -6,7 +6,7 @@ export default function Footer() {
       <Separator />
       <div className="mt-3">
         <p className="text-center text-gray-400">
-          Contribute to this blog software at{' '}
+          Contribute at GitHub:{' '}
           <a
             href="https://github.com/siloneco/Telepapyrus"
             target="_blank"
