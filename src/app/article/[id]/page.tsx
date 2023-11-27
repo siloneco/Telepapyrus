@@ -53,6 +53,7 @@ export default async function Page({ params }: PageProps) {
   return (
     <div className="max-w-3xl mt-5 mx-3 md:mx-auto">
       <ArticleHeader
+        id={data.id}
         title={data.title}
         date={data.date}
         lastUpdated={data.last_updated}
