@@ -20,6 +20,8 @@ function getRawCode(lines: any[]) {
     const rawSpans = line.props.children
 
     if (rawSpans === undefined) {
+      // may be a blank line
+      code += '\n'
       continue
     }
 
