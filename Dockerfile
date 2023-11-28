@@ -1,32 +1,32 @@
-# npm install
-FROM node:21-alpine AS dependency
+# Install pnpm
+FROM node:21-alpine AS base
+
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+# Run pnpm install and build Next.js project
+FROM base AS build
 
 WORKDIR /work
 
-COPY package.json package-lock.json ./
-RUN  npm install --production
+COPY package.json package-lock.json pnpm-lock.yaml ./
 
-# build Next.js project
-FROM node:21-alpine AS builder
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
-WORKDIR /work
-COPY --from=dependency /work/node_modules ./node_modules
+COPY . .
 
-COPY ./src ./src
-COPY package.json .
-COPY tsconfig.json .
-COPY next.config.js .
-COPY .env.build.local ./.env.local
-
-RUN npm run build
+RUN pnpm run -r build
 
 # create runner image
-FROM node:21-alpine AS runner
+FROM base AS runner
 
 WORKDIR /app
 
-COPY --from=builder /work/.next ./.next
-COPY --from=builder /work/node_modules ./node_modules
-COPY --from=builder /work/package.json ./package.json
+COPY --from=build /work/node_modules ./node_modules
+COPY --from=build /work/package.json ./package.json
+COPY --from=build /work/.next ./.next
 
-CMD ["npm", "run", "start"]
+EXPOSE 3000
+
+CMD ["pnpm", "start"]
