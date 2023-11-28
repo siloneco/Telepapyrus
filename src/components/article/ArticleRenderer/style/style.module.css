@@ -8,11 +8,31 @@
 .article h1,
 .article h2,
 .article h3 {
-  margin: 0px;
-  margin-top: 1rem;
-  padding: 0;
+  padding: 0 0 0.2rem 0;
+  margin: 1rem 0 5px 0;
+  border-bottom: 1px solid hsl(var(--border));
 }
+
+.article h3,
+.article h4 {
+  border-bottom: none;
+}
+
+.article ol,
+.article ul,
+.article input,
+.article li {
+  margin: 0px;
+}
+
 .article code::before,
-.article code::after {
+.article code::after,
+.article blockquote p::before,
+.article blockquote p::after {
   content: none;
+}
+
+.article blockquote,
+.article table {
+  margin: 5px;
 }

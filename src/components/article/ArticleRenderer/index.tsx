@@ -5,9 +5,9 @@ import remarkGfm from 'remark-gfm'
 import style from './style/style.module.css'
 import './style/codeBlockStyle.css'
 import { cn } from '@/lib/utils'
-import CodeBlockTitle from './components/codeblock/CodeBlockTitle'
+import { Separator } from '@/components/ui/separator'
+import { A, CompiledInput, Div, Ul } from './components/GeneralTags'
 import CodeBlockPre from './components/codeblock/CodeBlockPre'
-import CodeBlockDiv from './components/codeblock/CodeBlockDiv'
 
 const rpcOptions = {
   defaultLang: 'plaintext',
@@ -24,16 +24,12 @@ const mdxOptions: any = {
 }
 
 const components = {
-  div: (props: any) => {
-    if (props['data-rehype-pretty-code-title'] !== undefined) {
-      return <CodeBlockTitle {...props} />
-    }
-    if (props['data-rehype-pretty-code-fragment'] !== undefined) {
-      return <CodeBlockDiv {...props} />
-    }
-    return <div {...props} />
-  },
+  div: (props: any) => <Div {...props} />,
   pre: (props: any) => <CodeBlockPre {...props} />,
+  a: (props: any) => <A {...props} />,
+  ul: (props: any) => <Ul {...props} />,
+  input: (props: any) => <CompiledInput {...props} />,
+  hr: (props: any) => <Separator {...props} />,
 }
 
 type Props = {
