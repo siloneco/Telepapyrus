@@ -36,6 +36,11 @@ function getRawCode(lines: any[]) {
     code += '\n'
   }
 
+  if (code.length > 0) {
+    // Remove the last new line
+    code = code.substring(0, code.length - 1)
+  }
+
   return code
 }
 
