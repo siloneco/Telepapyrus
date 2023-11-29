@@ -8,17 +8,25 @@ import { useState } from 'react'
 type Props = {
   className?: string
   checked: boolean
+  loading?: boolean
   onClick: () => Promise<void>
 }
 
-export default function SaveButton({ className, checked, onClick }: Props) {
-  const [loading, setLoading] = useState(false)
+export default function SaveButton({
+  className,
+  checked,
+  loading,
+  onClick,
+}: Props) {
+  const [selfLoading, setSelfLoading] = useState(false)
 
   const onButtonClicked = async () => {
-    setLoading(true)
+    setSelfLoading(true)
     await onClick()
-    setLoading(false)
+    setSelfLoading(false)
   }
+
+  const isLoading = loading === undefined ? selfLoading : loading
 
   return (
     <Button
@@ -27,13 +35,13 @@ export default function SaveButton({ className, checked, onClick }: Props) {
       onClick={onButtonClicked}
     >
       <span className="flex text-center">
-        {loading && (
+        {isLoading && (
           <Loader2 size={20} className="text-gray-500 mx-auto animate-spin" />
         )}
-        {!loading && !checked && (
+        {!isLoading && !checked && (
           <SaveIcon size={20} className="text-gray-500 mx-auto" />
         )}
-        {!loading && checked && (
+        {!isLoading && checked && (
           <CheckIcon size={20} className="text-green-400 mx-auto" />
         )}
       </span>

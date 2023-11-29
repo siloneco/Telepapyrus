@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { TabState, SwitchEventCallback } from './type'
 import { TabContextProps, IUseDraftWorkspace } from './type'
 import { Draft } from '@/components/types/Article'
@@ -47,12 +47,25 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [modalOpen, setModalOpen] = useState(false)
-  const [loadingDraft, setLoadingDraft] = useState(false)
+  const [loadingDraft, setLoadingDraft] = useState<boolean>(true)
   const [isSaved, setSaved] = useState(false)
-
+  const [isSavingDraft, setSavingDraft] = useState(false)
   const [onMount, setOnMount] = useState<SwitchEventCallback[]>([])
 
-  async function switchTab(tab: TabState) {
+  const activeTabRef = useRef<TabState>(activeTab)
+  const executeSaveDraftRef = useRef<() => Promise<void>>()
+
+  const executeSaveDraft = async () => {
+    const success: boolean = await saveDraft(id, title, content)
+    if (success) {
+      setSaved(true)
+    }
+  }
+
+  activeTabRef.current = activeTab
+  executeSaveDraftRef.current = executeSaveDraft
+
+  const switchTab = async (tab: TabState) => {
     if (activeTab === tab) {
       return
     }
@@ -94,10 +107,27 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
     return res.status === 200
   }
 
-  const onSaveButtonClicked = async () => {
-    const success: boolean = await saveDraft(id, title, content)
-    if (success) {
-      setSaved(true)
+  const fetchDraft = async () => {
+    setLoadingDraft(true)
+
+    try {
+      const protocol = window.location.protocol
+      const hostname = window.location.hostname
+
+      const res = await fetch(`${protocol}//${hostname}/api/v1/draft/${id}`, {
+        next: { revalidate: 1 },
+      })
+
+      if (res.status !== 200) {
+        return
+      }
+
+      const data = await res.json()
+
+      setTitle(data.title)
+      setContent(data.content)
+    } finally {
+      setLoadingDraft(false)
     }
   }
 
@@ -107,7 +137,39 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
     content: content,
     setContent: setContent,
     registerOnMount: registerOnMount,
+    loadingDraft: loadingDraft,
   }
+
+  useEffect(() => {
+    setSaved(false)
+  }, [setSaved, title, content])
+
+  useEffect(() => {
+    fetchDraft()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  useEffect(() => {
+    const down = async (e: KeyboardEvent) => {
+      if (e.key === 's' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault()
+
+        if (activeTabRef.current !== 'write') {
+          return
+        }
+
+        setSavingDraft(true)
+        if (executeSaveDraftRef.current !== undefined) {
+          await executeSaveDraftRef.current()
+        }
+        setSavingDraft(false)
+      }
+    }
+
+    document.addEventListener('keydown', down)
+    return () => document.removeEventListener('keydown', down)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return {
     title,
@@ -122,7 +184,10 @@ export function useDraftWorkspaceHooks(id: string): IUseDraftWorkspace {
     setLoadingDraft,
     isSaved,
     setSaved,
-    onSaveButtonClicked,
+    isSavingDraft,
+    setSavingDraft,
+    executeSaveDraft,
+    fetchDraft,
     tabContextProviderValue,
     createArticle,
   }

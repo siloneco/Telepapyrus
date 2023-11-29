@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils'
 import { Textarea } from '@/components/ui/textarea'
 
 export default function DraftEditor() {
-  const { active, content, setContent } = useContext(TabContext)
+  const { active, content, setContent, loadingDraft } = useContext(TabContext)
 
   return (
     <div
@@ -16,8 +16,9 @@ export default function DraftEditor() {
       })}
     >
       <Textarea
-        placeholder="# Title"
+        placeholder={loadingDraft ? 'Loading...' : '# Title'}
         value={content}
+        disabled={loadingDraft}
         onChange={(e) => setContent(e.target.value)}
         className="font-mono w-full h-[calc(100vh-250px)] min-h-[500px] resize-none outline-none bg-gray-800 "
       />

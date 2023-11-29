@@ -11,6 +11,7 @@ export type TabContextProps = {
   content: string
   setContent: (_content: string) => void
   registerOnMount: (_key: TabState, _fn: () => Promise<void>) => void
+  loadingDraft: boolean
 }
 
 export type IUseDraftWorkspace = {
@@ -26,7 +27,10 @@ export type IUseDraftWorkspace = {
   setLoadingDraft: (_loading: boolean) => void
   isSaved: boolean
   setSaved: (_saved: boolean) => void
-  onSaveButtonClicked: () => Promise<void>
+  isSavingDraft: boolean
+  setSavingDraft: (_saving: boolean) => void
+  executeSaveDraft: () => Promise<void>
+  fetchDraft: () => Promise<void>
   tabContextProviderValue: TabContextProps
   createArticle: (
     _title: string,

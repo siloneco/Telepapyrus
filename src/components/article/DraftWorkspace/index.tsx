@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useEffect } from 'react'
+import { createContext } from 'react'
 import { TabState } from './type'
 import { IUseDraftWorkspace } from './type'
 import { useDraftWorkspaceHooks } from './hook'
@@ -15,6 +15,7 @@ export const TabContext = createContext({
   setActive: (_tab: TabState) => {},
   setContent: (_content: string) => {},
   registerOnMount: (_key: TabState, _fn: () => Promise<void>) => {},
+  loadingDraft: false,
 })
 
 type Props = {
@@ -27,53 +28,16 @@ export default function DraftWorkspace({ id, children }: Props) {
     title,
     setTitle,
     content,
-    setContent,
     activeTab,
     switchTab,
-    loadingDraft,
-    setLoadingDraft,
     isSaved,
-    setSaved,
-    onSaveButtonClicked,
+    isSavingDraft,
+    executeSaveDraft,
     tabContextProviderValue,
     createArticle,
   }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
 
-  const minToRead = Math.ceil(content.length / 70) / 10
-
-  useEffect(() => {
-    if (loadingDraft) {
-      return
-    }
-
-    setLoadingDraft(true)
-
-    const fetchDraft = async () => {
-      const protocol = window.location.protocol
-      const hostname = window.location.hostname
-
-      const res = await fetch(`${protocol}//${hostname}/api/v1/draft/${id}`, {
-        next: { revalidate: 1 },
-      })
-
-      if (res.status !== 200) {
-        return
-      }
-
-      const data = await res.json()
-
-      setTitle(data.title)
-      setContent(data.content)
-      setLoadingDraft(false)
-    }
-
-    fetchDraft()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    setSaved(false)
-  }, [setSaved, title, content])
+  const minToRead = Math.ceil(content.length / 70) / 1
 
   return (
     <TabContext.Provider value={tabContextProviderValue}>
@@ -111,7 +75,8 @@ export default function DraftWorkspace({ id, children }: Props) {
           <div className="ml-auto flex items-center">
             <SaveButton
               checked={isSaved}
-              onClick={onSaveButtonClicked}
+              onClick={executeSaveDraft}
+              loading={isSavingDraft}
               className="mr-4"
             />
             <PostDraftDialog
