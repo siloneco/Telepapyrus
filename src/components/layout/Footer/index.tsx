@@ -11,6 +11,7 @@ export default function Footer() {
             href="https://github.com/siloneco/Telepapyrus"
             target="_blank"
             rel="noopener noreferrer"
+            className="text-blue-400"
           >
             siloneco/Telepapyrus
           </a>

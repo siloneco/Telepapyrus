@@ -10,8 +10,9 @@ type Props = {
 
 export default function ArticleTag({ tag, noLink = false, className }: Props) {
   const applyClassName: string = cn(
-    badgeVariants({ variant: 'skyblue' }),
+    badgeVariants({ variant: 'blue' }),
     'text-xs',
+    'text-white',
     'h-6',
     className,
   )
