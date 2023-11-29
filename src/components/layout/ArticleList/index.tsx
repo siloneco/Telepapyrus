@@ -1,8 +1,7 @@
 import { ArticleOverview } from '@/components/types/Article'
 import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
-import { reuseComponent } from '@/lib/cache/Cache'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 
 type Props = {
   articles: Array<ArticleOverview>
@@ -11,34 +10,33 @@ type Props = {
 }
 
 export default async function ArticleList(data: Props) {
-  const CachedArticleList: FC<{}> = await reuseComponent(
-    'article-list',
-    data,
-    async ({ articles, currentPage, totalPages }: Props) => {
-      return (
-        <main>
-          <div className="max-w-3xl mx-5 mt-5 md:mx-auto">
-            {articles.map((article: ArticleOverview, index: number) => (
-              <ArticleCard
-                key={index}
-                id={article.id}
-                title={article.title}
-                date={article.date}
-                lastUpdated={article.last_updated}
-                tags={article.tags}
-              />
-            ))}
-            <PageSelector
-              path={'/'}
-              currentPage={currentPage}
-              totalPages={totalPages}
+  const CachedArticleList: FC<Props> = memo(function generateArticleList({
+    articles,
+    currentPage,
+    totalPages,
+  }: Props) {
+    return (
+      <main>
+        <div className="max-w-3xl mx-5 mt-5 md:mx-auto">
+          {articles.map((article: ArticleOverview, index: number) => (
+            <ArticleCard
+              key={index}
+              id={article.id}
+              title={article.title}
+              date={article.date}
+              lastUpdated={article.last_updated}
+              tags={article.tags}
             />
-          </div>
-        </main>
-      )
-    },
-    { revalidate: 60 },
-  )
+          ))}
+          <PageSelector
+            path={'/'}
+            currentPage={currentPage}
+            totalPages={totalPages}
+          />
+        </div>
+      </main>
+    )
+  })
 
-  return <CachedArticleList />
+  return <CachedArticleList {...data} />
 }

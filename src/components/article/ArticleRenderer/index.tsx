@@ -8,8 +8,7 @@ import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import { A, CompiledInput, Div, Ul } from './components/GeneralTags'
 import CodeBlockPre from './components/codeblock/CodeBlockPre'
-import { reuseComponent } from '@/lib/cache/Cache'
-import { FC } from 'react'
+import { FC, memo } from 'react'
 
 const rpcOptions = {
   defaultLang: 'plaintext',
@@ -45,28 +44,25 @@ type CompiledMDXProps = {
 }
 
 export default async function ArticleRenderer({ content }: Props) {
-  const data: CompiledMDXProps = {
-    source: content,
-    components: components,
-    options: mdxOptions,
-  }
+  const CompiledMDX: FC<CompiledMDXProps> = memo(function generateCompiledMDX(
+    props: CompiledMDXProps,
+  ) {
+    return (
+      <article className={cn(style.article, 'prose prose-invert max-w-none')}>
+        <MDXRemote
+          source={props.source}
+          components={{ ...props.components }}
+          options={{ ...props.options }}
+        />
+      </article>
+    )
+  })
 
-  const CompiledMDX: FC<{}> = await reuseComponent(
-    'article',
-    data,
-    async ({ source, components, options }: CompiledMDXProps) => {
-      return (
-        <article className={cn(style.article, 'prose prose-invert max-w-none')}>
-          <MDXRemote
-            source={source}
-            components={{ ...components }}
-            options={{ ...options }}
-          />
-        </article>
-      )
-    },
-    { revalidate: 60 },
+  return (
+    <CompiledMDX
+      source={content}
+      components={components}
+      options={mdxOptions}
+    />
   )
-
-  return <CompiledMDX />
 }
