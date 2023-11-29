@@ -17,7 +17,7 @@ type Props = {
 
 export default function RootLayout({ children }: Props) {
   return (
-    <html lang="jp">
+    <html lang="ja-JP">
       <body className={cn(fontSans.variable)}>
         <ThemeProvider
           attribute="class"
