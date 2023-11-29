@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
 import { A, CompiledInput, Div, Ul } from './components/GeneralTags'
 import CodeBlockPre from './components/codeblock/CodeBlockPre'
+import { reuseComponent } from '@/lib/cache/Cache'
+import { FC } from 'react'
 
 const rpcOptions = {
   defaultLang: 'plaintext',
@@ -36,14 +38,35 @@ type Props = {
   content: string
 }
 
+type CompiledMDXProps = {
+  source: string
+  components: any
+  options: any
+}
+
 export default async function ArticleRenderer({ content }: Props) {
-  return (
-    <article className={cn(style.article, 'prose prose-invert max-w-none')}>
-      <MDXRemote
-        source={content}
-        components={{ ...components }}
-        options={{ ...mdxOptions }}
-      />
-    </article>
+  const data: CompiledMDXProps = {
+    source: content,
+    components: components,
+    options: mdxOptions,
+  }
+
+  const CompiledMDX: FC<{}> = await reuseComponent(
+    'article',
+    data,
+    async ({ source, components, options }: CompiledMDXProps) => {
+      return (
+        <article className={cn(style.article, 'prose prose-invert max-w-none')}>
+          <MDXRemote
+            source={source}
+            components={{ ...components }}
+            options={{ ...options }}
+          />
+        </article>
+      )
+    },
+    { revalidate: 60 },
   )
+
+  return <CompiledMDX />
 }
