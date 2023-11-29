@@ -19,7 +19,7 @@ export default function DiscordButton({ username, className }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" aria-label="discord">
           <FaDiscord className={cn(iconCss, className)} />
         </Button>
       </PopoverTrigger>

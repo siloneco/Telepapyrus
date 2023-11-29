@@ -29,7 +29,7 @@ export default async function HeaderNav() {
       <div className="h-14 w-full bg-background flex flex-row justify-center items-center">
         <div className="h-full w-full max-w-4xl flex flex-row content-between items-center justify-center">
           <div className="flex items-center">
-            <Button asChild variant="ghost">
+            <Button asChild variant="ghost" aria-label="home">
               <Link href={'/'}>
                 <FaHome className={cn(iconCss)} />
               </Link>
@@ -37,7 +37,7 @@ export default async function HeaderNav() {
           </div>
           <div className="content-end flex items-center ml-auto">
             {githubUsername && (
-              <Button asChild variant="ghost">
+              <Button asChild variant="ghost" aria-label="github">
                 <a
                   href={`https://github.com/${githubUsername}`}
                   target="_blank"
@@ -50,7 +50,7 @@ export default async function HeaderNav() {
               </Button>
             )}
             {xUsername && (
-              <Button asChild variant="ghost">
+              <Button asChild variant="ghost" aria-label="x">
                 <a
                   href={`https://twitter.com/${xUsername}`}
                   target="_blank"
@@ -69,7 +69,7 @@ export default async function HeaderNav() {
               />
             )}
             {misskeyUrl && (
-              <Button asChild variant="ghost">
+              <Button asChild variant="ghost" aria-label="misskey.io">
                 <a href={misskeyUrl} target="_blank" rel="noopener noreferrer">
                   <SiMisskey
                     className={cn(iconCss, isValidAdmin && darkenCss)}

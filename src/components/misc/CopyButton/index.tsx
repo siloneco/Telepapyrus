@@ -31,6 +31,7 @@ export default function CopyButton({ className, value }: Props) {
       variant="ghost"
       className={cn('h-6 w-6', className)}
       onClick={onClick}
+      aria-label="copy"
     >
       <span className="flex text-center">
         {!copied && <CopyIcon size={15} className="text-gray-500 mx-auto" />}
