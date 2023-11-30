@@ -30,6 +30,7 @@ export default function DraftWorkspace({ id, children }: Props) {
     content,
     activeTab,
     switchTab,
+    loadingDraft,
     isSaved,
     isSavingDraft,
     executeSaveDraft,
@@ -44,7 +45,8 @@ export default function DraftWorkspace({ id, children }: Props) {
       <div className="mx-auto max-w-3xl mt-8">
         <Input
           className="mb-3 text-base"
-          placeholder="記事のタイトルを入力"
+          placeholder={loadingDraft ? 'Loading...' : '記事のタイトルを入力'}
+          disabled={loadingDraft}
           value={title}
           onChange={(e) => {
             setTitle(e.target.value)
