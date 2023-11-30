@@ -1,3 +1,8 @@
+const NodeCache = require('node-cache')
+const cache = new NodeCache()
+
+const cacheTTL = 10 // seconds
+
 import { NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
@@ -151,6 +156,8 @@ async function getArticle(
     tags: tag,
   }
 
+  cache.set(id, article, cacheTTL)
+
   return article
 }
 
@@ -162,6 +169,11 @@ type Props = {
 
 export async function GET(request: Request, { params }: Props) {
   const { id } = params
+
+  const cachedValue = cache.get(id)
+  if (cachedValue !== undefined) {
+    return NextResponse.json(cachedValue)
+  }
 
   const connection: PoolConnection = await getConnection()
 

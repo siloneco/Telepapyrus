@@ -1,3 +1,9 @@
+const crypto = require('crypto')
+const NodeCache = require('node-cache')
+const cache = new NodeCache()
+
+const cacheTTL = 10 // seconds
+
 import { NextRequest, NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
@@ -72,11 +78,15 @@ FROM
 ORDER BY date DESC LIMIT ? OFFSET ?;
 `
 
-async function queryAllArticles(connection: PoolConnection, page: number = 1) {
-  if (page < 1) {
-    page = 1
-  }
+function calcHash(tags: string[], page: number = 1) {
+  const cacheKeyData = { tags: tags, page: page }
+  return crypto
+    .createHash('md5')
+    .update(JSON.stringify(cacheKeyData))
+    .digest('hex')
+}
 
+async function queryAllArticles(connection: PoolConnection, page: number = 1) {
   const results: Array<any> = await new Promise((resolve, reject) => {
     connection.query(
       mainQuery,
@@ -100,6 +110,8 @@ async function queryAllArticles(connection: PoolConnection, page: number = 1) {
     results[i].tags = tagStr.split(',')
   }
 
+  cache.set(calcHash([], page), results, cacheTTL)
+
   return NextResponse.json(results)
 }
 
@@ -108,10 +120,6 @@ async function queryWithTags(
   tags: string[],
   page: number = 1,
 ) {
-  if (page < 1) {
-    page = 1
-  }
-
   const distinctTags = tags.filter((tag, index, self) => {
     return self.indexOf(tag) === index
   })
@@ -134,13 +142,24 @@ async function queryWithTags(
     results[i].tags = tagStr.split(',')
   }
 
+  cache.set(calcHash(tags, page), results, cacheTTL)
+
   return NextResponse.json(results)
 }
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const tags: string[] = searchParams.get('tags')?.split(',') ?? []
-  const page: number = Number(searchParams.get('page')) ?? -1
+  let page: number = Number(searchParams.get('page')) ?? -1
+
+  if (page < 1) {
+    page = 1
+  }
+
+  const cachedValue = cache.get(calcHash(tags, page))
+  if (cachedValue !== undefined) {
+    return NextResponse.json(cachedValue)
+  }
 
   const connection: PoolConnection = await new Promise((resolve, reject) => {
     getConnectionPool().then((connectionPool: Pool) => {

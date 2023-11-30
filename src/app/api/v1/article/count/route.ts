@@ -1,3 +1,8 @@
+const NodeCache = require('node-cache')
+const cache = new NodeCache()
+
+const cacheTTL = 10 // seconds
+
 import { NextRequest, NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
@@ -48,6 +53,8 @@ async function queryAllArticles(connection: PoolConnection) {
     count: results[0]['count'],
   }
 
+  cache.set('', returnData, cacheTTL)
+
   return NextResponse.json(returnData)
 }
 
@@ -80,12 +87,19 @@ async function queryWithTags(connection: PoolConnection, tags: string[]) {
     count: results[0]['count'],
   }
 
+  cache.set(tags.join(','), returnData, cacheTTL)
+
   return NextResponse.json(returnData)
 }
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const tags: string[] = searchParams.get('tags')?.split(',') ?? []
+
+  const cachedValue = cache.get(tags.join(','))
+  if (cachedValue !== undefined) {
+    return NextResponse.json(cachedValue)
+  }
 
   const connection: PoolConnection = await new Promise((resolve, reject) => {
     getConnectionPool().then((connectionPool: Pool) => {
