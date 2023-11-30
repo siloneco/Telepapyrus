@@ -21,8 +21,7 @@ export default function RootLayout({ children }: Props) {
       <body className={cn(fontSans.variable)}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem
+          forcedTheme="dark"
           disableTransitionOnChange
         >
           <HeaderNav />
