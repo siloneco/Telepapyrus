@@ -2,12 +2,27 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { KeyboardEvent, useState } from 'react'
 
 export default function Page() {
   const [draftId, setDraftId] = useState<string>('')
+  const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
+
+  const submit = async () => {
+    setLoading(true)
+    router.push(`/admin/draft/${draftId}`)
+  }
+
+  const onEnterKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter' || draftId.length < 4) {
+      return
+    }
+
+    await submit()
+  }
 
   return (
     <div className="max-w-5xl mx-auto mt-5 mb-10">
@@ -18,16 +33,20 @@ export default function Page() {
           <Input
             className="w-72"
             placeholder="記事ID (4文字以上)"
+            disabled={loading}
             value={draftId}
             onChange={(e) => setDraftId(e.target.value)}
+            onKeyDown={onEnterKeyDown}
           />
           <Button
             variant="default"
             className="ml-2"
-            disabled={draftId.length < 4}
-            onClick={() => router.push(`/admin/draft/${draftId}`)}
+            disabled={loading || draftId.length < 4}
+            onClick={submit}
           >
-            作成
+            {loading && <Loader2 size={20} className="mr-2 animate-spin" />}
+            {!loading && <>作成</>}
+            {loading && <>作成中...</>}
           </Button>
         </div>
       </div>
