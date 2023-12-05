@@ -39,6 +39,18 @@ INSERT INTO `telepapyrus`.`tags` VALUES
 ('test-2','TestTag1'),
 ('test-3','TestTag2');
 
+
+CREATE TABLE `telepapyrus`.`drafts` (
+  `id` varchar(128) NOT NULL,
+  `title` varchar(128) DEFAULT NULL,
+  `content` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+INSERT INTO `telepapyrus`.`drafts` VALUES
+('test-draft-1','Test Draft 1','# This is test draft 1'),
+('test-draft-2','Test Draft 2','# This is test draft 2');
+
 CREATE VIEW `telepapyrus`.`pages` AS
 select
   `t`.`row_num` DIV 10 + 1 AS `page`,
