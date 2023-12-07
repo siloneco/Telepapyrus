@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext } from 'react'
-import { CodeContext } from './CodeBlockDiv'
+import { CodeContext } from './CodeBlockFigure'
 import CopyButton from '@/components/misc/CopyButton'
 
 type Props = {

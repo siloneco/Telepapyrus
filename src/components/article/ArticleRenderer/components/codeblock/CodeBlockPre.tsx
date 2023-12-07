@@ -1,7 +1,7 @@
 'use client'
 
 import { useContext } from 'react'
-import { CodeContext } from './CodeBlockDiv'
+import { CodeContext } from './CodeBlockFigure'
 
 function isIterable(obj: any) {
   if (obj == null) {

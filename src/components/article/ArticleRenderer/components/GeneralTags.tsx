@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import CodeBlockFigure from './codeblock/CodeBlockDiv'
+import CodeBlockFigure from './codeblock/CodeBlockFigure'
 import CodeBlockTitle from './codeblock/CodeBlockTitle'
 import { cn } from '@/lib/utils'
 
