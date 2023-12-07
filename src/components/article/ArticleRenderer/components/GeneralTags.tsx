@@ -1,16 +1,20 @@
 import { FC } from 'react'
-import CodeBlockDiv from './codeblock/CodeBlockDiv'
+import CodeBlockFigure from './codeblock/CodeBlockDiv'
 import CodeBlockTitle from './codeblock/CodeBlockTitle'
 import { cn } from '@/lib/utils'
 
-export const Div: FC<any> = (props) => {
+export const Figure: FC<any> = (props) => {
+  if (props['data-rehype-pretty-code-figure'] !== undefined) {
+    return <CodeBlockFigure {...props} />
+  }
+  return <figure {...props} />
+}
+
+export const FigCaption: FC<any> = (props) => {
   if (props['data-rehype-pretty-code-title'] !== undefined) {
     return <CodeBlockTitle {...props} />
   }
-  if (props['data-rehype-pretty-code-fragment'] !== undefined) {
-    return <CodeBlockDiv {...props} />
-  }
-  return <div {...props} />
+  return <figcaption {...props} />
 }
 
 export const A: FC<any> = (props) => {

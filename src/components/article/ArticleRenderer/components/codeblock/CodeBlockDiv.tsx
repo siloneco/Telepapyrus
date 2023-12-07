@@ -7,12 +7,12 @@ export const CodeContext = createContext({
   setCode: (_code: string) => {},
 })
 
-export default function CodeBlockDiv(props: any) {
+export default function CodeBlockFigure(props: any) {
   const [code, setCode] = useState('')
 
   return (
     <CodeContext.Provider value={{ code: code, setCode: setCode }}>
-      <div {...props} />
+      <figure {...props} />
     </CodeContext.Provider>
   )
 }

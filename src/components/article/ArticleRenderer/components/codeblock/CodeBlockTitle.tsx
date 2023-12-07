@@ -15,9 +15,9 @@ export default function CodeBlockTitle(props: Props) {
   const { code } = useContext(CodeContext)
 
   return (
-    <div {...props}>
+    <figcaption {...props}>
       <p>{props.children}</p>
       <CopyButton value={code} className="ml-auto my-auto" />
-    </div>
+    </figcaption>
   )
 }
