@@ -6,7 +6,13 @@ import style from './style/style.module.css'
 import './style/codeBlockStyle.css'
 import { cn } from '@/lib/utils'
 import { Separator } from '@/components/ui/separator'
-import { A, CompiledInput, Div, Ul } from './components/GeneralTags'
+import {
+  A,
+  CompiledInput,
+  Figure,
+  FigCaption,
+  Ul,
+} from './components/GeneralTags'
 import CodeBlockPre from './components/codeblock/CodeBlockPre'
 import { FC, memo } from 'react'
 
@@ -25,7 +31,8 @@ const mdxOptions: any = {
 }
 
 const components = {
-  div: (props: any) => <Div {...props} />,
+  figure: (props: any) => <Figure {...props} />,
+  figcaption: (props: any) => <FigCaption {...props} />,
   pre: (props: any) => <CodeBlockPre {...props} />,
   a: (props: any) => <A {...props} />,
   ul: (props: any) => <Ul {...props} />,
