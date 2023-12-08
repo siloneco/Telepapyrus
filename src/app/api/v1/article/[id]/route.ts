@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { sha256 } from '@/lib/utils'
 import { getArticle } from '@/lib/database/ArticleQuery'
+import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -107,6 +108,10 @@ export async function GET(request: Request, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+    return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  }
+
   const userEmailHash = sha256(session.user.email)
 
   const article = await getArticle(userEmailHash, id)
@@ -129,6 +134,10 @@ export async function POST(request: Request, { params }: Props) {
 
   const data: Draft = await request.json()
   data.id = params.id
+
+  if (data.id.length > ARTICLE_ID_MAX_LENGTH) {
+    return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  }
 
   const connection: PoolConnection = await getConnection()
 
@@ -178,6 +187,10 @@ export async function DELETE(request: Request, { params }: Props) {
 
   const { id } = params
   const userEmailHash = sha256(session.user.email)
+
+  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+    return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  }
 
   const connection: PoolConnection = await getConnection()
 

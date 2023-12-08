@@ -1,7 +1,10 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
+import {
+  INTERNAL_BACKEND_HOSTNAME,
+  TAG_NAME_MAX_LENGTH,
+} from '@/lib/constants/Constants'
 import ArticleList from '@/components/layout/ArticleList'
 import ArticleTag from '@/components/article/ArticleTag'
 
@@ -49,6 +52,12 @@ type Props = {
 }
 
 export default async function Page({ params }: Props) {
+  const { tag } = params
+
+  if (tag.length > TAG_NAME_MAX_LENGTH) {
+    notFound()
+  }
+
   let page: number = 1
   if (params.slug !== undefined && params.slug.length > 0) {
     page = parseInt(params.slug[0])
@@ -57,7 +66,6 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const { tag } = params
   const data: Array<ArticleOverview> | null = await getArticles(tag)
   const maxPageNum: number | null = await getMaxPageNumber(tag)
 

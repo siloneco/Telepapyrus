@@ -41,7 +41,7 @@ INSERT INTO `telepapyrus`.`tags` VALUES
 
 
 CREATE TABLE `telepapyrus`.`drafts` (
-  `id` varchar(128) NOT NULL,
+  `id` varchar(64) NOT NULL,
   `title` varchar(128) DEFAULT NULL,
   `content` text DEFAULT NULL,
   PRIMARY KEY (`id`)
