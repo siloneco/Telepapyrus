@@ -21,6 +21,9 @@ const handler = NextAuth({
       clientSecret: clientSecret ?? '',
     }),
   ],
+  pages: {
+    signIn: '/auth/signin',
+  },
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider !== 'github') return true
