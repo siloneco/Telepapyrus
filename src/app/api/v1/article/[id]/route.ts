@@ -9,6 +9,7 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 import { Article, Draft } from '@/components/types/Article'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -170,6 +171,10 @@ type Props = {
 export async function GET(request: Request, { params }: Props) {
   const { id } = params
 
+  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+    return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  }
+
   const cachedValue = cache.get(id)
   if (cachedValue !== undefined) {
     return NextResponse.json(cachedValue)
@@ -206,6 +211,10 @@ export async function POST(request: Request, { params }: Props) {
 
   const data: Draft = await request.json()
   data.id = params.id
+
+  if (data.id.length > ARTICLE_ID_MAX_LENGTH) {
+    return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  }
 
   const connection: PoolConnection = await getConnection()
 
@@ -254,6 +263,10 @@ export async function DELETE(request: Request, { params }: Props) {
   }
 
   const { id } = params
+
+  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+    return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  }
 
   const connection: PoolConnection = await getConnection()
 

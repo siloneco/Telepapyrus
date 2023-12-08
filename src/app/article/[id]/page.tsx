@@ -3,7 +3,10 @@ import ArticleHeader from '@/components/article/ArticleHeader'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
 import { Article } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/Constants'
+import {
+  ARTICLE_ID_MAX_LENGTH,
+  INTERNAL_BACKEND_HOSTNAME,
+} from '@/lib/constants/Constants'
 
 async function getArticle(id: string): Promise<Article | null> {
   const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`, {
@@ -24,11 +27,20 @@ export async function generateMetadata(
   { params }: MetadataProps,
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const data: Article | null = await getArticle(params.id)
+  const NOT_FOUND_PAGE_TITLE = '404 Not Found | Silolab Blog'
+  const id = params.id
+
+  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+    return {
+      title: NOT_FOUND_PAGE_TITLE,
+    }
+  }
+
+  const data: Article | null = await getArticle(id)
 
   if (data === null) {
     return {
-      title: '404 Not Found | Silolab Blog',
+      title: NOT_FOUND_PAGE_TITLE,
     }
   }
 
@@ -44,7 +56,13 @@ type PageProps = {
 }
 
 export default async function Page({ params }: PageProps) {
-  const data: Article | null = await getArticle(params.id)
+  const id = params.id
+
+  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+    notFound()
+  }
+
+  const data: Article | null = await getArticle(id)
 
   if (data === null) {
     notFound()

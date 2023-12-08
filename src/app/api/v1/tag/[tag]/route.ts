@@ -8,6 +8,7 @@ import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { TAG_NAME_MAX_LENGTH } from '@/lib/constants/Constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,6 +47,10 @@ type Props = {
 
 export async function GET(request: Request, { params }: Props) {
   const { tag } = params
+
+  if (tag.length > TAG_NAME_MAX_LENGTH) {
+    return NextResponse.json({ error: 'Tag name too long' }, { status: 400 })
+  }
 
   const cachedValue = cache.get(tag)
   if (cachedValue !== undefined) {
@@ -105,6 +110,10 @@ export async function POST(request: NextRequest, { params }: Props) {
 
   const { tag } = params
 
+  if (tag.length > TAG_NAME_MAX_LENGTH) {
+    return NextResponse.json({ error: 'Tag name too long' }, { status: 400 })
+  }
+
   const connection: PoolConnection = await getConnection()
 
   if (connection == null) {
@@ -145,6 +154,10 @@ export async function DELETE(request: NextRequest, { params }: Props) {
   }
 
   const { tag } = params
+
+  if (tag.length > TAG_NAME_MAX_LENGTH) {
+    return NextResponse.json({ error: 'Tag name too long' }, { status: 400 })
+  }
 
   const connection: PoolConnection = await getConnection()
 

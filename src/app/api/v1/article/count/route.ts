@@ -6,6 +6,7 @@ const cacheTTL = 10 // seconds
 import { NextRequest, NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
+import { TAG_NAME_MAX_LENGTH } from '@/lib/constants/Constants'
 
 export const dynamic = 'force-dynamic'
 
@@ -95,6 +96,15 @@ async function queryWithTags(connection: PoolConnection, tags: string[]) {
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
   const tags: string[] = searchParams.get('tags')?.split(',') ?? []
+
+  for (const tag of tags) {
+    if (tag.length > TAG_NAME_MAX_LENGTH) {
+      return NextResponse.json(
+        { error: `Tag name is too long (max ${TAG_NAME_MAX_LENGTH} chars)` },
+        { status: 400 },
+      )
+    }
+  }
 
   const cachedValue = cache.get(tags.join(','))
   if (cachedValue !== undefined) {
