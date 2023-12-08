@@ -3,7 +3,7 @@ import ArticleHeader from '@/components/article/ArticleHeader'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
 import { Article } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
+import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/Constants'
 
 async function getArticle(id: string): Promise<Article | null> {
   const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`, {

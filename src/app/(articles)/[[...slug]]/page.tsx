@@ -1,7 +1,7 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
+import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/Constants'
 import ArticleList from '@/components/layout/ArticleList'
 
 async function getArticles(page: number): Promise<Array<ArticleOverview>> {
