@@ -3,6 +3,9 @@ import { withAuth } from 'next-auth/middleware'
 const ownerEmail: string | null = process.env.OWNER_EMAIL || null
 
 export default withAuth({
+  pages: {
+    signIn: '/auth/signin',
+  },
   callbacks: {
     authorized: ({ token }) => {
       if (ownerEmail === null) {
@@ -12,5 +15,4 @@ export default withAuth({
     },
   },
 })
-
 export const config = { matcher: ['/(admin/.*)'] }
