@@ -8,19 +8,20 @@ import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { sha256 } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
 const getQuery = `
-SELECT tag FROM allowed_tags WHERE tag = ?;
+SELECT tag FROM allowed_tags WHERE user = ? AND tag = ?;
 `
 
 const postQuery = `
-INSERT INTO allowed_tags (tag) VALUES (?);
+INSERT INTO allowed_tags (user, tag) VALUES (?, ?);
 `
 
 const deleteQuery = `
-DELETE FROM allowed_tags WHERE tag = ?;
+DELETE FROM allowed_tags WHERE user = ? AND tag = ?;
 `
 
 async function getConnection(): Promise<PoolConnection> {
@@ -45,9 +46,16 @@ type Props = {
 }
 
 export async function GET(request: Request, { params }: Props) {
+  // Require authentication
+  const session: any = await getServerSession(authOptions)
+  if (session === undefined || session.user?.email === undefined) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  const userEmailHash = sha256(session.user.email)
+
   const { tag } = params
 
-  const cachedValue = cache.get(tag)
+  const cachedValue = cache.get(userEmailHash + tag)
   if (cachedValue !== undefined) {
     return NextResponse.json(cachedValue)
   }
@@ -65,7 +73,7 @@ export async function GET(request: Request, { params }: Props) {
     const results: Array<any> = await new Promise((resolve, reject) => {
       connection.query(
         getQuery,
-        [tag],
+        [userEmailHash, tag],
         (error: QueryError | null, results: any) => {
           if (error) {
             reject(error)
@@ -88,7 +96,7 @@ export async function GET(request: Request, { params }: Props) {
 
     const returnValue = { tag: results[0].tag }
 
-    cache.set(tag, returnValue, cacheTTL)
+    cache.set(userEmailHash + tag, returnValue, cacheTTL)
 
     return NextResponse.json(returnValue)
   } finally {
@@ -98,12 +106,13 @@ export async function GET(request: Request, { params }: Props) {
 
 export async function POST(request: NextRequest, { params }: Props) {
   // Require authentication
-  const session = await getServerSession(authOptions)
-  if (session === null) {
+  const session: any = await getServerSession(authOptions)
+  if (session === undefined || session.user?.email === undefined) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const { tag } = params
+  const userEmailHash = sha256(session.user.email)
 
   const connection: PoolConnection = await getConnection()
 
@@ -118,7 +127,7 @@ export async function POST(request: NextRequest, { params }: Props) {
     await new Promise((resolve, reject) => {
       connection.query(
         postQuery,
-        [tag],
+        [userEmailHash, tag],
         (error: QueryError | null, results: any) => {
           if (error) {
             reject(error)
@@ -139,12 +148,13 @@ export async function POST(request: NextRequest, { params }: Props) {
 
 export async function DELETE(request: NextRequest, { params }: Props) {
   // Require authentication
-  const session = await getServerSession(authOptions)
-  if (session === null) {
+  const session: any = await getServerSession(authOptions)
+  if (session === undefined || session.user?.email === undefined) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const { tag } = params
+  const userEmailHash = sha256(session.user.email)
 
   const connection: PoolConnection = await getConnection()
 
@@ -159,7 +169,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     const results: Array<any> = await new Promise((resolve, reject) => {
       connection.query(
         deleteQuery,
-        [tag],
+        [userEmailHash, tag],
         (error: QueryError | null, results: any) => {
           if (error) {
             reject(error)

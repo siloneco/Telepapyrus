@@ -9,6 +9,7 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 import { Article, Draft } from '@/components/types/Article'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { sha256 } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -28,34 +29,37 @@ FROM
         SELECT
           GROUP_CONCAT(DISTINCT tag SEPARATOR ',') AS tag
   	    FROM tags
-        WHERE id = ?
+        WHERE
+          user = ? AND
+          id = ?
         GROUP BY id
       ),
       NULL
     ) AS tag
   ) AS tag
-WHERE articles.id = ?;
+WHERE
+  articles.user = ? AND
+  articles.id = ?
 `
 
 const postQueryForArticle = `
-INSERT INTO articles (id, title, content, date) VALUES (?, ?, ?, now())
+INSERT INTO articles (user, id, title, content, date) VALUES (?, ?, ?, ?, now())
 ON DUPLICATE KEY UPDATE
   title = VALUES(title),
   content = VALUES(content),
   last_updated = now()
-;
 `
 
 const postQueryDeletingAllTags = `
-DELETE FROM tags WHERE id = ?;
+DELETE FROM tags WHERE user = ? AND id = ?;
 `
 
 const postQueryAddTags = `
-INSERT INTO tags (id, tag) VALUES ?;
+INSERT INTO tags (user, id, tag) VALUES ?;
 `
 
 const deleteQuery = `
-DELETE FROM articles WHERE id = ?;
+DELETE FROM articles WHERE user = ? AND id = ?;
 `
 
 async function getConnection(): Promise<PoolConnection> {
@@ -75,12 +79,13 @@ async function getConnection(): Promise<PoolConnection> {
 
 async function updateArticleTags(
   connection: PoolConnection,
+  user: string,
   id: string,
   tags: string[],
 ) {
   const tagInsertValues: string[][] = []
   tags.forEach((tag) => {
-    tagInsertValues.push([id, tag])
+    tagInsertValues.push([user, id, tag])
   })
 
   await new Promise((resolve, reject) => {
@@ -92,7 +97,7 @@ async function updateArticleTags(
 
     connection.query(
       postQueryDeletingAllTags,
-      [id],
+      [user, id],
       (error: QueryError | null, results: any) => {
         if (error) {
           reject(error)
@@ -122,12 +127,13 @@ async function updateArticleTags(
 
 async function getArticle(
   connection: PoolConnection,
+  user: string,
   id: string,
 ): Promise<Article | null> {
   const results: Array<any> = await new Promise((resolve, reject) => {
     connection.query(
       getQuery,
-      [id, id],
+      [user, id, user, id],
       (error: QueryError | null, results: any) => {
         if (error) {
           reject(error)
@@ -156,7 +162,7 @@ async function getArticle(
     tags: tag,
   }
 
-  cache.set(id, article, cacheTTL)
+  cache.set(user + id, article, cacheTTL)
 
   return article
 }
@@ -170,7 +176,15 @@ type Props = {
 export async function GET(request: Request, { params }: Props) {
   const { id } = params
 
-  const cachedValue = cache.get(id)
+  // Require authentication
+  const session: any = await getServerSession(authOptions)
+  if (session === undefined || session.user?.email === undefined) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  const userEmailHash = sha256(session.user.email)
+
+  const cachedValue = cache.get(userEmailHash + id)
   if (cachedValue !== undefined) {
     return NextResponse.json(cachedValue)
   }
@@ -185,7 +199,7 @@ export async function GET(request: Request, { params }: Props) {
   }
 
   try {
-    const article = await getArticle(connection, id)
+    const article = await getArticle(connection, userEmailHash, id)
 
     if (article === null) {
       return NextResponse.json({ error: 'Not Found' }, { status: 404 })
@@ -199,10 +213,12 @@ export async function GET(request: Request, { params }: Props) {
 
 export async function POST(request: Request, { params }: Props) {
   // Require authentication
-  const session = await getServerSession(authOptions)
-  if (session === null) {
+  const session: any = await getServerSession(authOptions)
+  if (session === undefined || session.user?.email === undefined) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+
+  const userEmailHash = sha256(session.user.email)
 
   const data: Draft = await request.json()
   data.id = params.id
@@ -220,7 +236,7 @@ export async function POST(request: Request, { params }: Props) {
     await new Promise((resolve, reject) => {
       connection.query(
         postQueryForArticle,
-        [data.id, data.title, data.content],
+        [userEmailHash, data.id, data.title, data.content],
         (error: QueryError | null, results: any) => {
           if (error) {
             reject(error)
@@ -231,10 +247,10 @@ export async function POST(request: Request, { params }: Props) {
     })
 
     if (data.tags !== undefined && data.tags.length > 0) {
-      await updateArticleTags(connection, data.id, data.tags)
+      await updateArticleTags(connection, userEmailHash, data.id, data.tags)
     }
 
-    const article = await getArticle(connection, data.id)
+    const article = await getArticle(connection, userEmailHash, data.id)
 
     if (article === null) {
       return NextResponse.json({ error: 'Not Found' }, { status: 404 })
@@ -248,12 +264,13 @@ export async function POST(request: Request, { params }: Props) {
 
 export async function DELETE(request: Request, { params }: Props) {
   // Require authentication
-  const session = await getServerSession(authOptions)
-  if (session === null) {
+  const session: any = await getServerSession(authOptions)
+  if (session === undefined || session.user?.email === undefined) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
   const { id } = params
+  const userEmailHash = sha256(session.user.email)
 
   const connection: PoolConnection = await getConnection()
 
@@ -268,7 +285,7 @@ export async function DELETE(request: Request, { params }: Props) {
     const result: any[] = await new Promise((resolve, reject) => {
       connection.query(
         deleteQuery,
-        [id],
+        [userEmailHash, id],
         (error: QueryError | null, results: any) => {
           if (error) {
             reject(error)

@@ -7,6 +7,9 @@ const cacheTTL = 10 // seconds
 import { NextRequest, NextResponse } from 'next/server'
 import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
 import { PoolConnection, Pool, QueryError } from 'mysql2'
+import { sha256 } from '@/lib/utils'
+import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,27 +25,24 @@ FROM
   (
     SELECT
       *
-	  FROM articles
-    WHERE date <= (
-        SELECT date FROM pages WHERE page = ?
-      )
+	FROM articles
+    WHERE user = ?
     ORDER BY date DESC
-    LIMIT 10
+    LIMIT 10 OFFSET ?
   )  as articles LEFT JOIN
     (
       SELECT
         id,
         GROUP_CONCAT(DISTINCT tag SEPARATOR ',') AS tags
   	  FROM tags
-      WHERE id IN
-        (
+      WHERE user = ? AND
+        id IN (
           SELECT
             id
           FROM articles
-          WHERE date <=
-            (
-              SELECT date FROM pages WHERE page = ?
-            )
+          WHERE user = ?
+          ORDER BY date DESC
+          LIMIT 10 OFFSET ?
         )
       GROUP BY id
 	)
@@ -64,15 +64,18 @@ FROM
         id,
         GROUP_CONCAT(DISTINCT tag SEPARATOR ',') as tags
       FROM tags
-      WHERE id IN
-      (
-        SELECT
-	      id
-        FROM tags
-        WHERE tag IN (?)
-        GROUP BY id
-        HAVING COUNT(DISTINCT tag) = ?
-      )
+      WHERE
+        user = ? AND
+        id IN (
+          SELECT
+	        id
+          FROM tags
+          WHERE
+            user = ? AND
+            tag IN (?)
+          GROUP BY id
+          HAVING COUNT(DISTINCT tag) = ?
+        )
       GROUP BY id
     ) as tags ON tags.id = articles.id
 ORDER BY date DESC LIMIT ? OFFSET ?;
@@ -86,11 +89,17 @@ function calcHash(tags: string[], page: number = 1) {
     .digest('hex')
 }
 
-async function queryAllArticles(connection: PoolConnection, page: number = 1) {
+async function queryAllArticles(
+  connection: PoolConnection,
+  user: string,
+  page: number = 1,
+) {
+  const offset = 10 * (page - 1)
+
   const results: Array<any> = await new Promise((resolve, reject) => {
     connection.query(
       mainQuery,
-      [page, page],
+      [user, offset, user, user, offset],
       (error: QueryError | null, results: any) => {
         if (error) {
           reject(error)
@@ -110,13 +119,14 @@ async function queryAllArticles(connection: PoolConnection, page: number = 1) {
     results[i].tags = tagStr.split(',')
   }
 
-  cache.set(calcHash([], page), results, cacheTTL)
+  cache.set(user + calcHash([], page), results, cacheTTL)
 
   return NextResponse.json(results)
 }
 
 async function queryWithTags(
   connection: PoolConnection,
+  user: string,
   tags: string[],
   page: number = 1,
 ) {
@@ -127,7 +137,7 @@ async function queryWithTags(
   const results: Array<any> = await new Promise((resolve, reject) => {
     connection.query(
       tagQuery,
-      [distinctTags, distinctTags.length, 10, 10 * (page - 1)],
+      [user, user, distinctTags, distinctTags.length, 10, 10 * (page - 1)],
       (error: QueryError | null, results: any) => {
         if (error) {
           reject(error)
@@ -142,12 +152,18 @@ async function queryWithTags(
     results[i].tags = tagStr.split(',')
   }
 
-  cache.set(calcHash(tags, page), results, cacheTTL)
+  cache.set(user + calcHash(tags, page), results, cacheTTL)
 
   return NextResponse.json(results)
 }
 
 export async function GET(request: NextRequest) {
+  // Require authentication
+  const session: any = await getServerSession(authOptions)
+  if (session === undefined || session.user?.email === undefined) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const searchParams = request.nextUrl.searchParams
   const tags: string[] = searchParams.get('tags')?.split(',') ?? []
   let page: number = Number(searchParams.get('page')) ?? -1
@@ -156,7 +172,9 @@ export async function GET(request: NextRequest) {
     page = 1
   }
 
-  const cachedValue = cache.get(calcHash(tags, page))
+  const userEmailHash = sha256(session.user.email)
+
+  const cachedValue = cache.get(userEmailHash + calcHash(tags, page))
   if (cachedValue !== undefined) {
     return NextResponse.json(cachedValue)
   }
@@ -183,9 +201,9 @@ export async function GET(request: NextRequest) {
 
   try {
     if (tags.length > 0) {
-      return await queryWithTags(connection, tags, page)
+      return await queryWithTags(connection, userEmailHash, tags, page)
     } else {
-      return await queryAllArticles(connection, page)
+      return await queryAllArticles(connection, userEmailHash, page)
     }
   } finally {
     connection.release()
