@@ -1,161 +1,13 @@
-const crypto = require('crypto')
-const NodeCache = require('node-cache')
-const cache = new NodeCache()
-
-const cacheTTL = 10 // seconds
-
 import { NextRequest, NextResponse } from 'next/server'
-import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
-import { PoolConnection, Pool, QueryError } from 'mysql2'
 import { sha256 } from '@/lib/utils'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
+import {
+  queryAllArticles,
+  queryWithTags,
+} from '@/lib/database/ArticleListQuery'
 
 export const dynamic = 'force-dynamic'
-
-const mainQuery = `
-SELECT
-  articles.id,
-  articles.title,
-  articles.content,
-  DATE_FORMAT(articles.date, '%Y/%m/%d') AS date,
-  DATE_FORMAT(articles.last_updated, '%Y/%m/%d') AS last_updated,
-  tags.tags
-FROM
-  (
-    SELECT
-      *
-	FROM articles
-    WHERE user = ?
-    ORDER BY date DESC
-    LIMIT 10 OFFSET ?
-  )  as articles LEFT JOIN
-    (
-      SELECT
-        id,
-        GROUP_CONCAT(DISTINCT tag SEPARATOR ',') AS tags
-  	  FROM tags
-      WHERE user = ? AND
-        id IN (
-          SELECT
-            id
-          FROM articles
-          WHERE user = ?
-          ORDER BY date DESC
-          LIMIT 10 OFFSET ?
-        )
-      GROUP BY id
-	)
-  AS tags ON tags.id = articles.id;
-`
-
-const tagQuery = `
-SELECT
-  articles.id,
-  articles.title,
-  articles.content,
-  DATE_FORMAT(articles.date, '%Y/%m/%d') AS date,
-  DATE_FORMAT(articles.last_updated, '%Y/%m/%d') AS last_updated,
-  tags.tags
-FROM
-  articles INNER JOIN 
-    (
-      SELECT
-        id,
-        GROUP_CONCAT(DISTINCT tag SEPARATOR ',') as tags
-      FROM tags
-      WHERE
-        user = ? AND
-        id IN (
-          SELECT
-	        id
-          FROM tags
-          WHERE
-            user = ? AND
-            tag IN (?)
-          GROUP BY id
-          HAVING COUNT(DISTINCT tag) = ?
-        )
-      GROUP BY id
-    ) as tags ON tags.id = articles.id
-ORDER BY date DESC LIMIT ? OFFSET ?;
-`
-
-function calcHash(tags: string[], page: number = 1) {
-  const cacheKeyData = { tags: tags, page: page }
-  return crypto
-    .createHash('md5')
-    .update(JSON.stringify(cacheKeyData))
-    .digest('hex')
-}
-
-async function queryAllArticles(
-  connection: PoolConnection,
-  user: string,
-  page: number = 1,
-) {
-  const offset = 10 * (page - 1)
-
-  const results: Array<any> = await new Promise((resolve, reject) => {
-    connection.query(
-      mainQuery,
-      [user, offset, user, user, offset],
-      (error: QueryError | null, results: any) => {
-        if (error) {
-          reject(error)
-        }
-        resolve(results)
-      },
-    )
-  })
-
-  for (let i = 0; i < results.length; i++) {
-    const tagStr: string = results[i].tags
-    if (tagStr == null) {
-      results[i].tags = []
-      continue
-    }
-
-    results[i].tags = tagStr.split(',')
-  }
-
-  cache.set(user + calcHash([], page), results, cacheTTL)
-
-  return NextResponse.json(results)
-}
-
-async function queryWithTags(
-  connection: PoolConnection,
-  user: string,
-  tags: string[],
-  page: number = 1,
-) {
-  const distinctTags = tags.filter((tag, index, self) => {
-    return self.indexOf(tag) === index
-  })
-
-  const results: Array<any> = await new Promise((resolve, reject) => {
-    connection.query(
-      tagQuery,
-      [user, user, distinctTags, distinctTags.length, 10, 10 * (page - 1)],
-      (error: QueryError | null, results: any) => {
-        if (error) {
-          reject(error)
-        }
-        resolve(results)
-      },
-    )
-  })
-
-  for (let i = 0; i < results.length; i++) {
-    const tagStr: string = results[i].tags
-    results[i].tags = tagStr.split(',')
-  }
-
-  cache.set(user + calcHash(tags, page), results, cacheTTL)
-
-  return NextResponse.json(results)
-}
 
 export async function GET(request: NextRequest) {
   // Require authentication
@@ -174,38 +26,11 @@ export async function GET(request: NextRequest) {
 
   const userEmailHash = sha256(session.user.email)
 
-  const cachedValue = cache.get(userEmailHash + calcHash(tags, page))
-  if (cachedValue !== undefined) {
-    return NextResponse.json(cachedValue)
-  }
-
-  const connection: PoolConnection = await new Promise((resolve, reject) => {
-    getConnectionPool().then((connectionPool: Pool) => {
-      connectionPool.getConnection(
-        (error: NodeJS.ErrnoException | null, connection: PoolConnection) => {
-          if (error) {
-            reject(error)
-          }
-          resolve(connection)
-        },
-      )
-    })
-  })
-
-  if (connection == null) {
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    )
-  }
-
-  try {
-    if (tags.length > 0) {
-      return await queryWithTags(connection, userEmailHash, tags, page)
-    } else {
-      return await queryAllArticles(connection, userEmailHash, page)
-    }
-  } finally {
-    connection.release()
+  if (tags.length > 0) {
+    const data = await queryWithTags(userEmailHash, tags, page)
+    return NextResponse.json(data)
+  } else {
+    const data = await queryAllArticles(userEmailHash, page)
+    return NextResponse.json(data)
   }
 }

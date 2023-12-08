@@ -3,16 +3,13 @@ import ArticleHeader from '@/components/article/ArticleHeader'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
 import { Article } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/API'
+import { getArticle as getArticleFromDatabase } from '@/lib/database/ArticleQuery'
+import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getServerSession } from 'next-auth'
+import { sha256 } from '@/lib/utils'
 
-async function getArticle(id: string): Promise<Article | null> {
-  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`, {
-    next: { revalidate: 60 },
-  })
-  if (res.status === 404) {
-    return null
-  }
-  return res.json()
+async function getArticle(user: string, id: string): Promise<Article | null> {
+  return await getArticleFromDatabase(user, id)
 }
 
 type MetadataProps = {
@@ -24,7 +21,19 @@ export async function generateMetadata(
   { params }: MetadataProps,
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const data: Article | null = await getArticle(params.id)
+  const session: any = await getServerSession(authOptions)
+  if (
+    session === undefined ||
+    session === null ||
+    session.user?.email === undefined
+  ) {
+    return {
+      title: 'しろらぼブログ | Silolab Blog',
+    }
+  }
+
+  const hashedEmail = sha256(session.user.email)
+  const data: Article | null = await getArticle(hashedEmail, params.id)
 
   if (data === null) {
     return {
@@ -44,7 +53,18 @@ type PageProps = {
 }
 
 export default async function Page({ params }: PageProps) {
-  const data: Article | null = await getArticle(params.id)
+  const session: any = await getServerSession(authOptions)
+  if (
+    session === undefined ||
+    session === null ||
+    session.user?.email === undefined
+  ) {
+    console.log('test')
+    notFound()
+  }
+
+  const hashedEmail = sha256(session.user.email)
+  const data: Article | null = await getArticle(hashedEmail, params.id)
 
   if (data === null) {
     notFound()
