@@ -7,6 +7,9 @@ import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { sha256 } from '@/lib/utils'
 import { queryAllArticles } from '@/lib/database/ArticleListQuery'
 import { countArticle } from '@/lib/database/ArtistCountQuery'
+import { FC } from 'react'
+import { Button } from '@/components/ui/button'
+import { FolderLock } from 'lucide-react'
 
 async function getArticles(
   user: string,
@@ -32,6 +35,26 @@ export async function generateMetadata(
   return {
     title: 'Silolab Blog | しろらぼブログ',
   }
+}
+
+const NoArticles: FC<{}> = () => {
+  return (
+    <div className="w-full my-10 mx-auto md:w-[768px]">
+      <p className="flex justify-center">記事が公開されていません</p>
+      <div className="flex flex-row justify-center items-center">
+        <p>右上の</p>
+        <Button asChild variant="ghost">
+          <a href="/admin/dashboard">
+            <FolderLock className="text-2xl text-white pr-0" />
+          </a>
+        </Button>
+        <p>から記事を投稿することができます</p>
+      </div>
+      <p className="flex justify-center text-gray-400">
+        (このデモサイトでは、他のユーザーに記事が公開されることはありません)
+      </p>
+    </div>
+  )
 }
 
 type Props = {
@@ -68,11 +91,7 @@ export default async function Page({ params }: Props) {
   const maxPage: number = await getMaxPageNumber(hashedEmail)
 
   if (data === null || data.length === 0) {
-    return (
-      <div className="w-full mt-10 mx-auto md:w-[768px]">
-        <p className="flex justify-center">記事がありません</p>
-      </div>
-    )
+    return <NoArticles />
   }
 
   return (
