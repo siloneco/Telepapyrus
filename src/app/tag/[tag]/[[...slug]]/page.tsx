@@ -1,38 +1,34 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import {
-  INTERNAL_BACKEND_HOSTNAME,
-  TAG_NAME_MAX_LENGTH,
-} from '@/lib/constants/Constants'
+import { TAG_NAME_MAX_LENGTH } from '@/lib/constants/Constants'
 import ArticleList from '@/components/layout/ArticleList'
 import ArticleTag from '@/components/article/ArticleTag'
+import { queryWithTags } from '@/lib/database/ArticleListQuery'
+import { countArticle } from '@/lib/database/ArticleCountQuery'
+import { getServerSession } from 'next-auth'
+import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { sha256 } from '@/lib/utils'
 
 async function getArticles(
+  user: string,
   tag: string,
+  page: number = 1,
 ): Promise<Array<ArticleOverview> | null> {
-  const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?tags=${tag}`,
-    { next: { revalidate: 60 } },
-  )
-  if (res.status === 404) {
-    return null
-  }
-
-  return res.json()
+  return await queryWithTags(user, [tag], page)
 }
 
-async function getMaxPageNumber(tag: string): Promise<number | null> {
-  const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/count?tags=${tag}`,
-    { next: { revalidate: 60 } },
-  )
-  if (res.status === 404) {
+async function getMaxPageNumber(
+  user: string,
+  tag: string,
+): Promise<number | null> {
+  const data = await countArticle(user, [tag])
+
+  if (data === null) {
     return null
   }
 
-  const json = await res.json()
-  return Math.ceil(json.count / 10)
+  return Math.ceil(data.count / 10)
 }
 
 export async function generateMetadata(
@@ -54,6 +50,11 @@ type Props = {
 export default async function Page({ params }: Props) {
   const { tag } = params
 
+  const session: any = await getServerSession(authOptions)
+  if (!session || session.user?.email === undefined) {
+    notFound()
+  }
+
   if (tag.length > TAG_NAME_MAX_LENGTH) {
     notFound()
   }
@@ -66,8 +67,13 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const data: Array<ArticleOverview> | null = await getArticles(tag)
-  const maxPageNum: number | null = await getMaxPageNumber(tag)
+  const hashedEmail = sha256(session.user.email)
+
+  const data: Array<ArticleOverview> | null = await getArticles(
+    hashedEmail,
+    tag,
+  )
+  const maxPageNum: number | null = await getMaxPageNumber(hashedEmail, tag)
 
   if (data === null || maxPageNum === null) {
     notFound()

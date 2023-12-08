@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import { sha256 } from '@/lib/utils'
-import { countArticle } from '@/lib/database/ArtistCountQuery'
+import { countArticle } from '@/lib/database/ArticleCountQuery'
 import { TAG_NAME_MAX_LENGTH } from '@/lib/constants/Constants'
 
 export const dynamic = 'force-dynamic'

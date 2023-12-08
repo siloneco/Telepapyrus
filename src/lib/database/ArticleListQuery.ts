@@ -2,6 +2,7 @@ import NodeCache from 'node-cache'
 import crypto from 'crypto'
 import { Pool, PoolConnection, QueryError } from 'mysql2'
 import { getConnectionPool } from './MysqlConnectionPool'
+import { ArticleOverview } from '@/components/types/Article'
 
 const cache = new NodeCache()
 const cacheTTL = 10 // seconds
@@ -144,10 +145,10 @@ export async function queryWithTags(
   user: string,
   tags: string[],
   page: number = 1,
-) {
+): Promise<ArticleOverview[] | null> {
   const cacheKey = user + calcHash(tags, page)
 
-  const data = cache.get(cacheKey)
+  const data: ArticleOverview[] | undefined = cache.get(cacheKey)
   if (data !== undefined) {
     return data
   }
