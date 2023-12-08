@@ -62,7 +62,6 @@ export default async function Page({ params }: Props) {
   const maxPageNum: number | null = await getMaxPageNumber(tag)
 
   if (data === null || maxPageNum === null) {
-    console.log('test: ' + maxPageNum)
     notFound()
   }
 

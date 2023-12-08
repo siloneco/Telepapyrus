@@ -59,7 +59,6 @@ export default async function Page({ params }: PageProps) {
     session === null ||
     session.user?.email === undefined
   ) {
-    console.log('test')
     notFound()
   }
 

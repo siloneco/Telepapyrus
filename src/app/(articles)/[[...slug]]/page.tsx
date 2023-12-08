@@ -70,7 +70,6 @@ export default async function Page({ params }: Props) {
     session === null ||
     session.user?.email === undefined
   ) {
-    console.log('test')
     notFound()
   }
 
