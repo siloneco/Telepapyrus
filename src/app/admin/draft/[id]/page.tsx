@@ -7,6 +7,7 @@ import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { notFound } from 'next/navigation'
 import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
 import { redirect } from 'next/navigation'
+import { isValidID } from '@/lib/utils'
 
 type Props = {
   params: {
@@ -22,7 +23,9 @@ export default async function Page({ params }: Props) {
     return notFound()
   }
 
-  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+  if (!isValidID(id)) {
+    redirect('/admin/draft/error/id-invalid')
+  } else if (id.length > ARTICLE_ID_MAX_LENGTH) {
     redirect('/admin/draft/error/id-too-long')
   }
 
