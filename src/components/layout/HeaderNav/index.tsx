@@ -78,7 +78,7 @@ export default async function HeaderNav() {
               </Button>
             )}
             {isValidAdmin && (
-              <Button asChild variant="ghost">
+              <Button asChild variant="ghost" aria-label="admin-dashboard">
                 <a href="/admin/dashboard">
                   <FolderLock className={cn(iconCss)} />
                 </a>
