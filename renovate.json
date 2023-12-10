@@ -35,7 +35,8 @@
                 "actions/cache",
                 "actions/setup-node",
                 "mariadb",
-                "node"
+                "node",
+                "gcr.io/distroless/nodejs20-debian12"
             ],
             "pinDigests": false
         }
