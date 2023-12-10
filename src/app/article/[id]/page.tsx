@@ -22,7 +22,7 @@ export async function generateMetadata(
   { params }: MetadataProps,
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const NOT_FOUND_PAGE_TITLE = '404 Not Found | Silolab Blog'
+  const NOT_FOUND_PAGE_TITLE = '404 Not Found | Telepapyrus'
   const id = params.id
 
   const session: any = await getServerSession(authOptions)
@@ -32,7 +32,7 @@ export async function generateMetadata(
     session.user?.email === undefined
   ) {
     return {
-      title: 'しろらぼブログ | Silolab Blog',
+      title: 'Telepapyrus',
     }
   }
 
@@ -52,7 +52,7 @@ export async function generateMetadata(
   }
 
   return {
-    title: `${data.title} | Silolab Blog`,
+    title: `${data.title} | Telepapyrus`,
   }
 }
 
