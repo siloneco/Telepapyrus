@@ -10,7 +10,7 @@ import {
   ARTICLE_TITLE_MAX_LENGTH,
   MAX_ARTICLE_COUNT_PER_USER,
 } from '@/lib/constants/Constants'
-import { sha256 } from '@/lib/utils'
+import { isValidID, sha256 } from '@/lib/utils'
 import { getArticle } from '@/lib/database/ArticleQuery'
 import {
   countArticle,
@@ -119,6 +119,8 @@ export async function GET(request: Request, { params }: Props) {
 
   if (id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (!isValidID(id)) {
+    return NextResponse.json({ error: 'Not Found' }, { status: 404 })
   }
 
   const userEmailHash = sha256(session.user.email)
@@ -150,6 +152,8 @@ export async function POST(request: Request, { params }: Props) {
     return NextResponse.json({ error: 'Title too long' }, { status: 400 })
   } else if (data.content.length > ARTICLE_CONTENT_MAX_LENGTH) {
     return NextResponse.json({ error: 'Content too long' }, { status: 400 })
+  } else if (!isValidID(data.id)) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
   const articleCount = await countArticle(userEmailHash, [])
@@ -218,6 +222,8 @@ export async function DELETE(request: Request, { params }: Props) {
 
   if (id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (!isValidID(id)) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
   const connection: PoolConnection = await getConnection()

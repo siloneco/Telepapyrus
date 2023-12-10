@@ -48,7 +48,7 @@ type Props = {
 }
 
 export default async function Page({ params }: Props) {
-  const { tag } = params
+  const tag = decodeURI(params.tag)
 
   const session: any = await getServerSession(authOptions)
   if (!session || session.user?.email === undefined) {

@@ -4,7 +4,7 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 import { Draft } from '@/components/types/Article'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
-import { sha256 } from '@/lib/utils'
+import { sha256, isValidID } from '@/lib/utils'
 import {
   ARTICLE_CONTENT_MAX_LENGTH,
   ARTICLE_ID_MAX_LENGTH,
@@ -60,6 +60,8 @@ export async function GET(request: Request, { params }: Props) {
 
   if (id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (!isValidID(id)) {
+    return NextResponse.json({ error: 'Not Found' }, { status: 404 })
   }
 
   const connection: PoolConnection = await getConnection()
@@ -133,6 +135,8 @@ export async function POST(request: NextRequest, { params }: Props) {
     return NextResponse.json({ error: 'Title too long' }, { status: 400 })
   } else if (data.content.length > ARTICLE_CONTENT_MAX_LENGTH) {
     return NextResponse.json({ error: 'Content too long' }, { status: 400 })
+  } else if (!isValidID(data.id)) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
   const draftCount = await countDraft(userEmailHash)
@@ -197,6 +201,8 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 
   if (id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (!isValidID(id)) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
   const connection: PoolConnection = await getConnection()

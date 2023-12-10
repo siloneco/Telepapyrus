@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation'
 import { getArticle as getArticleFromDatabase } from '@/lib/database/ArticleQuery'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
-import { sha256 } from '@/lib/utils'
+import { sha256, isValidID } from '@/lib/utils'
 import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
 
 async function getArticle(user: string, id: string): Promise<Article | null> {
@@ -23,7 +23,7 @@ export async function generateMetadata(
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const NOT_FOUND_PAGE_TITLE = '404 Not Found | Telepapyrus'
-  const id = params.id
+  const id = decodeURI(params.id)
 
   const session: any = await getServerSession(authOptions)
   if (
@@ -36,7 +36,7 @@ export async function generateMetadata(
     }
   }
 
-  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+  if (id.length > ARTICLE_ID_MAX_LENGTH || !isValidID(id)) {
     return {
       title: NOT_FOUND_PAGE_TITLE,
     }
@@ -63,7 +63,7 @@ type PageProps = {
 }
 
 export default async function Page({ params }: PageProps) {
-  const id = params.id
+  const id = decodeURI(params.id)
   const session: any = await getServerSession(authOptions)
   if (
     session === undefined ||
@@ -73,7 +73,7 @@ export default async function Page({ params }: PageProps) {
     notFound()
   }
 
-  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+  if (id.length > ARTICLE_ID_MAX_LENGTH || !isValidID(id)) {
     notFound()
   }
 
