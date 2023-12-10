@@ -17,7 +17,7 @@ pre > code {
   display: grid;
 }
 
-code > [data-line] {
+pre > code > [data-line] {
   padding-right: 10px;
 }
 
