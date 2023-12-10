@@ -1,5 +1,5 @@
 # Install pnpm
-FROM node:21-alpine AS base
+FROM node:20-alpine AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -19,14 +19,21 @@ COPY . .
 RUN pnpm run -r build
 
 # create runner image
-FROM base AS runner
+FROM gcr.io/distroless/nodejs20-debian12:nonroot AS runner
 
 WORKDIR /app
 
-COPY --from=build /work/node_modules ./node_modules
-COPY --from=build /work/package.json ./package.json
-COPY --from=build /work/.next ./.next
+# Uncomment this when you have at least one public asset.
+# COPY --from=build /app/public ./public
 
-EXPOSE 3000
+COPY --from=build --chown=65532:65532 /work/.next/standalone ./
+COPY --from=build --chown=65532:65532 /work/.next/static ./.next/static
 
-CMD ["pnpm", "start"]
+ARG PORT=3000
+
+ENV NODE_ENV production
+
+ENV HOSTNAME "0.0.0.0"
+ENV PORT $PORT
+
+EXPOSE $PORT
