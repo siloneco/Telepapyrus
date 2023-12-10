@@ -19,7 +19,7 @@ COPY . .
 RUN pnpm run -r build
 
 # create runner image
-FROM gcr.io/distroless/nodejs20-debian12:nonroot AS runner
+FROM gcr.io/distroless/nodejs20-debian12:nonroot@sha256:e87854ddb527c8fa8e4cdf889780c1497fad37976ddf2255a510bd5a718d6d49 AS runner
 
 WORKDIR /app
 
