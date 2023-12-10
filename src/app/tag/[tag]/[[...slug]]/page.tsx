@@ -52,7 +52,7 @@ type Props = {
 }
 
 export default async function Page({ params }: Props) {
-  const { tag } = params
+  const tag = decodeURI(params.tag)
 
   if (tag.length > TAG_NAME_MAX_LENGTH) {
     notFound()
