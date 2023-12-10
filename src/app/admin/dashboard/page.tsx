@@ -17,8 +17,10 @@ export default function Page() {
     router.push(`/admin/draft/${draftId}`)
   }
 
+  const validId: boolean = isValidID(draftId)
+
   const onEnterKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Enter' || draftId.length < 4) {
+    if (e.key !== 'Enter' || draftId.length < 4 || !validId) {
       return
     }
 
@@ -42,7 +44,7 @@ export default function Page() {
           <Button
             variant="default"
             className="ml-2"
-            disabled={loading || draftId.length < 4 || !isValidID(draftId)}
+            disabled={loading || draftId.length < 4 || !validId}
             onClick={submit}
           >
             {loading && <Loader2 size={20} className="mr-2 animate-spin" />}
@@ -50,7 +52,7 @@ export default function Page() {
             {loading && <>作成中...</>}
           </Button>
         </div>
-        {draftId.length > 0 && !isValidID(draftId) && (
+        {draftId.length > 0 && !validId && (
           <p className="mt-2 ml-2 text-red-500 text-sm">
             記事IDは半角英数字とハイフンのみ使用できます
           </p>

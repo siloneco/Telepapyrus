@@ -5,6 +5,7 @@ import { Draft } from '@/components/types/Article'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
+import { isValidID } from '@/lib/utils'
 
 export const dynamic = 'force-dynamic'
 
@@ -52,6 +53,8 @@ export async function GET(request: Request, { params }: Props) {
 
   if (id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (!isValidID(id)) {
+    return NextResponse.json({ error: 'Not Found' }, { status: 404 })
   }
 
   const connection: PoolConnection = await getConnection()
@@ -119,6 +122,8 @@ export async function POST(request: NextRequest, { params }: Props) {
 
   if (data.id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (!isValidID(data.id)) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
   const connection: PoolConnection = await getConnection()
@@ -171,6 +176,8 @@ export async function DELETE(request: NextRequest, { params }: Props) {
 
   if (id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (!isValidID(id)) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 })
   }
 
   const connection: PoolConnection = await getConnection()
