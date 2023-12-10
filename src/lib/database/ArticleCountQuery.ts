@@ -68,7 +68,7 @@ async function queryAllArticles(user: string): Promise<ReturnProps | null> {
     })
 
     if (results.length !== 1) {
-      null
+      return null
     }
 
     const returnData: ReturnProps = {
@@ -130,9 +130,9 @@ export async function countArticle(
   user: string,
   tags: string[],
 ): Promise<ReturnProps | null> {
-  const cachedValue = cache.get(user + tags.join(','))
+  const cachedValue: ReturnProps | undefined = cache.get(user + tags.join(','))
   if (cachedValue !== undefined) {
-    return null
+    return cachedValue
   }
 
   const connection: PoolConnection = await getConnection()
@@ -149,5 +149,16 @@ export async function countArticle(
     }
   } finally {
     connection.release()
+  }
+}
+
+export async function increaseAmountWhenCacheIsValid(user: string) {
+  const cacheData: ReturnProps | undefined = cache.get(user)
+  if (cacheData !== undefined) {
+    const newData: ReturnProps = {
+      count: cacheData.count + 1,
+    }
+
+    cache.set(user, newData, cacheTTL)
   }
 }

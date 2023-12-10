@@ -4,9 +4,18 @@ import { PoolConnection, Pool, QueryError } from 'mysql2'
 import { Draft } from '@/components/types/Article'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import {
+  ARTICLE_CONTENT_MAX_LENGTH,
+  ARTICLE_ID_MAX_LENGTH,
+  ARTICLE_TITLE_MAX_LENGTH,
+  MAX_ARTICLE_COUNT_PER_USER,
+} from '@/lib/constants/Constants'
 import { sha256 } from '@/lib/utils'
 import { getArticle } from '@/lib/database/ArticleQuery'
-import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
+import {
+  countArticle,
+  increaseAmountWhenCacheIsValid,
+} from '@/lib/database/ArticleCountQuery'
 
 export const dynamic = 'force-dynamic'
 
@@ -137,6 +146,23 @@ export async function POST(request: Request, { params }: Props) {
 
   if (data.id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (data.title.length > ARTICLE_TITLE_MAX_LENGTH) {
+    return NextResponse.json({ error: 'Title too long' }, { status: 400 })
+  } else if (data.content.length > ARTICLE_CONTENT_MAX_LENGTH) {
+    return NextResponse.json({ error: 'Content too long' }, { status: 400 })
+  }
+
+  const articleCount = await countArticle(userEmailHash, [])
+  if (
+    articleCount !== null &&
+    articleCount.count >= MAX_ARTICLE_COUNT_PER_USER
+  ) {
+    return NextResponse.json(
+      {
+        error: `You have already too many articles ( > ${MAX_ARTICLE_COUNT_PER_USER} )`,
+      },
+      { status: 400 },
+    )
   }
 
   const connection: PoolConnection = await getConnection()
@@ -171,6 +197,8 @@ export async function POST(request: Request, { params }: Props) {
     if (article === null) {
       return NextResponse.json({ error: 'Not Found' }, { status: 404 })
     }
+
+    increaseAmountWhenCacheIsValid(userEmailHash)
 
     return NextResponse.json({ status: 'ok', data: article })
   } finally {

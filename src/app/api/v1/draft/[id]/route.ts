@@ -5,7 +5,13 @@ import { Draft } from '@/components/types/Article'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { getServerSession } from 'next-auth'
 import { sha256 } from '@/lib/utils'
-import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
+import {
+  ARTICLE_CONTENT_MAX_LENGTH,
+  ARTICLE_ID_MAX_LENGTH,
+  ARTICLE_TITLE_MAX_LENGTH,
+  MAX_ARTICLE_COUNT_PER_USER,
+} from '@/lib/constants/Constants'
+import { countDraft } from '@/lib/database/DraftCountQuery'
 
 export const dynamic = 'force-dynamic'
 
@@ -123,6 +129,20 @@ export async function POST(request: NextRequest, { params }: Props) {
 
   if (data.id.length > ARTICLE_ID_MAX_LENGTH) {
     return NextResponse.json({ error: 'ID too long' }, { status: 400 })
+  } else if (data.title.length > ARTICLE_TITLE_MAX_LENGTH) {
+    return NextResponse.json({ error: 'Title too long' }, { status: 400 })
+  } else if (data.content.length > ARTICLE_CONTENT_MAX_LENGTH) {
+    return NextResponse.json({ error: 'Content too long' }, { status: 400 })
+  }
+
+  const draftCount = await countDraft(userEmailHash)
+  if (draftCount >= MAX_ARTICLE_COUNT_PER_USER) {
+    return NextResponse.json(
+      {
+        error: `You have already too many drafts ( > ${MAX_ARTICLE_COUNT_PER_USER} )`,
+      },
+      { status: 400 },
+    )
   }
 
   const connection: PoolConnection = await getConnection()
