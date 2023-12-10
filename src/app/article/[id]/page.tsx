@@ -7,6 +7,7 @@ import {
   ARTICLE_ID_MAX_LENGTH,
   INTERNAL_BACKEND_HOSTNAME,
 } from '@/lib/constants/Constants'
+import { isValidID } from '@/lib/utils'
 
 async function getArticle(id: string): Promise<Article | null> {
   const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`, {
@@ -28,9 +29,9 @@ export async function generateMetadata(
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const NOT_FOUND_PAGE_TITLE = '404 Not Found | Silolab Blog'
-  const id = params.id
+  const id = decodeURI(params.id)
 
-  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+  if (id.length > ARTICLE_ID_MAX_LENGTH || !isValidID(id)) {
     return {
       title: NOT_FOUND_PAGE_TITLE,
     }
@@ -56,9 +57,9 @@ type PageProps = {
 }
 
 export default async function Page({ params }: PageProps) {
-  const id = params.id
+  const id = decodeURI(params.id)
 
-  if (id.length > ARTICLE_ID_MAX_LENGTH) {
+  if (id.length > ARTICLE_ID_MAX_LENGTH || !isValidID(id)) {
     notFound()
   }
 
