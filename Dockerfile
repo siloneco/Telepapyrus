@@ -37,3 +37,5 @@ ENV HOSTNAME "0.0.0.0"
 ENV PORT $PORT
 
 EXPOSE $PORT
+
+CMD [ "server.js" ]
