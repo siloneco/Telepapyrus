@@ -18,12 +18,16 @@ export default function SignOutNavButton({ className }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" aria-label="sign-out-popover-trigger">
           <LogOut className={className} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-fit">
-        <Button variant="destructive" onClick={() => signOut()}>
+        <Button
+          variant="destructive"
+          onClick={() => signOut()}
+          aria-label="sign-out"
+        >
           Sign Out
         </Button>
       </PopoverContent>

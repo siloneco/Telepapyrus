@@ -16,7 +16,7 @@ export default function ArticleEditButton({ className }: Props) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" className={className}>
+        <Button variant="ghost" className={className} aria-label="edit-article">
           <FileEdit />
         </Button>
       </PopoverTrigger>
