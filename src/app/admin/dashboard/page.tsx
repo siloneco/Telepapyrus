@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { isValidID } from '@/lib/utils'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { KeyboardEvent, useState } from 'react'
@@ -41,7 +42,7 @@ export default function Page() {
           <Button
             variant="default"
             className="ml-2"
-            disabled={loading || draftId.length < 4}
+            disabled={loading || draftId.length < 4 || !isValidID(draftId)}
             onClick={submit}
           >
             {loading && <Loader2 size={20} className="mr-2 animate-spin" />}
@@ -49,6 +50,11 @@ export default function Page() {
             {loading && <>作成中...</>}
           </Button>
         </div>
+        {draftId.length > 0 && !isValidID(draftId) && (
+          <p className="mt-2 ml-2 text-red-500 text-sm">
+            記事IDは半角英数字とハイフンのみ使用できます
+          </p>
+        )}
       </div>
     </div>
   )
