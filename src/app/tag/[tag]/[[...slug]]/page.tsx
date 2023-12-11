@@ -10,9 +10,10 @@ import ArticleTag from '@/components/article/ArticleTag'
 
 async function getArticles(
   tag: string,
+  page: number = 1,
 ): Promise<Array<ArticleOverview> | null> {
   const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?tags=${tag}`,
+    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?tags=${tag}&page=${page}`,
     { next: { revalidate: 60 } },
   )
   if (res.status === 404) {
@@ -66,7 +67,7 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const data: Array<ArticleOverview> | null = await getArticles(tag)
+  const data: Array<ArticleOverview> | null = await getArticles(tag, page)
   const maxPageNum: number | null = await getMaxPageNumber(tag)
 
   if (data === null || maxPageNum === null) {
@@ -79,7 +80,12 @@ export default async function Page({ params }: Props) {
         <ArticleTag tag={tag} noLink className="mr-2" />
         <h3>が付いている記事</h3>
       </div>
-      <ArticleList articles={data} currentPage={page} totalPages={maxPageNum} />
+      <ArticleList
+        articles={data}
+        currentPage={page}
+        totalPages={maxPageNum}
+        path={`/tag/${tag}/`}
+      />
     </div>
   )
 }
