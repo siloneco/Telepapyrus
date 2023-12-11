@@ -72,6 +72,7 @@ export default async function Page({ params }: Props) {
   const data: Array<ArticleOverview> | null = await getArticles(
     hashedEmail,
     tag,
+    page,
   )
   const maxPageNum: number | null = await getMaxPageNumber(hashedEmail, tag)
 

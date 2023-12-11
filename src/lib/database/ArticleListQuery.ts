@@ -144,7 +144,7 @@ export async function queryAllArticles(
 export async function queryWithTags(
   user: string,
   tags: string[],
-  page: number = 1,
+  page: number,
 ): Promise<ArticleOverview[] | null> {
   const cacheKey = user + calcHash(tags, page)
 
