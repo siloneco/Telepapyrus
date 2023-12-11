@@ -7,6 +7,7 @@ type Props = {
   articles: Array<ArticleOverview>
   currentPage: number
   totalPages: number
+  path?: string
 }
 
 export default async function ArticleList(data: Props) {
@@ -14,6 +15,7 @@ export default async function ArticleList(data: Props) {
     articles,
     currentPage,
     totalPages,
+    path = '/',
   }: Props) {
     return (
       <main>
@@ -29,7 +31,7 @@ export default async function ArticleList(data: Props) {
             />
           ))}
           <PageSelector
-            path={'/'}
+            path={path}
             currentPage={currentPage}
             totalPages={totalPages}
           />

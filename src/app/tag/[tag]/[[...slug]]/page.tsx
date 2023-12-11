@@ -85,7 +85,12 @@ export default async function Page({ params }: Props) {
         <ArticleTag tag={tag} noLink className="mr-2" />
         <h3>が付いている記事</h3>
       </div>
-      <ArticleList articles={data} currentPage={page} totalPages={maxPageNum} />
+      <ArticleList
+        articles={data}
+        currentPage={page}
+        totalPages={maxPageNum}
+        path={`/tag/${tag}/`}
+      />
     </div>
   )
 }
