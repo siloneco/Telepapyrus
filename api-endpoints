@@ -1,0 +1,11 @@
+APIエンドポイント一覧 (*は認証が必要なやつ)
+
+/article/:id - (GET, *POST, *DELETE)
+/article/list - (GET)
+/article/count - (GET)
+
+/tag/:id - (GET, *POST, *DELETE)
+/tag/list - (GET)
+
+/draft/:id - (*GET, *POST, *DELETE)
+/draft/preview - (*PUT)

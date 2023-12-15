@@ -25,7 +25,7 @@ export default async function HeaderNav() {
   const darkenCss: string = 'text-gray-600'
 
   return (
-    <nav className="sticky top-0 shadow-sm">
+    <nav className="sticky top-0 shadow-sm z-10">
       <div className="h-14 w-full bg-background flex flex-row justify-center items-center">
         <div className="h-full w-full max-w-4xl flex flex-row content-between items-center justify-center">
           <div className="flex items-center">
