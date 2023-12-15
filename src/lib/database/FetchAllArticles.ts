@@ -45,32 +45,36 @@ export async function getAllArticles(user: string): Promise<ArticleOverview[]> {
     })
   })
 
-  if (connection == null) {
+  if (connection === null) {
     return []
   }
 
-  const results: any[] = await new Promise((resolve, reject) => {
-    connection.query(
-      mainQuery,
-      [user, user],
-      (error: QueryError | null, results: any) => {
-        if (error) {
-          reject(error)
-        }
-        resolve(results)
-      },
-    )
-  })
+  try {
+    const results: any[] = await new Promise((resolve, reject) => {
+      connection.query(
+        mainQuery,
+        [user, user],
+        (error: QueryError | null, results: any) => {
+          if (error) {
+            reject(error)
+          }
+          resolve(results)
+        },
+      )
+    })
 
-  for (let i = 0; i < results.length; i++) {
-    const tagStr: string = results[i].tags
-    if (tagStr == null) {
-      results[i].tags = []
-      continue
+    for (let i = 0; i < results.length; i++) {
+      const tagStr: string = results[i].tags
+      if (tagStr == null) {
+        results[i].tags = []
+        continue
+      }
+
+      results[i].tags = tagStr.split(',')
     }
 
-    results[i].tags = tagStr.split(',')
+    return results as ArticleOverview[]
+  } finally {
+    connection.release()
   }
-
-  return results as ArticleOverview[]
 }
