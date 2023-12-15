@@ -1,62 +1,27 @@
-'use client'
+import { ArticleTable } from '@/components/admin/ArticleTable'
+import { columns } from '@/components/admin/ArticleTable/columns'
+import { NewArticleInput } from '@/components/admin/NewArticleInput'
+import { ArticleOverview } from '@/components/types/Article'
+import { getAllArticles } from '@/lib/database/FetchAllArticles'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { isValidID } from '@/lib/utils'
-import { Loader2 } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import { KeyboardEvent, useState } from 'react'
+async function getArticleOverview(): Promise<ArticleOverview[]> {
+  return await getAllArticles()
+}
 
-export default function Page() {
-  const [draftId, setDraftId] = useState<string>('')
-  const [loading, setLoading] = useState<boolean>(false)
-  const router = useRouter()
-
-  const submit = async () => {
-    setLoading(true)
-    router.push(`/admin/draft/${draftId}`)
-  }
-
-  const validId: boolean = isValidID(draftId)
-
-  const onEnterKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key !== 'Enter' || draftId.length < 4 || !validId) {
-      return
-    }
-
-    await submit()
-  }
+export default async function Page() {
+  const data: ArticleOverview[] = await getArticleOverview()
 
   return (
     <div className="max-w-5xl mx-auto mt-5 mb-10">
       <h1 className="text-4xl font-bold text-center">Dashboard (WIP)</h1>
-      <div className="w-fit mx-auto mt-6">
-        <h2 className="w-fit text-xl font-bold">記事を作成する</h2>
-        <div className="flex flex-row mt-2">
-          <Input
-            className="w-72"
-            placeholder="記事ID (4文字以上)"
-            disabled={loading}
-            value={draftId}
-            onChange={(e) => setDraftId(e.target.value)}
-            onKeyDown={onEnterKeyDown}
-          />
-          <Button
-            variant="default"
-            className="ml-2"
-            disabled={loading || draftId.length < 4 || !validId}
-            onClick={submit}
-          >
-            {loading && <Loader2 size={20} className="mr-2 animate-spin" />}
-            {!loading && <>作成</>}
-            {loading && <>作成中...</>}
-          </Button>
+      <div className="w-1/2 mx-auto mt-4">
+        <NewArticleInput />
+      </div>
+      <div className="w-4/5 mx-auto">
+        <h2 className="text-xl font-bold mt-8 mb-2">記事一覧</h2>
+        <div className="w-full">
+          <ArticleTable columns={columns} data={data} />
         </div>
-        {draftId.length > 0 && !validId && (
-          <p className="mt-2 ml-2 text-red-500 text-sm">
-            記事IDは半角英数字とハイフンのみ使用できます
-          </p>
-        )}
       </div>
     </div>
   )
