@@ -31,19 +31,21 @@ async function getMaxPageNumber(
   return Math.ceil(data.count / 10)
 }
 
-export async function generateMetadata(
-  {},
-  _parent: ResolvingMetadata,
-): Promise<Metadata> {
-  return {
-    title: 'Telepapyrus',
-  }
-}
-
 type Props = {
   params: {
     tag: string
     slug: string[]
+  }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  _parent: ResolvingMetadata,
+): Promise<Metadata> {
+  params.tag = decodeURI(params.tag)
+
+  return {
+    title: `${params.tag} | Telepapyrus`,
   }
 }
 

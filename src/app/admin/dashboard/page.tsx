@@ -6,6 +6,11 @@ import { getAllArticles } from '@/lib/database/FetchAllArticles'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { sha256 } from '@/lib/utils'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Dashboard | Telepapyrus',
+}
 
 async function getArticleOverview(): Promise<ArticleOverview[]> {
   const session: any = await getServerSession(authOptions)
