@@ -1,6 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
 import { FolderLock } from 'lucide-react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: '無効な記事ID | Silolab Blog',
+}
 
 export default function Page() {
   return (
