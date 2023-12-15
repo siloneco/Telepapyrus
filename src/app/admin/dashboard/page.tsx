@@ -3,6 +3,11 @@ import { columns } from '@/components/admin/ArticleTable/columns'
 import { NewArticleInput } from '@/components/admin/NewArticleInput'
 import { ArticleOverview } from '@/components/types/Article'
 import { getAllArticles } from '@/lib/database/FetchAllArticles'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Dashboard | Silolab Blog',
+}
 
 async function getArticleOverview(): Promise<ArticleOverview[]> {
   return await getAllArticles()

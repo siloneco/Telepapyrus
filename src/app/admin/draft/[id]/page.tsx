@@ -5,6 +5,23 @@ import DraftPreview from '@/components/article/DraftPreview'
 import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
 import { redirect } from 'next/navigation'
 import { isValidID } from '@/lib/utils'
+import { Metadata, ResolvingMetadata } from 'next'
+
+type MetadataProps = {
+  params: { id: string }
+  searchParams: { [key: string]: string | string[] | undefined }
+}
+
+export async function generateMetadata(
+  { params }: MetadataProps,
+  _parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const id: string = params.id
+
+  return {
+    title: `${id} - Draft | Silolab Blog`,
+  }
+}
 
 type Props = {
   params: {

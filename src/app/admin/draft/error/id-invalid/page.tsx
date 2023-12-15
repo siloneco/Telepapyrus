@@ -1,5 +1,10 @@
 import { Button } from '@/components/ui/button'
 import { FolderLock } from 'lucide-react'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: '無効な記事ID | Silolab Blog',
+}
 
 export default function Page() {
   return (
