@@ -18,6 +18,36 @@ export const TabContext = createContext({
   loadingDraft: false,
 })
 
+function estimateMinToRead(content: string) {
+  if (content === null || content === undefined) {
+    return 0
+  }
+
+  let min = 0
+  let isInsideCodeBlock: boolean = false
+
+  const lines: string[] = content.split('\n')
+
+  for (const line of lines) {
+    if (line.startsWith('```')) {
+      if (isInsideCodeBlock && line !== '```') {
+        continue
+      }
+
+      isInsideCodeBlock = !isInsideCodeBlock
+      continue
+    }
+
+    if (isInsideCodeBlock) {
+      continue
+    }
+
+    min += line.length / 500
+  }
+
+  return min
+}
+
 type Props = {
   id: string
   children: React.ReactNode
@@ -38,7 +68,7 @@ export default function DraftWorkspace({ id, children }: Props) {
     createArticle,
   }: IUseDraftWorkspace = useDraftWorkspaceHooks(id)
 
-  const minToRead = Math.ceil(content.length / 70) / 1
+  const minToRead = Math.round(estimateMinToRead(content) * 10) / 10
 
   return (
     <TabContext.Provider value={tabContextProviderValue}>
