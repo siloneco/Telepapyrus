@@ -57,7 +57,7 @@ export const columns: ColumnDef<ArticleOverview>[] = [
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-          className="min-w-[120px]"
+          className="whitespace-nowrap"
         >
           投稿日時
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -65,7 +65,12 @@ export const columns: ColumnDef<ArticleOverview>[] = [
       )
     },
   },
-  { accessorKey: 'last_updated', header: '最終更新' },
+  {
+    accessorKey: 'last_updated',
+    header: () => {
+      return <span className="whitespace-nowrap">最終更新</span>
+    },
+  },
   {
     id: 'actions',
     cell: ({ row }) => {
