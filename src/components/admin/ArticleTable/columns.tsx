@@ -15,9 +15,14 @@ export const columns: ColumnDef<ArticleOverview>[] = [
       const id: string = row.getValue('id')
 
       return (
-        <a href={`/article/${id}`} className="decoration-inherit text-inherit">
-          {id}
-        </a>
+        <div className="max-w-[150px] text-ellipsis overflow-hidden">
+          <a
+            href={`/article/${id}`}
+            className="decoration-inherit text-inherit whitespace-nowrap"
+          >
+            {id}
+          </a>
+        </div>
       )
     },
   },
