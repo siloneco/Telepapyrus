@@ -14,6 +14,7 @@ export default function ArticleTag({ tag, noLink = false, className }: Props) {
     'text-xs',
     'text-white',
     'h-6',
+    'whitespace-nowrap',
     className,
   )
 
