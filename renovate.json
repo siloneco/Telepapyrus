@@ -1,44 +1,40 @@
 {
-    "extends": [
-        "config:best-practices",
-        ":dependencyDashboard",
-        ":prConcurrentLimit10",
-        ":prHourlyLimitNone",
-        ":enableVulnerabilityAlertsWithLabel(vulnerabilities)",
-        ":timezone(Asia/Tokyo)"
-    ],
-    "labels": [
-        "dependencies"
-    ],
-    "schedule": [
-        "after 9:00 before 23:00"
-    ],
-    "assignees": [
-        "siloneco"
-    ],
-    "lockFileMaintenance": {
-        "enabled": true,
-        "automerge": true
+  "extends": [
+    "config:best-practices",
+    ":dependencyDashboard",
+    ":prConcurrentLimit10",
+    ":prHourlyLimitNone",
+    ":enableVulnerabilityAlertsWithLabel(vulnerabilities)",
+    ":timezone(Asia/Tokyo)"
+  ],
+  "labels": ["dependencies"],
+  "schedule": ["after 9:00 before 23:00"],
+  "assignees": ["siloneco"],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  },
+  "packageRules": [
+    {
+      "matchUpdateTypes": ["minor", "patch"],
+      "matchCurrentVersion": "!/^0/",
+      "automerge": true
     },
-    "packageRules": [
-        {
-            "matchUpdateTypes": [
-                "minor",
-                "patch"
-            ],
-            "matchCurrentVersion": "!/^0/",
-            "automerge": true
-        },
-        {
-            "matchPackageNames": [
-                "actions/checkout",
-                "actions/cache",
-                "actions/setup-node",
-                "mariadb",
-                "node",
-                "gcr.io/distroless/nodejs20-debian12"
-            ],
-            "pinDigests": false
-        }
-    ]
+    {
+      "matchPackageNames": ["lucide-react"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "automerge": true
+    },
+    {
+      "matchPackageNames": [
+        "actions/checkout",
+        "actions/cache",
+        "actions/setup-node",
+        "mariadb",
+        "node",
+        "gcr.io/distroless/nodejs20-debian12"
+      ],
+      "pinDigests": false
+    }
+  ]
 }
