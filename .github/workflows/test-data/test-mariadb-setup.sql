@@ -1,7 +1,7 @@
 CREATE DATABASE `telepapyrus`;
 
 CREATE TABLE `telepapyrus`.`allowed_tags` (
-  `tag` varchar(32) NOT NULL,
+  `tag` varchar(64) NOT NULL,
   PRIMARY KEY (`tag`)
 );
 
@@ -30,7 +30,7 @@ INSERT INTO `telepapyrus`.`articles` VALUES
 
 CREATE TABLE `telepapyrus`.`tags` (
   `id` varchar(64) NOT NULL,
-  `tag` varchar(32) NOT NULL,
+  `tag` varchar(64) NOT NULL,
   PRIMARY KEY (`id`,`tag`),
   KEY `tag_idx` (`tag`),
   CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `articles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
