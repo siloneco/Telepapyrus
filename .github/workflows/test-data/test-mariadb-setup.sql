@@ -19,13 +19,13 @@ CREATE TABLE `telepapyrus`.`articles` (
 );
 
 INSERT INTO `telepapyrus`.`articles` VALUES
-('test-create-fail-already-exists', 'title', 'content', '2024-01-01 00:00:00.000', NULL).
-('test-delete-fail-too-many-deleted-1', 'title', 'content', '2024-01-01 00:00:00.001', NULL).
-('test-delete-fail-too-many-deleted-2', 'title', 'content', '2024-01-01 00:00:00.002', NULL).
-('test-get-success', 'title', 'content', '2024-01-01 00:00:00.003', '2024-01-01 00:00:00.004').
-('test-list-success-specific-tags-1', 'title', 'content', '2024-01-01 00:00:00.005', NULL).
-('test-list-success-specific-tags-2', 'title', 'content', '2024-01-01 00:00:00.006', NULL).
-('test-list-success-specific-tags-3', 'title', 'content', '2024-01-01 00:00:00.007', NULL).
+('test-create-fail-already-exists', 'title', 'content', '2024-01-01 00:00:00.000', NULL),
+('test-delete-fail-too-many-deleted-1', 'title', 'content', '2024-01-01 00:00:00.001', NULL),
+('test-delete-fail-too-many-deleted-2', 'title', 'content', '2024-01-01 00:00:00.002', NULL),
+('test-get-success', 'title', 'content', '2024-01-01 00:00:00.003', '2024-01-01 00:00:00.004'),
+('test-list-success-specific-tags-1', 'title', 'content', '2024-01-01 00:00:00.005', NULL),
+('test-list-success-specific-tags-2', 'title', 'content', '2024-01-01 00:00:00.006', NULL),
+('test-list-success-specific-tags-3', 'title', 'content', '2024-01-01 00:00:00.007', NULL),
 ('test-update-fail-invalid-tag', 'title', 'content', '2024-01-01 00:00:00.008', NULL);
 
 CREATE TABLE `telepapyrus`.`tags` (
