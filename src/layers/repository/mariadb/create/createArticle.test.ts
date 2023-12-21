@@ -10,7 +10,7 @@ const baseData = {
 }
 
 const milliSec = () => {
-  return new Date().getTime() + Math.floor(Math.random() * 10000)
+  return new Date().getTime()
 }
 
 describe('createArticle', () => {

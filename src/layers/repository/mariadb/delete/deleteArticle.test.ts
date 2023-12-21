@@ -8,7 +8,7 @@ import { deleteArticleQuery as dummyDeleteArticleQuery } from './query'
 const { deleteArticleQuery } = jest.requireActual('./query')
 
 const milliSec = () => {
-  return new Date().getTime() + Math.floor(Math.random() * 10000)
+  return new Date().getTime()
 }
 
 describe('deleteArticle', () => {

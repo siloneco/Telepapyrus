@@ -8,7 +8,7 @@ import { getArticleQuery as dummyArticleQuery } from './query'
 const { getArticleQuery } = jest.requireActual('./query')
 
 const milliSec = () => {
-  return new Date().getTime() + Math.floor(Math.random() * 10000)
+  return new Date().getTime()
 }
 
 describe('getArticle', () => {
