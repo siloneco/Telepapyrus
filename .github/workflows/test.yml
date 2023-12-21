@@ -1,0 +1,58 @@
+name: Test with Jest
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'renovate.json'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'renovate.json'
+
+jobs:
+  test:
+    if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
+    name: Test with Jest
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    services:
+      mariadb:
+        image: mariadb:11.2.2
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: passwd
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.5.1
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
+
+      - name: Check MySQL CLI existence
+        id: check-mysql-cli
+        uses: andstor/file-existence-action@20b4d2e596410855db8f9ca21e96fbe18e12930b # v2
+        with:
+          files: '/usr/bin/mysql'
+      - name: Install MySQL CLI
+        if: steps.check-mysql-cli.outputs.files_exists == 'false'
+        run: sudo apt-get update && sudo apt-get -y install mysql-client
+
+      - name: Setup MariaDB
+        run: 'mysql --protocol=tcp -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
+
+      - run: cp ./.github/workflows/test-data/.env.test ./.env.test.local
+
+      - run: node --version
+      - run: pnpm --version
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm run test
