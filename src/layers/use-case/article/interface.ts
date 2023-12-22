@@ -35,10 +35,5 @@ export interface ArticleUseCase {
 
   listArticle(
     _data: ListArticleProps,
-  ): Promise<
-    Result<
-      PresentationArticle[],
-      ArticleNotFoundError | ArticleExcessiveScopeError | Error
-    >
-  >
+  ): Promise<Result<PresentationArticle[], Error>>
 }

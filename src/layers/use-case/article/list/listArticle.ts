@@ -1,5 +1,4 @@
 import { Failure, Result, Success } from '@/lib/utils/Result'
-import { ArticleExcessiveScopeError, ArticleNotFoundError } from '../errors'
 import { ArticleRepository } from '@/layers/repository/ArticleRepository'
 import { Article } from '@/layers/entity/types'
 import { formatDate } from '@/lib/utils'
@@ -20,12 +19,7 @@ const convertToPresentationArticle = (article: Article) => {
 export const listArticle = async (
   repo: ArticleRepository,
   { page, tags }: ListArticleProps,
-): Promise<
-  Result<
-    PresentationArticle[],
-    ArticleNotFoundError | ArticleExcessiveScopeError | Error
-  >
-> => {
+): Promise<Result<PresentationArticle[], Error>> => {
   const result = await repo.listArticle({ page, tags })
   if (result.success) {
     const presentationArticles = result.data!.map((article) =>

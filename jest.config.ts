@@ -1,12 +1,24 @@
 import nextJest from 'next/jest.js'
 
-const createJestConfig = nextJest({
-  dir: './',
-})
-
 const config = {
   testEnvironment: 'node',
-  globalTeardown: './src/layers/repository/mariadb/test/jest.teardown.ts',
+  globalSetup: './src/layers/repository/mariadb/test/jest.setup.ts',
+  moduleNameMapper: {
+    '^@/(.*)$': './src/$1',
+  },
 }
 
-export default createJestConfig(config)
+const createJestConfig = nextJest({
+  dir: './',
+})(config)
+
+module.exports = async () => {
+  const jestConfig = await createJestConfig()
+
+  const moduleNameMapper = {
+    ...jestConfig.moduleNameMapper,
+    '^@/(.*)$': '<rootDir>/src/$1',
+  }
+
+  return { ...jestConfig, moduleNameMapper }
+}

@@ -7,7 +7,7 @@ const deleteAllowedTagsQuery =
 const deleteDraftsQuery = 'DELETE FROM drafts WHERE id LIKE "tmp-test-%"'
 
 export const deleteTmpData = async (): Promise<boolean> => {
-  return withConnection(async (connection) => {
+  return await withConnection(async (connection) => {
     try {
       await connection.beginTransaction()
       await connection.query(deleteTagsQuery)
