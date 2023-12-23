@@ -28,7 +28,7 @@ INSERT INTO `telepapyrus`.`articles` VALUES
 ('test-list-success-specific-tags-1', 'title', 'content', '2024-01-01 00:00:00.005', NULL),
 ('test-list-success-specific-tags-2', 'title', 'content', '2024-01-01 00:00:00.006', NULL),
 ('test-list-success-specific-tags-3', 'title', 'content', '2024-01-01 00:00:00.007', NULL),
-('test-update-fail-invalid-tag', 'title', 'content', '2024-01-01 00:00:00.008', NULL)
+('test-update-fail-invalid-tag', 'title', 'content', '2024-01-01 00:00:00.008', NULL),
 ("test-count-success-specific-tags-1", "title", "content", '2024-01-01 00:00:00.009', NULL),
 ("test-count-success-specific-tags-2", "title", "content", '2024-01-01 00:00:00.010', NULL),
 ("test-count-success-specific-tags-3", "title", "content", '2024-01-01 00:00:00.011', NULL);
