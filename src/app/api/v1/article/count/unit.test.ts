@@ -50,8 +50,8 @@ const articleUseCaseMock: ArticleUseCase = {
 }
 
 beforeAll(() => {
-  const getArticleUseCaseWithoutTypeDef = getArticleUseCase as any
-  getArticleUseCaseWithoutTypeDef.mockReturnValue(articleUseCaseMock)
+  const getArticleUseCaseMock = getArticleUseCase as jest.Mock
+  getArticleUseCaseMock.mockReturnValue(articleUseCaseMock)
 })
 
 describe('GET /api/v1/count', () => {

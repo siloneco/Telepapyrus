@@ -13,8 +13,8 @@ const milliSec = () => {
 
 describe('getArticle', () => {
   beforeEach(() => {
-    const dummy = dummyArticleQuery as any
-    dummy.mockReturnValue(getArticleQuery())
+    const getArticleQueryMock = dummyArticleQuery as jest.Mock
+    getArticleQueryMock.mockReturnValue(getArticleQuery())
   })
 
   it('gets an article correctly', async () => {
@@ -45,8 +45,8 @@ describe('getArticle', () => {
   })
 
   it('rejects when 2 or more articles selected', async () => {
-    const dummy = dummyArticleQuery as any
-    dummy.mockReturnValue('SELECT * from (VALUES (1), (2)) AS t;')
+    const getArticleQueryMock = dummyArticleQuery as jest.Mock
+    getArticleQueryMock.mockReturnValue('SELECT * from (VALUES (1), (2)) AS t;')
 
     const id = `tmp-test-get-fail-too-many-${milliSec()}}`
 

@@ -13,8 +13,8 @@ const milliSec = () => {
 
 describe('deleteArticle', () => {
   beforeEach(() => {
-    const dummy = dummyDeleteArticleQuery as any
-    dummy.mockReturnValue(deleteArticleQuery())
+    const deleteArticleQueryMock = dummyDeleteArticleQuery as jest.Mock
+    deleteArticleQueryMock.mockReturnValue(deleteArticleQuery())
   })
 
   it('deletes an article correctly', async () => {
@@ -46,8 +46,10 @@ describe('deleteArticle', () => {
 
   it('rejects when 2 or more articles deleted', async () => {
     const baseId = 'test-delete-fail-too-many-deleted'
-    const dummy = dummyDeleteArticleQuery as any
-    dummy.mockReturnValue(`DELETE FROM articles WHERE id LIKE '${baseId}-%';`)
+    const deleteArticleQueryMock = dummyDeleteArticleQuery as jest.Mock
+    deleteArticleQueryMock.mockReturnValue(
+      `DELETE FROM articles WHERE id LIKE '${baseId}-%';`,
+    )
 
     expect(await deleteArticle(baseId)).toMatchObject({
       success: false,

@@ -91,8 +91,8 @@ const articleUseCaseMock: ArticleUseCase = {
 }
 
 beforeAll(() => {
-  const getArticleUseCaseWithoutTypeDef = getArticleUseCase as any
-  getArticleUseCaseWithoutTypeDef.mockReturnValue(articleUseCaseMock)
+  const getArticleUseCaseMock = getArticleUseCase as jest.Mock
+  getArticleUseCaseMock.mockReturnValue(articleUseCaseMock)
 })
 
 describe('GET /api/v1/article/[id]', () => {
@@ -150,8 +150,8 @@ describe('GET /api/v1/article/[id]', () => {
 
 describe('POST /api/v1/article/[id]', () => {
   beforeAll(() => {
-    const getServerSessionWithoutTypeDef = getServerSession as any
-    getServerSessionWithoutTypeDef
+    const getServerSessionMock = getServerSession as jest.Mock
+    getServerSessionMock
       .mockClear()
       .mockReturnValueOnce(Promise.resolve(null)) // Access Denied
       .mockReturnValue(Promise.resolve({})) // Access Granted
@@ -162,15 +162,15 @@ describe('POST /api/v1/article/[id]', () => {
       method: 'POST',
     })
 
-    const getServerSessionWithoutTypeDef = getServerSession as any
-    expect(getServerSessionWithoutTypeDef.mock.calls).toHaveLength(0)
+    const getServerSessionMock = getServerSession as jest.Mock
+    expect(getServerSessionMock.mock.calls).toHaveLength(0)
 
     const result: NextResponse<any> = await POST(req, {
       params: { id: baseData.id },
     })
 
     expect(result.status).toBe(401)
-    expect(getServerSessionWithoutTypeDef.mock.calls).toHaveLength(1)
+    expect(getServerSessionMock.mock.calls).toHaveLength(1)
   })
 
   it('responds 200 (OK) when article successfully posted', async () => {
@@ -226,8 +226,8 @@ describe('POST /api/v1/article/[id]', () => {
 
 describe('DELETE /api/v1/article/[id]', () => {
   beforeAll(() => {
-    const getServerSessionWithoutTypeDef = getServerSession as any
-    getServerSessionWithoutTypeDef
+    const getServerSessionMock = getServerSession as jest.Mock
+    getServerSessionMock
       .mockClear()
       .mockReturnValueOnce(Promise.resolve(null)) // Access Denied
       .mockReturnValue(Promise.resolve({})) // Access Granted
@@ -238,15 +238,15 @@ describe('DELETE /api/v1/article/[id]', () => {
       method: 'DELETE',
     })
 
-    const getServerSessionWithoutTypeDef = getServerSession as any
-    expect(getServerSessionWithoutTypeDef.mock.calls).toHaveLength(0)
+    const getServerSessionMock = getServerSession as jest.Mock
+    expect(getServerSessionMock.mock.calls).toHaveLength(0)
 
     const result: NextResponse<any> = await DELETE(req, {
       params: { id: baseData.id },
     })
 
     expect(result.status).toBe(401)
-    expect(getServerSessionWithoutTypeDef.mock.calls).toHaveLength(1)
+    expect(getServerSessionMock.mock.calls).toHaveLength(1)
   })
 
   it('responds 200 (OK) when article successfully deleted', async () => {
