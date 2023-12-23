@@ -9,6 +9,7 @@ import { getArticle } from './get/getArticle'
 import { updateArticle } from './update/updateArticle'
 import { listArticle } from './list/listArticle'
 import { ArticleUseCase } from './interface'
+import { countArticle } from './count/countArticle'
 
 export type PresentationArticle = {
   id: string
@@ -30,7 +31,9 @@ const createUseCase = (repo: ArticleRepository): ArticleUseCase => {
     getArticle: async (id: string) => await getArticle(repo, id),
     updateArticle: async (draft: Draft) => await updateArticle(repo, draft),
     deleteArticle: async (id: string) => await deleteArticle(repo, id),
-    listArticle: async (data) => await listArticle(repo, data),
+    countArticle: async (tags?: string[]) => await countArticle(repo, tags),
+    listArticle: async (data: ListArticleProps) =>
+      await listArticle(repo, data),
   }
 }
 

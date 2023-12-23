@@ -7,7 +7,9 @@ CREATE TABLE `telepapyrus`.`allowed_tags` (
 
 INSERT INTO `telepapyrus`.`allowed_tags` VALUES
 ('test-get-success-tag'),
-('test-list-success-specific-tag');
+('test-list-success-specific-tag'),
+("test-count-success-specific-tag-1"),
+("test-count-success-specific-tag-2");
 
 CREATE TABLE `telepapyrus`.`articles` (
   `id` varchar(64) NOT NULL,
@@ -26,7 +28,10 @@ INSERT INTO `telepapyrus`.`articles` VALUES
 ('test-list-success-specific-tags-1', 'title', 'content', '2024-01-01 00:00:00.005', NULL),
 ('test-list-success-specific-tags-2', 'title', 'content', '2024-01-01 00:00:00.006', NULL),
 ('test-list-success-specific-tags-3', 'title', 'content', '2024-01-01 00:00:00.007', NULL),
-('test-update-fail-invalid-tag', 'title', 'content', '2024-01-01 00:00:00.008', NULL);
+('test-update-fail-invalid-tag', 'title', 'content', '2024-01-01 00:00:00.008', NULL)
+("test-count-success-specific-tags-1", "title", "content", '2024-01-01 00:00:00.009', NULL),
+("test-count-success-specific-tags-2", "title", "content", '2024-01-01 00:00:00.010', NULL),
+("test-count-success-specific-tags-3", "title", "content", '2024-01-01 00:00:00.011', NULL);
 
 CREATE TABLE `telepapyrus`.`tags` (
   `id` varchar(64) NOT NULL,
@@ -41,7 +46,11 @@ INSERT INTO `telepapyrus`.`tags` VALUES
 ('test-get-success', 'test-get-success-tag'),
 ('test-list-success-specific-tags-1', 'test-list-success-specific-tag'),
 ('test-list-success-specific-tags-2', 'test-list-success-specific-tag'),
-('test-list-success-specific-tags-3', 'test-list-success-specific-tag');
+('test-list-success-specific-tags-3', 'test-list-success-specific-tag'),
+("test-count-success-specific-tags-1", "test-count-success-specific-tag-1"),
+("test-count-success-specific-tags-2", "test-count-success-specific-tag-1"),
+("test-count-success-specific-tags-2", "test-count-success-specific-tag-2"),
+("test-count-success-specific-tags-3", "test-count-success-specific-tag-2");
 
 
 CREATE TABLE `telepapyrus`.`drafts` (

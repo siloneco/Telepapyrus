@@ -5,6 +5,7 @@ import {
   ArticleExcessiveScopeError,
   ArticleInvalidDataError,
   ArticleNotFoundError,
+  ArticleUnexpectedReturnValueError,
 } from './errors'
 import { Result } from '@/lib/utils/Result'
 
@@ -33,6 +34,14 @@ export interface ArticleUseCase {
     Result<true, ArticleNotFoundError | ArticleExcessiveScopeError | Error>
   >
 
+  countArticle(
+    _tags?: string[],
+  ): Promise<
+    Result<
+      number,
+      ArticleExcessiveScopeError | ArticleUnexpectedReturnValueError | Error
+    >
+  >
   listArticle(
     _data: ListArticleProps,
   ): Promise<Result<PresentationArticle[], Error>>

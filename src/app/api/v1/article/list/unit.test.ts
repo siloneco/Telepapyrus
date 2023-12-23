@@ -32,6 +32,9 @@ const articleUseCaseMock: ArticleUseCase = {
   deleteArticle: jest.fn().mockImplementation(async () => {
     throw new Error('Not Used and Not Implemented')
   }),
+  countArticle: jest.fn().mockImplementation(async () => {
+    throw new Error('Not Used and Not Implemented')
+  }),
   listArticle: jest
     .fn()
     .mockReturnValueOnce(new Success([baseData])) // First test will check success behaviour

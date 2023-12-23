@@ -37,3 +37,13 @@ export class ArticleExcessiveScopeError extends Error {
     super(message, options)
   }
 }
+
+export class ArticleUnexpectedReturnValueError extends Error {
+  static {
+    this.prototype.name = 'ArticleUnexpectedReturnValueError'
+  }
+
+  constructor(message: string, options?: ErrorOptions) {
+    super(message, options)
+  }
+}

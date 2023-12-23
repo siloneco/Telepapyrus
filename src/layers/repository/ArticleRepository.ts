@@ -1,5 +1,9 @@
 import { Draft } from '../entity/types'
 import {
+  CountArticleReturnProps,
+  countArticle,
+} from './mariadb/count/countArticle'
+import {
   CreateArticleReturnProps,
   createArticle,
 } from './mariadb/create/createArticle'
@@ -24,6 +28,7 @@ export interface ArticleRepository {
   updateArticle(_draft: Draft): Promise<UpdateArticleReturnProps>
   deleteArticle(_id: string): Promise<DeleteArticleReturnProps>
 
+  countArticle(_tags?: string[]): Promise<CountArticleReturnProps>
   listArticle(_props: ListArticleProps): Promise<ListArticleReturnProps>
 }
 
@@ -33,6 +38,7 @@ export const getRepository = (): ArticleRepository => {
     getArticle,
     updateArticle,
     deleteArticle,
+    countArticle,
     listArticle,
   }
 }

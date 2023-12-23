@@ -82,6 +82,9 @@ const articleUseCaseMock: ArticleUseCase = {
       return new Failure(new Error(''))
     }
   }),
+  countArticle: jest.fn().mockImplementation(async () => {
+    throw new Error('Not Used and Not Implemented')
+  }),
   listArticle: jest.fn().mockImplementation(async () => {
     throw new Error('Not Used and Not Implemented')
   }),
