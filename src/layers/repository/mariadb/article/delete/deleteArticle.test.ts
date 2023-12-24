@@ -1,6 +1,6 @@
 jest.mock('./query')
 
-import getConnectionPool from '../connection/getConnectionPool'
+import getConnectionPool from '../../connection/getConnectionPool'
 import { createArticle } from '../create/createArticle'
 import { deleteArticle } from './deleteArticle'
 import { deleteArticleQuery as dummyDeleteArticleQuery } from './query'

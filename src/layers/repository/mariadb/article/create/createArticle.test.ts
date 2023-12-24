@@ -1,4 +1,4 @@
-import getConnectionPool from '../connection/getConnectionPool'
+import getConnectionPool from '../../connection/getConnectionPool'
 import { createArticle } from './createArticle'
 
 const baseData = {

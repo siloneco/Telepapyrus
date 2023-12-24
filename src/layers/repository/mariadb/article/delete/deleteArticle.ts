@@ -1,4 +1,4 @@
-import withConnection from '../connection/withConnection'
+import withConnection from '../../connection/withConnection'
 import { deleteArticleQuery } from './query'
 
 export type DeleteArticleReturnProps = {

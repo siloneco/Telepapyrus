@@ -2,25 +2,28 @@ import { Draft } from '../entity/types'
 import {
   CountArticleReturnProps,
   countArticle,
-} from './mariadb/count/countArticle'
+} from './mariadb/article/count/countArticle'
 import {
   CreateArticleReturnProps,
   createArticle,
-} from './mariadb/create/createArticle'
+} from './mariadb/article/create/createArticle'
 import {
   DeleteArticleReturnProps,
   deleteArticle,
-} from './mariadb/delete/deleteArticle'
-import { GetArticleReturnProps, getArticle } from './mariadb/get/getArticle'
+} from './mariadb/article/delete/deleteArticle'
+import {
+  GetArticleReturnProps,
+  getArticle,
+} from './mariadb/article/get/getArticle'
 import {
   ListArticleProps,
   ListArticleReturnProps,
   listArticle,
-} from './mariadb/list/listArticle'
+} from './mariadb/article/list/listArticle'
 import {
   UpdateArticleReturnProps,
   updateArticle,
-} from './mariadb/update/updateArticle'
+} from './mariadb/article/update/updateArticle'
 
 export interface ArticleRepository {
   createArticle(_draft: Draft): Promise<CreateArticleReturnProps>

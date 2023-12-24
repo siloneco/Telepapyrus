@@ -1,5 +1,5 @@
 import { Draft } from '@/layers/entity/types'
-import withConnection from '../connection/withConnection'
+import withConnection from '../../connection/withConnection'
 import { PoolConnection } from 'mysql2/promise'
 import { insertArticleSQL, insertTagsSQL } from './query'
 

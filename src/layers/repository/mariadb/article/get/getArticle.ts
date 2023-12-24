@@ -1,4 +1,4 @@
-import withConnection from '../connection/withConnection'
+import withConnection from '../../connection/withConnection'
 import { Article } from '@/layers/entity/types'
 import { getArticleQuery } from './query'
 

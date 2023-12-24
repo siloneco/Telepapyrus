@@ -1,7 +1,7 @@
 jest.mock('./query')
 
 import { Draft } from '@/layers/entity/types'
-import getConnectionPool from '../connection/getConnectionPool'
+import getConnectionPool from '../../connection/getConnectionPool'
 import { getArticle } from './getArticle'
 import { getArticleQuery as dummyArticleQuery } from './query'
 

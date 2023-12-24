@@ -1,4 +1,4 @@
-import getConnectionPool from '../connection/getConnectionPool'
+import getConnectionPool from '../../connection/getConnectionPool'
 import { listArticle } from './listArticle'
 
 const checkTypes = (articles: any[] | undefined) => {
