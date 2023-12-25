@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
-import { setDraftData } from '@/lib/article/DraftCache'
-import { Draft } from '@/components/types/Article'
 import { getServerSession } from 'next-auth'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
+import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
+import { Draft } from '@/layers/entity/types'
 
 export const dynamic = 'force-dynamic'
 
@@ -14,6 +14,14 @@ export async function PUT(request: Request) {
   }
 
   const data: Draft = await request.json()
-  await setDraftData(data)
+  const result = await getDraftUseCase().setDraftForPreview(data)
+
+  if (result.isFailure()) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    )
+  }
+
   return new Response(null, { status: 204 })
 }
