@@ -1,61 +1,31 @@
-const NodeCache = require('node-cache')
-const cache = new NodeCache()
-
-const cacheTTL = 1 // second
-
 import { NextResponse } from 'next/server'
-import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
-import { PoolConnection, Pool, QueryError } from 'mysql2'
+import { getTagUseCase } from '@/layers/use-case/tag/TagUsesCase'
+import NodeCache from 'node-cache'
 
 export const dynamic = 'force-dynamic'
 
-const query = `
-SELECT tag FROM allowed_tags;
-`
+const cache = new NodeCache()
+const cacheTTL = 10 // second
 
 export async function GET(_req: Request) {
-  const cachedValue = cache.get('key')
+  const cacheKey = 'key'
+  const cachedValue = cache.get(cacheKey)
   if (cachedValue !== undefined) {
     return NextResponse.json(cachedValue)
   }
 
-  const connection: PoolConnection = await new Promise((resolve, reject) => {
-    getConnectionPool().then((connectionPool: Pool) => {
-      connectionPool.getConnection(
-        (error: NodeJS.ErrnoException | null, connection: PoolConnection) => {
-          if (error) {
-            reject(error)
-          }
-          resolve(connection)
-        },
-      )
-    })
-  })
+  const result = await getTagUseCase().listTags()
 
-  if (connection == null) {
+  if (result.isFailure()) {
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 },
     )
   }
 
-  try {
-    const results: Array<any> = await new Promise((resolve, reject) => {
-      connection.query(query, (error: QueryError | null, results: any) => {
-        if (error) {
-          reject(error)
-        }
-        resolve(results)
-      })
-    })
+  const tags = result.value
 
-    const tags: string[] = results.map((result: any) => result.tag)
-    const returnValue = { tags: tags }
+  cache.set(cacheKey, tags, cacheTTL)
 
-    cache.set('key', returnValue, cacheTTL)
-
-    return NextResponse.json(returnValue)
-  } finally {
-    connection.release()
-  }
+  return NextResponse.json(tags, { status: 200 })
 }
