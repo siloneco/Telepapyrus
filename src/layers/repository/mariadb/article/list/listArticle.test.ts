@@ -25,7 +25,7 @@ const checkTypes = (articles: any[] | undefined) => {
   }
 }
 
-describe('getArticle', () => {
+describe('listArticle', () => {
   it('gets all articles correctly', async () => {
     const returnedValue = await listArticle({})
 

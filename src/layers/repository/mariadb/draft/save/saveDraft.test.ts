@@ -14,7 +14,7 @@ const milliSec = () => {
   return new Date().getTime()
 }
 
-describe('createDraft', () => {
+describe('saveDraft', () => {
   it('creates draft correctly', async () => {
     const id = `tmp-test-draft-create-success-${milliSec()}`
 

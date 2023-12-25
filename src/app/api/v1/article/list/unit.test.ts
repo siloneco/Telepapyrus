@@ -47,7 +47,7 @@ beforeAll(() => {
   getArticleUseCaseMock.mockReturnValue(articleUseCaseMock)
 })
 
-describe('GET /api/v1/list', () => {
+describe('GET /api/v1/article/list', () => {
   it('responds 200 (OK) and correct list of article data', async () => {
     const tag = 'tmp-test-api-list-success-tag'
     const searchParams: URLSearchParams = new URLSearchParams()

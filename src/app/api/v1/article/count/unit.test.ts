@@ -54,7 +54,7 @@ beforeAll(() => {
   getArticleUseCaseMock.mockReturnValue(articleUseCaseMock)
 })
 
-describe('GET /api/v1/count', () => {
+describe('GET /api/v1/article/count', () => {
   it('responds 200 (OK) and correct data', async () => {
     const searchParams: URLSearchParams = new URLSearchParams()
 

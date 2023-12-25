@@ -9,7 +9,7 @@ const baseData: Draft = {
   public: true,
 }
 
-describe('draft data cache', () => {
+describe('draft data cache for preview', () => {
   it('caches draft data correctly', () => {
     expect(setData(baseData.id, baseData)).toBe(true)
   })
