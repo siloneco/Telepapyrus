@@ -252,7 +252,6 @@ describe('DELETE /api/v1/article/[id]', () => {
   it('responds 200 (OK) when article successfully deleted', async () => {
     const { req } = httpMocks.createMocks({
       method: 'DELETE',
-      json: async () => Promise.resolve(baseData),
     })
 
     const result: NextResponse<any> = await DELETE(req, {
@@ -265,7 +264,6 @@ describe('DELETE /api/v1/article/[id]', () => {
   it('responds 404 (Not Found) when article not found', async () => {
     const { req } = httpMocks.createMocks({
       method: 'DELETE',
-      json: async () => Promise.resolve(baseData),
     })
 
     const result: NextResponse<any> = await DELETE(req, {
@@ -278,7 +276,6 @@ describe('DELETE /api/v1/article/[id]', () => {
   it('responds 500 (Internal Server Error) when it detected illegal behaviour', async () => {
     const { req } = httpMocks.createMocks({
       method: 'DELETE',
-      json: async () => Promise.resolve(baseData),
     })
 
     const result: NextResponse<any> = await DELETE(req, {
@@ -290,7 +287,6 @@ describe('DELETE /api/v1/article/[id]', () => {
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
     const { req } = httpMocks.createMocks({
       method: 'DELETE',
-      json: async () => Promise.resolve(baseData),
     })
 
     const result: NextResponse<any> = await DELETE(req, {
