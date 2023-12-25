@@ -7,7 +7,7 @@ const milliSec = () => {
 
 describe('createTag', () => {
   it('creates tag correctly', async () => {
-    const tag = `tmp-test-create-tag-success-${milliSec()}`
+    const tag = `tmp-test-tag-create-success-${milliSec()}`
 
     expect(await createTag(tag)).toMatchObject({
       success: true,
@@ -16,7 +16,7 @@ describe('createTag', () => {
 
   it('rejects when tag is too long', async () => {
     const longString = 'a'.repeat(256)
-    const tag = `tmp-test-create-tag-fail-with-id-too-long-${longString}-${milliSec()}`
+    const tag = `tmp-test-tag-create-fail-with-id-too-long-${longString}-${milliSec()}`
 
     expect(await createTag(tag)).toMatchObject({
       success: false,
@@ -27,7 +27,7 @@ describe('createTag', () => {
   })
 
   it('rejects when tag is already exists', async () => {
-    const tag = 'test-create-tag-fail-already-exists'
+    const tag = 'test-tag-create-fail-already-exists'
 
     expect(await createTag(tag)).toMatchObject({
       success: false,

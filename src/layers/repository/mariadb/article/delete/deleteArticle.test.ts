@@ -18,7 +18,7 @@ describe('deleteArticle', () => {
   })
 
   it('deletes an article correctly', async () => {
-    const id = `tmp-test-delete-success-${milliSec()}`
+    const id = `tmp-test-article-delete-success-${milliSec()}`
 
     await createArticle({
       id: id,
@@ -34,7 +34,7 @@ describe('deleteArticle', () => {
   })
 
   it('rejects when the article is not exists', async () => {
-    const id = `tmp-test-delete-fail-id-not-exists-${milliSec()}`
+    const id = `tmp-test-article-delete-fail-id-not-exists-${milliSec()}`
 
     expect(await deleteArticle(id)).toMatchObject({
       success: false,
@@ -45,7 +45,7 @@ describe('deleteArticle', () => {
   })
 
   it('rejects when 2 or more articles deleted', async () => {
-    const baseId = 'test-delete-fail-too-many-deleted'
+    const baseId = 'test-article-delete-fail-too-many-deleted'
     const deleteArticleQueryMock = dummyDeleteArticleQuery as jest.Mock
     deleteArticleQueryMock.mockReturnValue(
       `DELETE FROM articles WHERE id LIKE '${baseId}-%';`,

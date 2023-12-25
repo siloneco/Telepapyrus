@@ -27,7 +27,7 @@ describe('deleteDraft', () => {
   })
 
   it('deletes draft correctly', async () => {
-    const id = `tmp-test-delete-draft-success-${milliSec()}`
+    const id = `tmp-test-draft-delete-success-${milliSec()}`
 
     await saveDraft({ ...baseData, id: id })
 
@@ -37,7 +37,7 @@ describe('deleteDraft', () => {
   })
 
   it('rejects when the draft is not exists', async () => {
-    const id = `tmp-test-delete-draft-fail-not-found-${milliSec()}`
+    const id = `tmp-test-draft-delete-fail-not-found-${milliSec()}`
 
     expect(await deleteDraft(id)).toMatchObject({
       success: false,
@@ -48,7 +48,7 @@ describe('deleteDraft', () => {
   })
 
   it('rejects when 2 or more drafts deleted', async () => {
-    const baseId = 'test-delete-draft-fail-too-many-deleted'
+    const baseId = 'test-draft-delete-fail-too-many-deleted'
     const getDeleteDraftSQLMock = dummyGetDeleteDraftSQL as jest.Mock
     getDeleteDraftSQLMock.mockReturnValue(
       `DELETE FROM drafts WHERE id LIKE '${baseId}-%';`,

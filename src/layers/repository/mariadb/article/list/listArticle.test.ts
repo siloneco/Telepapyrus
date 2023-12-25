@@ -39,7 +39,7 @@ describe('getArticle', () => {
   })
 
   it('gets articles correctly by specifying tags', async () => {
-    const tagName = 'test-list-success-specific-tag'
+    const tagName = 'test-article-list-success-specific-tag'
     const returnedValue = await listArticle({ tags: [tagName], page: 1 })
 
     expect(returnedValue).toMatchObject({

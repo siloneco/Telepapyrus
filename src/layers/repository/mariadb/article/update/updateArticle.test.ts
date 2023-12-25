@@ -16,7 +16,7 @@ const milliSec = () => {
 
 describe('updateArticle', () => {
   it('updates article correctly', async () => {
-    const id = `tmp-test-update-success-${milliSec()}`
+    const id = `tmp-test-article-update-success-${milliSec()}`
     const title = `edited title ${milliSec()}`
 
     await createArticle({ ...baseData, id: id })
@@ -33,7 +33,7 @@ describe('updateArticle', () => {
   })
 
   it('returns error if article not exists', async () => {
-    const id = `tmp-test-update-not-exists-${milliSec()}`
+    const id = `tmp-test-article-update-not-exists-${milliSec()}`
 
     expect(
       await updateArticle({
@@ -49,7 +49,7 @@ describe('updateArticle', () => {
   })
 
   it('rejects when tag is invalid', async () => {
-    const id = `test-update-fail-invalid-tag`
+    const id = `test-article-update-fail-invalid-tag`
     const notExistsTag = `tmp-test-update-not-exists-tag-${milliSec()}`
 
     expect(

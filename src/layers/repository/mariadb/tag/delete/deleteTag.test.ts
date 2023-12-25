@@ -18,7 +18,7 @@ describe('deleteTag', () => {
   })
 
   it('deletes tag correctly', async () => {
-    const tag = `tmp-test-create-tag-success-${milliSec()}`
+    const tag = `tmp-test-tag-create-success-${milliSec()}`
 
     await createTag(tag)
 
@@ -28,7 +28,7 @@ describe('deleteTag', () => {
   })
 
   it('rejects when tag not found', async () => {
-    const tag = `tmp-test-Delete-tag-fail-not-exists-${milliSec()}`
+    const tag = `tmp-test-tag-delete-fail-not-exists-${milliSec()}`
 
     expect(await deleteTag(tag)).toMatchObject({
       success: false,
@@ -39,7 +39,7 @@ describe('deleteTag', () => {
   })
 
   it('rejects when 2 or more rows deleted', async () => {
-    const tagStartsWith = 'test-delete-tag-fail-too-many-rows-deleted'
+    const tagStartsWith = 'test-tag-delete-fail-too-many-rows-deleted'
 
     const getDeleteTagSQLMock = dummyGetDeleteTagSQL as jest.Mock
     getDeleteTagSQLMock.mockReturnValue(

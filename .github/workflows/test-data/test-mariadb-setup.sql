@@ -6,13 +6,13 @@ CREATE TABLE `telepapyrus`.`allowed_tags` (
 );
 
 INSERT INTO `telepapyrus`.`allowed_tags` VALUES
-('test-get-success-tag'),
-('test-list-success-specific-tag'),
-("test-count-success-specific-tag-1"),
-("test-count-success-specific-tag-2"),
-("test-create-tag-fail-already-exists"),
-("test-delete-tag-fail-too-many-rows-deleted-1"),
-("test-delete-tag-fail-too-many-rows-deleted-2");
+('test-article-get-success-tag'),
+('test-article-list-success-specific-tag'),
+("test-article-count-success-specific-tag-1"),
+("test-article-count-success-specific-tag-2"),
+("test-tag-create-fail-already-exists"),
+("test-tag-delete-fail-too-many-rows-deleted-1"),
+("test-tag-delete-fail-too-many-rows-deleted-2");
 
 CREATE TABLE `telepapyrus`.`articles` (
   `id` varchar(64) NOT NULL,
@@ -24,17 +24,17 @@ CREATE TABLE `telepapyrus`.`articles` (
 );
 
 INSERT INTO `telepapyrus`.`articles` VALUES
-('test-create-fail-already-exists', 'title', 'content', '2024-01-01 00:00:00.000', NULL),
-('test-delete-fail-too-many-deleted-1', 'title', 'content', '2024-01-01 00:00:00.001', NULL),
-('test-delete-fail-too-many-deleted-2', 'title', 'content', '2024-01-01 00:00:00.002', NULL),
-('test-get-success', 'title', 'content', '2024-01-01 00:00:00.003', '2024-01-01 00:00:00.004'),
-('test-list-success-specific-tags-1', 'title', 'content', '2024-01-01 00:00:00.005', NULL),
-('test-list-success-specific-tags-2', 'title', 'content', '2024-01-01 00:00:00.006', NULL),
-('test-list-success-specific-tags-3', 'title', 'content', '2024-01-01 00:00:00.007', NULL),
-('test-update-fail-invalid-tag', 'title', 'content', '2024-01-01 00:00:00.008', NULL),
-("test-count-success-specific-tags-1", "title", "content", '2024-01-01 00:00:00.009', NULL),
-("test-count-success-specific-tags-2", "title", "content", '2024-01-01 00:00:00.010', NULL),
-("test-count-success-specific-tags-3", "title", "content", '2024-01-01 00:00:00.011', NULL);
+('test-article-create-fail-already-exists', 'title', 'content', '2024-01-01 00:00:00.000', NULL),
+('test-article-delete-fail-too-many-deleted-1', 'title', 'content', '2024-01-01 00:00:00.001', NULL),
+('test-article-delete-fail-too-many-deleted-2', 'title', 'content', '2024-01-01 00:00:00.002', NULL),
+('test-article-get-success', 'title', 'content', '2024-01-01 00:00:00.003', '2024-01-01 00:00:00.004'),
+('test-article-list-success-specific-tags-1', 'title', 'content', '2024-01-01 00:00:00.005', NULL),
+('test-article-list-success-specific-tags-2', 'title', 'content', '2024-01-01 00:00:00.006', NULL),
+('test-article-list-success-specific-tags-3', 'title', 'content', '2024-01-01 00:00:00.007', NULL),
+('test-article-update-fail-invalid-tag', 'title', 'content', '2024-01-01 00:00:00.008', NULL),
+("test-article-count-success-specific-tags-1", "title", "content", '2024-01-01 00:00:00.009', NULL),
+("test-article-count-success-specific-tags-2", "title", "content", '2024-01-01 00:00:00.010', NULL),
+("test-article-count-success-specific-tags-3", "title", "content", '2024-01-01 00:00:00.011', NULL);
 
 CREATE TABLE `telepapyrus`.`tags` (
   `id` varchar(64) NOT NULL,
@@ -46,14 +46,14 @@ CREATE TABLE `telepapyrus`.`tags` (
 );
 
 INSERT INTO `telepapyrus`.`tags` VALUES
-('test-get-success', 'test-get-success-tag'),
-('test-list-success-specific-tags-1', 'test-list-success-specific-tag'),
-('test-list-success-specific-tags-2', 'test-list-success-specific-tag'),
-('test-list-success-specific-tags-3', 'test-list-success-specific-tag'),
-("test-count-success-specific-tags-1", "test-count-success-specific-tag-1"),
-("test-count-success-specific-tags-2", "test-count-success-specific-tag-1"),
-("test-count-success-specific-tags-2", "test-count-success-specific-tag-2"),
-("test-count-success-specific-tags-3", "test-count-success-specific-tag-2");
+('test-article-get-success', 'test-article-get-success-tag'),
+('test-article-list-success-specific-tags-1', 'test-article-list-success-specific-tag'),
+('test-article-list-success-specific-tags-2', 'test-article-list-success-specific-tag'),
+('test-article-list-success-specific-tags-3', 'test-article-list-success-specific-tag'),
+("test-article-count-success-specific-tags-1", "test-article-count-success-specific-tag-1"),
+("test-article-count-success-specific-tags-2", "test-article-count-success-specific-tag-1"),
+("test-article-count-success-specific-tags-2", "test-article-count-success-specific-tag-2"),
+("test-article-count-success-specific-tags-3", "test-article-count-success-specific-tag-2");
 
 
 CREATE TABLE `telepapyrus`.`drafts` (
@@ -64,12 +64,10 @@ CREATE TABLE `telepapyrus`.`drafts` (
 );
 
 INSERT INTO `telepapyrus`.`drafts` VALUES
-('test-draft-1','Test Draft 1','# This is test draft 1'),
-('test-draft-2','Test Draft 2','# This is test draft 2'),
-("test-create-draft-success-update", "title", "content"),
-("test-get-draft-success", "title", "content"),
-("test-delete-draft-fail-too-many-deleted-1", "title", "content"),
-("test-delete-draft-fail-too-many-deleted-2", "title", "content");
+("test-draft-create-success-update", "title", "content"),
+("test-draft-get-success", "title", "content"),
+("test-draft-delete-fail-too-many-deleted-1", "title", "content"),
+("test-draft-delete-fail-too-many-deleted-2", "title", "content");
 
 CREATE VIEW `telepapyrus`.`pages` AS
 select

@@ -16,7 +16,7 @@ const milliSec = () => {
 
 describe('createDraft', () => {
   it('creates draft correctly', async () => {
-    const id = `tmp-test-create-draft-success-${milliSec()}`
+    const id = `tmp-test-draft-create-success-${milliSec()}`
 
     expect(
       await saveDraft({
@@ -29,7 +29,7 @@ describe('createDraft', () => {
   })
 
   it('updates draft correctly', async () => {
-    const id = `test-create-draft-success-update`
+    const id = `test-draft-create-success-update`
 
     expect(
       await saveDraft({
@@ -44,7 +44,7 @@ describe('createDraft', () => {
 
   it('rejects when id is too long', async () => {
     const longString = 'a'.repeat(256)
-    const id = `tmp-test-create-draft-fail-with-id-too-long-${longString}-${milliSec()}`
+    const id = `tmp-test-draft-create-fail-with-id-too-long-${longString}-${milliSec()}`
 
     expect(
       await saveDraft({

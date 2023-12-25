@@ -15,7 +15,7 @@ const milliSec = () => {
 
 describe('createArticle', () => {
   it('creates article correctly', async () => {
-    const id = `tmp-test-create-success-${milliSec()}`
+    const id = `tmp-test-article-create-success-${milliSec()}`
 
     expect(
       await createArticle({
@@ -29,7 +29,7 @@ describe('createArticle', () => {
 
   it('rejects when id is too long', async () => {
     const longString = 'a'.repeat(256)
-    const id = `tmp-test-create-fail-with-id-too-long-${longString}-${milliSec()}`
+    const id = `tmp-test-article-create-fail-with-id-too-long-${longString}-${milliSec()}`
 
     expect(
       await createArticle({
@@ -45,7 +45,7 @@ describe('createArticle', () => {
   })
 
   it('rejects when tag is invalid', async () => {
-    const id = `tmp-test-create-fail-invalid-tag-${milliSec()}`
+    const id = `tmp-test-article-create-fail-invalid-tag-${milliSec()}`
 
     expect(
       await createArticle({
@@ -62,7 +62,7 @@ describe('createArticle', () => {
   })
 
   it('rejects when article is already exists', async () => {
-    const id = 'test-create-fail-already-exists'
+    const id = 'test-article-create-fail-already-exists'
 
     expect(
       await createArticle({

@@ -19,10 +19,10 @@ describe('getArticle', () => {
 
   it('gets an article correctly', async () => {
     const draft: Draft = {
-      id: `test-get-success`,
+      id: `test-article-get-success`,
       title: 'title',
       content: 'content',
-      tags: ['test-get-success-tag'],
+      tags: ['test-article-get-success-tag'],
       public: true,
     }
 
@@ -34,7 +34,7 @@ describe('getArticle', () => {
   })
 
   it('rejects when the article does not exists', async () => {
-    const id = `tmp-test-get-fail-id-not-exists-${milliSec()}`
+    const id = `tmp-test-article-get-fail-id-not-exists-${milliSec()}`
 
     expect(await getArticle(id)).toMatchObject({
       success: false,
@@ -48,7 +48,7 @@ describe('getArticle', () => {
     const getArticleQueryMock = dummyArticleQuery as jest.Mock
     getArticleQueryMock.mockReturnValue('SELECT * from (VALUES (1), (2)) AS t;')
 
-    const id = `tmp-test-get-fail-too-many-${milliSec()}}`
+    const id = `tmp-test-article-get-fail-too-many-${milliSec()}}`
 
     expect(await getArticle(id)).toMatchObject({
       success: false,

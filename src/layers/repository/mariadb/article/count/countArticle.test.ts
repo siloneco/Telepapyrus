@@ -17,7 +17,7 @@ describe('countArticle', () => {
 
   it('counts articles correctly when a tag specified', async () => {
     const returnedValue = await countArticle([
-      'test-count-success-specific-tag-1',
+      'test-article-count-success-specific-tag-1',
     ])
 
     expect(returnedValue).toMatchObject({
@@ -32,8 +32,8 @@ describe('countArticle', () => {
 
   it('counts articles correctly when multiple tags specified', async () => {
     const returnedValue = await countArticle([
-      'test-count-success-specific-tag-1',
-      'test-count-success-specific-tag-2',
+      'test-article-count-success-specific-tag-1',
+      'test-article-count-success-specific-tag-2',
     ])
 
     expect(returnedValue).toMatchObject({
@@ -47,7 +47,9 @@ describe('countArticle', () => {
   })
 
   it('returns 0 when tags not existing specified', async () => {
-    const returnedValue = await countArticle(['test-count-success-not-exists'])
+    const returnedValue = await countArticle([
+      'test-article-count-success-not-exists',
+    ])
 
     expect(returnedValue).toMatchObject({
       success: true,

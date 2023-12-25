@@ -19,7 +19,7 @@ describe('getDraft', () => {
 
   it('gets a draft correctly', async () => {
     const draft: Draft = {
-      id: `test-get-draft-success`,
+      id: `test-draft-get-success`,
       title: 'title',
       content: 'content',
       tags: [],
@@ -32,7 +32,7 @@ describe('getDraft', () => {
   })
 
   it('rejects when the draft does not exists', async () => {
-    const id = `tmp-test-get-fail-id-not-exists-${milliSec()}`
+    const id = `tmp-test-draft-get-fail-id-not-exists-${milliSec()}`
 
     expect(await getDraft(id)).toMatchObject({
       success: false,
@@ -46,7 +46,7 @@ describe('getDraft', () => {
     const getDraftQueryMock = dummyDraftQuery as jest.Mock
     getDraftQueryMock.mockReturnValue('SELECT * from (VALUES (1), (2)) AS t;')
 
-    const id = `tmp-test-get-fail-too-many-${milliSec()}}`
+    const id = `tmp-test-draft-get-fail-too-many-${milliSec()}}`
 
     expect(await getDraft(id)).toMatchObject({
       success: false,
