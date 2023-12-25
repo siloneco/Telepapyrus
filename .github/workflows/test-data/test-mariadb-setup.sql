@@ -62,7 +62,11 @@ CREATE TABLE `telepapyrus`.`drafts` (
 
 INSERT INTO `telepapyrus`.`drafts` VALUES
 ('test-draft-1','Test Draft 1','# This is test draft 1'),
-('test-draft-2','Test Draft 2','# This is test draft 2');
+('test-draft-2','Test Draft 2','# This is test draft 2'),
+("test-create-draft-success-update", "title", "content"),
+("test-get-draft-success", "title", "content"),
+("test-delete-draft-fail-too-many-deleted-1", "title", "content"),
+("test-delete-draft-fail-too-many-deleted-2", "title", "content");
 
 CREATE VIEW `telepapyrus`.`pages` AS
 select
