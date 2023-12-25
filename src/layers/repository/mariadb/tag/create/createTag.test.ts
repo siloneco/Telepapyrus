@@ -27,7 +27,7 @@ describe('createTag', () => {
   })
 
   it('rejects when tag is already exists', async () => {
-    const tag = 'test-create-fail-already-exists'
+    const tag = 'test-create-tag-fail-already-exists'
 
     expect(await createTag(tag)).toMatchObject({
       success: false,

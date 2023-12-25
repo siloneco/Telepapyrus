@@ -9,7 +9,10 @@ INSERT INTO `telepapyrus`.`allowed_tags` VALUES
 ('test-get-success-tag'),
 ('test-list-success-specific-tag'),
 ("test-count-success-specific-tag-1"),
-("test-count-success-specific-tag-2");
+("test-count-success-specific-tag-2"),
+("test-create-tag-fail-already-exists"),
+("test-delete-tag-fail-too-many-rows-deleted-1"),
+("test-delete-tag-fail-too-many-rows-deleted-2");
 
 CREATE TABLE `telepapyrus`.`articles` (
   `id` varchar(64) NOT NULL,
