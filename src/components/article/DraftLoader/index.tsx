@@ -1,17 +1,23 @@
-import { getDraftData } from '@/lib/article/DraftCache'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
-import { Draft } from '@/components/types/Article'
+import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
+import { DraftNotFoundError } from '@/layers/use-case/draft/errors'
 
 type Props = {
   id: string
 }
 
 export default async function DraftLoader({ id }: Props) {
-  const data: Draft | undefined = await getDraftData(id)
+  const result = await getDraftUseCase().getDraftForPreview(id)
 
-  if (data === undefined) {
-    return <p>undefined</p>
+  if (result.isFailure()) {
+    const error = result.error
+
+    if (error instanceof DraftNotFoundError) {
+      return <p>Not Found</p>
+    }
+
+    return <p>Internal Server Error</p>
   }
 
-  return <ArticleRenderer content={data.content} />
+  return <ArticleRenderer content={result.value.content} />
 }
