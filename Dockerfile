@@ -9,7 +9,7 @@ RUN corepack enable
 WORKDIR /work
 
 # Install packages
-COPY package.json package-lock.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml ./
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 
 # Build the project
