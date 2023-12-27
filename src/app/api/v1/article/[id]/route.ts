@@ -9,12 +9,8 @@ import {
   ArticleNotFoundError,
 } from '@/layers/use-case/article/errors'
 import { Draft } from '@/layers/entity/types'
-import NodeCache from 'node-cache'
 
 export const dynamic = 'force-dynamic'
-
-const cache = new NodeCache()
-const cacheTTL = 10 // seconds
 
 type Props = {
   params: {
@@ -24,11 +20,6 @@ type Props = {
 
 export async function GET(request: Request, { params }: Props) {
   const { id } = params
-
-  const cachedValue = cache.get(id)
-  if (cachedValue !== undefined) {
-    return NextResponse.json(cachedValue)
-  }
 
   const result = await getArticleUseCase().getArticle(id)
 
@@ -49,7 +40,6 @@ export async function GET(request: Request, { params }: Props) {
 
   const article = result.value
 
-  cache.set(id, article, cacheTTL)
   return NextResponse.json(article)
 }
 
@@ -109,6 +99,5 @@ export async function DELETE(request: Request, { params }: Props) {
     )
   }
 
-  cache.del(id)
   return NextResponse.json({ status: 'OK' })
 }

@@ -5,12 +5,8 @@ import {
   ArticleExcessiveScopeError,
   ArticleUnexpectedReturnValueError,
 } from '@/layers/use-case/article/errors'
-import NodeCache from 'node-cache'
 
 export const dynamic = 'force-dynamic'
-
-const cache = new NodeCache()
-const cacheTTL = 10 // seconds
 
 type ReturnProps = {
   count: number
@@ -30,12 +26,6 @@ export async function GET(request: NextRequest) {
         )
       }
     }
-  }
-
-  const cacheKey = tags ? tags.join(',') : ''
-  const cachedValue = cache.get(cacheKey)
-  if (cachedValue !== undefined) {
-    return NextResponse.json(cachedValue)
   }
 
   const result = await getArticleUseCase().countArticle(tags)
@@ -58,8 +48,6 @@ export async function GET(request: NextRequest) {
   const returnData: ReturnProps = {
     count: result.value,
   }
-
-  cache.set(cacheKey, returnData, cacheTTL)
 
   return NextResponse.json(returnData)
 }

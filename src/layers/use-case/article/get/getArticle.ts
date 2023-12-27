@@ -3,7 +3,11 @@ import { ArticleExcessiveScopeError, ArticleNotFoundError } from '../errors'
 import { ArticleRepository } from '@/layers/repository/ArticleRepository'
 import { Article } from '@/layers/entity/types'
 import { formatDate } from '@/lib/utils'
-import { PresentationArticle } from '../ArticleUseCase'
+import { FlushCacheFunction, PresentationArticle } from '../ArticleUseCase'
+import NodeCache from 'node-cache'
+
+const cache = new NodeCache()
+const cacheTTL = 60
 
 const convertToPresentationArticle = (article: Article) => {
   const presentationArticle: PresentationArticle = {
@@ -26,9 +30,17 @@ export const getArticle = async (
     ArticleNotFoundError | ArticleExcessiveScopeError | Error
   >
 > => {
+  const cacheKey = id
+
+  const cached = cache.get<PresentationArticle>(cacheKey)
+  if (cached) {
+    return new Success(cached)
+  }
+
   const result = await repo.getArticle(id)
   if (result.success) {
     const presentationArticle = convertToPresentationArticle(result.data!)
+    cache.set(cacheKey, presentationArticle, cacheTTL)
     return new Success(presentationArticle)
   }
 
@@ -45,4 +57,8 @@ export const getArticle = async (
   return new Failure(
     new Error(`Failed to get article: ${result.error?.message}`),
   )
+}
+
+export const flushGetCache: FlushCacheFunction = async (id: string) => {
+  cache.del(id)
 }

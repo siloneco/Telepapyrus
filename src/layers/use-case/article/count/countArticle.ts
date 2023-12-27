@@ -4,6 +4,11 @@ import {
   ArticleExcessiveScopeError,
   ArticleUnexpectedReturnValueError,
 } from '../errors'
+import { FlushCacheFunction } from '../ArticleUseCase'
+import NodeCache from 'node-cache'
+
+const cache = new NodeCache()
+const cacheTTL = 60
 
 export const countArticle = async (
   repo: ArticleRepository,
@@ -14,9 +19,18 @@ export const countArticle = async (
     ArticleExcessiveScopeError | ArticleUnexpectedReturnValueError | Error
   >
 > => {
+  const cacheKey = tags ? JSON.stringify(tags?.sort()) : 'all'
+
+  const cached = cache.get<number>(cacheKey)
+  if (cached) {
+    return new Success(cached)
+  }
+
   const result = await repo.countArticle(tags)
   if (result.success) {
-    return new Success(result.data!)
+    const data = result.data!
+    cache.set(cacheKey, data, cacheTTL)
+    return new Success(data)
   }
 
   const errorId = result.error?.id
@@ -34,4 +48,8 @@ export const countArticle = async (
   return new Failure(
     new Error(`Failed to count articles: ${result.error?.message}`),
   )
+}
+
+export const flushCountCache: FlushCacheFunction = async (_id: string) => {
+  cache.flushAll()
 }
