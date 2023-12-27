@@ -1,22 +1,21 @@
 import { Metadata, ResolvingMetadata } from 'next'
 import ArticleHeader from '@/components/article/ArticleHeader'
 import ArticleRenderer from '@/components/article/ArticleRenderer'
-import { Article } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import {
-  ARTICLE_ID_MAX_LENGTH,
-  INTERNAL_BACKEND_HOSTNAME,
-} from '@/lib/constants/Constants'
+import { ARTICLE_ID_MAX_LENGTH } from '@/lib/constants/Constants'
 import { isValidID } from '@/lib/utils'
+import {
+  PresentationArticle,
+  getArticleUseCase,
+} from '@/layers/use-case/article/ArticleUseCase'
 
-async function getArticle(id: string): Promise<Article | null> {
-  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/${id}`, {
-    next: { revalidate: 60 },
-  })
-  if (res.status === 404) {
-    return null
+async function getArticle(id: string): Promise<PresentationArticle | null> {
+  const result = await getArticleUseCase().getArticle(id)
+  if (result.isSuccess()) {
+    return result.value
   }
-  return res.json()
+
+  return null
 }
 
 type MetadataProps = {
@@ -37,7 +36,7 @@ export async function generateMetadata(
     }
   }
 
-  const data: Article | null = await getArticle(id)
+  const data: PresentationArticle | null = await getArticle(id)
 
   if (data === null) {
     return {
@@ -63,7 +62,7 @@ export default async function Page({ params }: PageProps) {
     notFound()
   }
 
-  const data: Article | null = await getArticle(id)
+  const data: PresentationArticle | null = await getArticle(id)
 
   if (data === null) {
     notFound()

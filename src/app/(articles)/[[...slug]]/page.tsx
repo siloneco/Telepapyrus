@@ -1,22 +1,30 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import { INTERNAL_BACKEND_HOSTNAME } from '@/lib/constants/Constants'
 import ArticleList from '@/components/layout/ArticleList'
+import {
+  PresentationArticle,
+  getArticleUseCase,
+} from '@/layers/use-case/article/ArticleUseCase'
 
-async function getArticles(page: number): Promise<Array<ArticleOverview>> {
-  const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?page=${page}`,
-    { next: { revalidate: 60 } },
-  )
-  return res.json()
+async function getArticles(
+  page: number,
+): Promise<PresentationArticle[] | null> {
+  const result = await getArticleUseCase().listArticle({ page: page })
+  if (result.isSuccess()) {
+    return result.value
+  }
+
+  return null
 }
 
 async function getMaxPageNumber(): Promise<number> {
-  const res = await fetch(`${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/count`, {
-    next: { revalidate: 60 },
-  })
-  return Math.ceil((await res.json()).count / 10)
+  const result = await getArticleUseCase().countArticle()
+
+  if (result.isSuccess()) {
+    return Math.ceil(result.value / 10)
+  }
+
+  return -1
 }
 
 export async function generateMetadata(
@@ -43,8 +51,16 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const data: Array<ArticleOverview> = await getArticles(page)
+  const data: PresentationArticle[] | null = await getArticles(page)
   const maxPage: number = await getMaxPageNumber()
+
+  if (data === null) {
+    return (
+      <div className="mt-10">
+        <p>記事の取得に失敗しました</p>
+      </div>
+    )
+  }
 
   return (
     <div className="mt-10">

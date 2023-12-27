@@ -1,39 +1,37 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { ArticleOverview } from '@/components/types/Article'
 import { notFound } from 'next/navigation'
-import {
-  INTERNAL_BACKEND_HOSTNAME,
-  TAG_NAME_MAX_LENGTH,
-} from '@/lib/constants/Constants'
+import { TAG_NAME_MAX_LENGTH } from '@/lib/constants/Constants'
 import ArticleList from '@/components/layout/ArticleList'
 import ArticleTag from '@/components/article/ArticleTag'
+import {
+  PresentationArticle,
+  getArticleUseCase,
+} from '@/layers/use-case/article/ArticleUseCase'
 
 async function getArticles(
   tag: string,
   page: number = 1,
-): Promise<Array<ArticleOverview> | null> {
-  const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/list?tags=${tag}&page=${page}`,
-    { next: { revalidate: 60 } },
-  )
-  if (res.status === 404) {
-    return null
+): Promise<PresentationArticle[] | null> {
+  const result = await getArticleUseCase().listArticle({
+    tags: [tag],
+    page: page,
+  })
+
+  if (result.isSuccess()) {
+    return result.value
   }
 
-  return res.json()
+  return null
 }
 
 async function getMaxPageNumber(tag: string): Promise<number | null> {
-  const res = await fetch(
-    `${INTERNAL_BACKEND_HOSTNAME}/api/v1/article/count?tags=${tag}`,
-    { next: { revalidate: 60 } },
-  )
-  if (res.status === 404) {
-    return null
+  const result = await getArticleUseCase().countArticle([tag])
+
+  if (result.isSuccess()) {
+    return Math.ceil(result.value / 10)
   }
 
-  const json = await res.json()
-  return Math.ceil(json.count / 10)
+  return null
 }
 
 type Props = {
@@ -69,7 +67,7 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const data: Array<ArticleOverview> | null = await getArticles(tag, page)
+  const data: PresentationArticle[] | null = await getArticles(tag, page)
   const maxPageNum: number | null = await getMaxPageNumber(tag)
 
   if (data === null || maxPageNum === null) {
