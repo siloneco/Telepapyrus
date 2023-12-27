@@ -44,7 +44,7 @@ async function getTags(): Promise<string[]> {
     next: { revalidate: 5 },
   })
 
-  const { tags } = await res.json()
+  const tags: string[] = await res.json()
 
   if (res.status !== 200 || !tags) {
     return []
