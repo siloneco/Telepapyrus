@@ -91,7 +91,7 @@ export default function DraftWorkspace({ id, children }: Props) {
               switchTab('write')
             }}
           >
-            Draft
+            編集
           </Button>
           <Button
             variant="secondary"
@@ -101,7 +101,7 @@ export default function DraftWorkspace({ id, children }: Props) {
               switchTab('preview')
             }}
           >
-            Preview
+            プレビュー
           </Button>
           <p className="text-base text-gray-400">{minToRead} min to read</p>
           <div className="ml-auto flex items-center">

@@ -129,7 +129,7 @@ export default function PostDraftDialog({
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button variant="default" className="ml-auto mr-0 text-base">
-          Post
+          投稿
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -154,17 +154,14 @@ export default function PostDraftDialog({
                   className="mr-2 text-base"
                   disabled={isPosting}
                 >
-                  Cancel
+                  キャンセル
                 </Button>
               </DialogClose>
               <Button type="submit" className="text-base" disabled={isPosting}>
                 {isPosting && (
-                  <>
-                    <Loader2 size={20} className="mr-2 animate-spin" />
-                    <p>Posting</p>
-                  </>
+                  <Loader2 size={20} className="mr-2 animate-spin" />
                 )}
-                {!isPosting && <p>Post</p>}
+                <p>投稿</p>
               </Button>
             </div>
           </form>
