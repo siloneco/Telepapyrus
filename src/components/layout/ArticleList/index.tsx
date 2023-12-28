@@ -2,6 +2,7 @@ import { ArticleOverview } from '@/components/types/Article'
 import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
 import { FC, memo } from 'react'
+import { Separator } from '@/components/ui/separator'
 
 type Props = {
   articles: Array<ArticleOverview>
@@ -21,14 +22,16 @@ export default async function ArticleList(data: Props) {
       <main>
         <div className="max-w-3xl mx-5 mt-5 md:mx-auto">
           {articles.map((article: ArticleOverview, index: number) => (
-            <ArticleCard
-              key={index}
-              id={article.id}
-              title={article.title}
-              date={article.date}
-              lastUpdated={article.last_updated}
-              tags={article.tags}
-            />
+            <div key={article.id}>
+              <ArticleCard
+                id={article.id}
+                title={article.title}
+                date={article.date}
+                lastUpdated={article.last_updated}
+                tags={article.tags}
+              />
+              {index !== articles.length - 1 && <Separator className="my-2" />}
+            </div>
           ))}
           <PageSelector
             path={path}
