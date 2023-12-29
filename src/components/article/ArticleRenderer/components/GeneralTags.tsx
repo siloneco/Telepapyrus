@@ -79,22 +79,20 @@ const FallbackableImage: FC<any> = (props) => {
 export const OptimizedImage: FC<any> = (props) => {
   const src = props.src
 
-  if (
-    props.height !== undefined &&
-    props.width !== undefined &&
-    props.height > 400
-  ) {
-    props.width = (props.width * 400) / props.height
-    props.height = 400
-  }
+  const aspectRatio = props.width / props.height
+
+  const height =
+    props.height !== undefined ? Math.min(400, props.height) : undefined
+  const width =
+    height !== undefined ? Math.ceil(height * aspectRatio) : undefined
 
   return (
     <a href={src} className="block w-fit mx-auto my-2">
       <FallbackableImage
         src={src}
         alt={props.alt}
-        height={props.height}
-        width={props.width}
+        height={height}
+        width={width}
         className="my-0"
       />
     </a>

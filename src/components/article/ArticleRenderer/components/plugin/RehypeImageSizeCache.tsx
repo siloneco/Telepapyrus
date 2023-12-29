@@ -31,12 +31,6 @@ export const rehypeImageSizeCache = () => {
       ) {
         const { width, height } = size
 
-        if (height > 400) {
-          node.properties.width = Math.ceil((width * 400) / height)
-          node.properties.height = 400
-          return
-        }
-
         node.properties.width = width
         node.properties.height = height
         return
