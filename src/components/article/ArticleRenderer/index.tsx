@@ -12,9 +12,11 @@ import {
   Figure,
   FigCaption,
   Ul,
+  OptimizedImage,
 } from './components/GeneralTags'
 import CodeBlockPre from './components/codeblock/CodeBlockPre'
 import { FC, memo } from 'react'
+import { rehypeImageSizeCache } from './components/plugin/RehypeImageSizeCache'
 
 const rpcOptions = {
   defaultLang: 'plaintext',
@@ -26,7 +28,11 @@ const rpcOptions = {
 const mdxOptions: any = {
   mdxOptions: {
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [rehypeSanitize, [rehypePrettyCode, rpcOptions]],
+    rehypePlugins: [
+      rehypeSanitize,
+      [rehypePrettyCode, rpcOptions],
+      rehypeImageSizeCache,
+    ],
   },
 }
 
@@ -38,6 +44,7 @@ const components = {
   ul: (props: any) => <Ul {...props} />,
   input: (props: any) => <CompiledInput {...props} />,
   hr: (props: any) => <Separator {...props} />,
+  img: (props: any) => <OptimizedImage {...props} />,
 }
 
 type Props = {

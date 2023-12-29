@@ -2,6 +2,7 @@ import { FC } from 'react'
 import CodeBlockFigure from './codeblock/CodeBlockFigure'
 import CodeBlockTitle from './codeblock/CodeBlockTitle'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 export const Figure: FC<any> = (props) => {
   if (props['data-rehype-pretty-code-figure'] !== undefined) {
@@ -54,4 +55,48 @@ export const CompiledInput: FC<any> = (props) => {
     )
   }
   return <input {...props} />
+}
+
+const FallbackableImage: FC<any> = (props) => {
+  if (props.width === undefined || props.height === undefined) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={props.src} alt={props.alt} className="max-h-[400px] my-0" />
+    )
+  }
+
+  return (
+    <Image
+      src={props.src}
+      alt={props.alt}
+      height={props.height}
+      width={props.width}
+      className="my-0"
+    />
+  )
+}
+
+export const OptimizedImage: FC<any> = (props) => {
+  const src = props.src
+
+  if (
+    props.height !== undefined &&
+    props.width !== undefined &&
+    props.height > 400
+  ) {
+    props.width = (props.width * 400) / props.height
+    props.height = 400
+  }
+
+  return (
+    <a href={src} className="block w-fit mx-auto my-2">
+      <FallbackableImage
+        src={src}
+        alt={props.alt}
+        height={props.height}
+        width={props.width}
+        className="my-0"
+      />
+    </a>
+  )
 }

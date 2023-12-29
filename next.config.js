@@ -11,6 +11,16 @@ const nextConfig = {
     return config
   },
   output: 'standalone',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: process.env.REMOTE_ASSETS_ALLOWED_HOSTNAME,
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
 }
 
 module.exports = nextConfig
