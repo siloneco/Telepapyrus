@@ -1,3 +1,10 @@
+const remotePattern = {
+  protocol: 'https',
+  hostname: process.env.REMOTE_ASSETS_ALLOWED_HOSTNAME,
+  port: '',
+  pathname: '/**',
+}
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Required for Rehype Pretty Code to work.
@@ -12,14 +19,7 @@ const nextConfig = {
   },
   output: 'standalone',
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: process.env.REMOTE_ASSETS_ALLOWED_HOSTNAME,
-        port: '',
-        pathname: '/**',
-      },
-    ],
+    remotePatterns: remotePattern.hostname ? [remotePattern] : [],
   },
 }
 
