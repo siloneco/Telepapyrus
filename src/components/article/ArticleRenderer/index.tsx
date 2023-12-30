@@ -2,6 +2,7 @@ import { MDXRemote } from 'next-mdx-remote/rsc'
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSanitize from 'rehype-sanitize'
 import remarkGfm from 'remark-gfm'
+import remarkBreaks from 'remark-breaks'
 import style from './style/style.module.css'
 import './style/codeBlockStyle.css'
 import { cn } from '@/lib/utils'
@@ -27,7 +28,7 @@ const rpcOptions = {
 
 const mdxOptions: any = {
   mdxOptions: {
-    remarkPlugins: [remarkGfm],
+    remarkPlugins: [remarkGfm, remarkBreaks],
     rehypePlugins: [
       rehypeSanitize,
       [rehypePrettyCode, rpcOptions],
