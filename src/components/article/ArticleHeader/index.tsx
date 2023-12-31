@@ -1,4 +1,3 @@
-import ArticleTag from '../ArticleTag'
 import ArticlePostTime from '../ArticlePostTime'
 import { Separator } from '@/components/ui/separator'
 import PreviousPageNavigator from '@/components/misc/PreviousPageNavigator'
@@ -6,6 +5,7 @@ import { getServerSession } from 'next-auth/next'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import ArticleEditButton from '@/components/misc/ArticleEditButton'
 import { FC } from 'react'
+import TagList from '@/components/model/TagList'
 
 type Props = {
   id: string
@@ -37,9 +37,7 @@ export default async function ArticleHeader({
         <div>
           {!fullWidthTitle && <Title />}
           <ArticlePostTime date={date} lastUpdated={lastUpdated} />
-          {tags.map((tag) => (
-            <ArticleTag key={tag} tag={tag} className="mr-2 mb-2" />
-          ))}
+          <TagList tags={tags} className="mb-2" />
         </div>
         {isValidAdmin && <ArticleEditButton id={id} className="ml-auto mb-2" />}
       </div>

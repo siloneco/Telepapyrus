@@ -1,11 +1,11 @@
 'use client'
 
-import ArticleTag from '@/components/article/ArticleTag'
 import { ArticleOverview } from '@/components/types/Article'
 import { ColumnDef } from '@tanstack/react-table'
 import { ActionButton } from './actions'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown } from 'lucide-react'
+import TagList from '@/components/model/TagList'
 
 export const columns: ColumnDef<ArticleOverview>[] = [
   {
@@ -46,13 +46,7 @@ export const columns: ColumnDef<ArticleOverview>[] = [
     cell: ({ row }) => {
       const tags: string[] = row.getValue('tags')
 
-      return (
-        <div>
-          {tags.map((tag) => (
-            <ArticleTag key={tag} tag={tag} className="mr-2 my-1" noLink />
-          ))}
-        </div>
-      )
+      return <TagList tags={tags} noLink />
     },
   },
   {

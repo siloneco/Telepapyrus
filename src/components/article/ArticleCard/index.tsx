@@ -1,7 +1,7 @@
-import ArticleTag from '../ArticleTag'
 import Link from 'next/link'
 import ArticlePostTime from '../ArticlePostTime'
 import { cn } from '@/lib/utils'
+import TagList from '@/components/model/TagList'
 
 type Props = {
   id: string
@@ -29,11 +29,7 @@ export default function ArticleCard({
       </Link>
       <div>
         <ArticlePostTime date={date} lastUpdated={lastUpdated} />
-        <div>
-          {tags.map((tag) => (
-            <ArticleTag key={tag} tag={tag} className="mr-2 mb-2" />
-          ))}
-        </div>
+        <TagList tags={tags} />
       </div>
     </div>
   )
