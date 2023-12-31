@@ -32,7 +32,7 @@ export default function TagSelector({ form }: Props) {
               <TagPicker
                 tags={field.value || []}
                 setTags={(tags) => form.setValue('tags', tags)}
-                className="my-auto mr-2"
+                className="my-1 mr-2"
               />
               <TagList tags={field.value || []} noWrapper noLink />
             </div>

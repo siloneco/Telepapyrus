@@ -6,7 +6,7 @@ type Props = {
   id: string
 }
 
-export default async function DraftLoader({ id }: Props) {
+export default async function PreviewLoader({ id }: Props) {
   const result = await getDraftUseCase().getDraftForPreview(id)
 
   if (result.isFailure()) {

@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
+    "@radix-ui/react-tabs": "^1.0.4",
     "@tanstack/react-table": "^8.10.7",
     "class-variance-authority": "0.7.0",
     "clsx": "2.1.0",
