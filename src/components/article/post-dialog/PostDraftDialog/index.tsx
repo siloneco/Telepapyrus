@@ -17,7 +17,7 @@ import TitleInput from '../form/TitleInput'
 import TagSelector from '../form/TagSelector'
 import VisibilitySelector from '../form/VisibilitySelector'
 import ConfirmationCheckbox from '../form/ConfirmationCheckbox'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
@@ -35,23 +35,6 @@ const formSchema = z.object({
     .default('private'),
   confirm: z.literal<boolean>(true),
 })
-
-async function getTags(): Promise<string[]> {
-  const protocol = window.location.protocol
-  const hostname = window.location.hostname
-
-  const res = await fetch(`${protocol}//${hostname}/api/v1/tag/list`, {
-    next: { revalidate: 5 },
-  })
-
-  const tags: string[] = await res.json()
-
-  if (res.status !== 200 || !tags) {
-    return []
-  }
-
-  return tags
-}
 
 type Props = {
   id: string
@@ -96,35 +79,6 @@ export default function PostDraftDialog({
     }
   }
 
-  const addTag = async (tag: string): Promise<boolean> => {
-    if (tags.includes(tag)) {
-      return false
-    }
-
-    const protocol = window.location.protocol
-    const hostname = window.location.hostname
-
-    const res = await fetch(`${protocol}//${hostname}/api/v1/tag/${tag}`, {
-      method: 'POST',
-    })
-
-    if (res.status === 200) {
-      setTags([...tags, tag])
-
-      const current: string[] = form.getValues('tags') || []
-      form.setValue('tags', [...current, tag])
-      return true
-    }
-
-    return false
-  }
-
-  const [tags, setTags] = useState<string[]>([])
-
-  useEffect(() => {
-    getTags().then((tags) => setTags(tags))
-  }, [])
-
   return (
     <Dialog onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
@@ -143,7 +97,7 @@ export default function PostDraftDialog({
           >
             {/* >>> form items */}
             <TitleInput form={form} />
-            <TagSelector form={form} tags={tags} addTag={addTag} />
+            <TagSelector form={form} />
             <VisibilitySelector form={form} />
             <ConfirmationCheckbox form={form} />
             {/* >>> form items */}
