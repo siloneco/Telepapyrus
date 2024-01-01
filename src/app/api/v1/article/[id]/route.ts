@@ -55,7 +55,7 @@ export async function GET(request: Request, { params }: Props) {
 export async function POST(request: Request, { params }: Props) {
   // Require authentication
   const session = await getServerSession(authOptions)
-  if (session === null) {
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
@@ -112,7 +112,7 @@ export async function POST(request: Request, { params }: Props) {
 export async function DELETE(request: Request, { params }: Props) {
   // Require authentication
   const session = await getServerSession(authOptions)
-  if (session === null) {
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 

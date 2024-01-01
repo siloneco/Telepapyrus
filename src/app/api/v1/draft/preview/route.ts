@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic'
 export async function PUT(request: Request) {
   // Require authentication
   const session = await getServerSession(authOptions)
-  if (session === null) {
+  if (!session) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
