@@ -49,9 +49,11 @@ export function ActionButton({ article }: Props) {
             <a
               href={`/article/${article.id}`}
               className="decoration-inherit text-inherit"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <ExternalLink size={16} className="text-gray-600 mr-1" />
-              移動
+              開く
             </a>
           </DropdownMenuItem>
           <DropdownMenuItem
