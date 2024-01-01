@@ -67,6 +67,14 @@ export function ActionButton({ article }: Props) {
             IDをコピー
           </DropdownMenuItem>
           <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <a
+              href={`/admin/edit/${article.id}`}
+              className="decoration-inherit text-inherit"
+            >
+              編集
+            </a>
+          </DropdownMenuItem>
           <DropdownMenuItem className="font-bold text-destructive focus:text-destructive">
             <DeleteDialogTrigger />
           </DropdownMenuItem>

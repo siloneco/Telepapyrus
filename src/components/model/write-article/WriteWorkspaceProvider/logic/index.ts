@@ -59,10 +59,21 @@ export const saveDraft = async (data: Draft): Promise<boolean> => {
   return res.status === 200
 }
 
-export const postDraft = async (data: Draft): Promise<boolean> => {
+export const postDraftForCreate = async (data: Draft): Promise<boolean> => {
+  console.log('Creating...')
   const res = await fetch(`${getBaseURL()}/api/v1/article/${data.id}`, {
     method: 'POST',
     body: JSON.stringify(data),
+  })
+
+  return res.status === 200
+}
+
+export const postDraftForUpdate = async (data: Draft): Promise<boolean> => {
+  console.log('Updating...')
+  const res = await fetch(`${getBaseURL()}/api/v1/article/${data.id}`, {
+    method: 'POST',
+    body: JSON.stringify({ ...data, update: true }),
   })
 
   return res.status === 200

@@ -1,4 +1,5 @@
 jest.mock('@/layers/use-case/article/ArticleUseCase')
+jest.mock('@/layers/use-case/draft/DraftUsesCase')
 jest.mock('next-auth')
 
 import httpMocks from 'node-mocks-http'
@@ -18,6 +19,8 @@ import {
 } from '@/layers/use-case/article/errors'
 import { Draft } from '@/layers/entity/types'
 import { getServerSession } from 'next-auth'
+import { DraftUseCase } from '@/layers/use-case/draft/interface'
+import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
 
 const baseData: PresentationArticle = {
   id: 'id',
@@ -90,9 +93,30 @@ const articleUseCaseMock: ArticleUseCase = {
   }),
 }
 
+const draftUseCaseMock: DraftUseCase = {
+  deleteDraft: jest.fn().mockImplementation(async (_id: string) => {
+    return new Success(true)
+  }),
+  saveDraft: jest.fn().mockImplementation(async () => {
+    throw new Error('Not Used and Not Implemented')
+  }),
+  getDraft: jest.fn().mockImplementation(async () => {
+    throw new Error('Not Used and Not Implemented')
+  }),
+  setDraftForPreview: jest.fn().mockImplementation(async () => {
+    throw new Error('Not Used and Not Implemented')
+  }),
+  getDraftForPreview: jest.fn().mockImplementation(async () => {
+    throw new Error('Not Used and Not Implemented')
+  }),
+}
+
 beforeAll(() => {
   const getArticleUseCaseMock = getArticleUseCase as jest.Mock
   getArticleUseCaseMock.mockReturnValue(articleUseCaseMock)
+
+  const getDraftUseCaseMock = getDraftUseCase as jest.Mock
+  getDraftUseCaseMock.mockReturnValue(draftUseCaseMock)
 })
 
 describe('GET /api/v1/article/[id]', () => {
@@ -171,6 +195,9 @@ describe('POST /api/v1/article/[id]', () => {
 
     expect(result.status).toBe(401)
     expect(getServerSessionMock.mock.calls).toHaveLength(1)
+
+    expect(articleUseCaseMock.createArticle).toHaveBeenCalledTimes(0)
+    expect(draftUseCaseMock.deleteDraft).toHaveBeenCalledTimes(0)
   })
 
   it('responds 200 (OK) when article successfully posted', async () => {
@@ -184,6 +211,8 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     expect(result.status).toBe(200)
+    expect(articleUseCaseMock.createArticle).toHaveBeenCalledTimes(1)
+    expect(draftUseCaseMock.deleteDraft).toHaveBeenCalledTimes(1)
   })
 
   it('responds 409 (Conflict) when article with the specified ID already exists', async () => {
@@ -197,9 +226,11 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     expect(result.status).toBe(409)
+    expect(articleUseCaseMock.createArticle).toHaveBeenCalledTimes(2)
+    expect(draftUseCaseMock.deleteDraft).toHaveBeenCalledTimes(1)
   })
 
-  it('responds 400 (Bad Request) when article data is invalid', async () => {
+  it('responds 400 (Bad Request) when article data is invalid (create)', async () => {
     const { req } = httpMocks.createMocks({
       method: 'POST',
       json: async () => Promise.resolve(baseData),
@@ -209,6 +240,8 @@ describe('POST /api/v1/article/[id]', () => {
       params: { id: mockKeyMap.invalidData },
     })
     expect(result.status).toBe(400)
+    expect(articleUseCaseMock.createArticle).toHaveBeenCalledTimes(3)
+    expect(draftUseCaseMock.deleteDraft).toHaveBeenCalledTimes(1)
   })
 
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
@@ -220,7 +253,54 @@ describe('POST /api/v1/article/[id]', () => {
     const result: NextResponse<any> = await POST(req, {
       params: { id: mockKeyMap.error },
     })
+
     expect(result.status).toBe(500)
+    expect(articleUseCaseMock.createArticle).toHaveBeenCalledTimes(4)
+    expect(draftUseCaseMock.deleteDraft).toHaveBeenCalledTimes(1)
+  })
+
+  it('responds 200 (OK) when article successfully updated', async () => {
+    const { req } = httpMocks.createMocks({
+      method: 'POST',
+      json: async () => Promise.resolve({ ...baseData, update: true }),
+    })
+
+    const result: NextResponse<any> = await POST(req, {
+      params: { id: mockKeyMap.success },
+    })
+
+    expect(result.status).toBe(200)
+    expect(articleUseCaseMock.updateArticle).toHaveBeenCalledTimes(1)
+    expect(draftUseCaseMock.deleteDraft).toHaveBeenCalledTimes(2)
+  })
+
+  it('responds 404 (Not Found) when article with the specified ID not exists', async () => {
+    const { req } = httpMocks.createMocks({
+      method: 'POST',
+      json: async () => Promise.resolve({ ...baseData, update: true }),
+    })
+
+    const result: NextResponse<any> = await POST(req, {
+      params: { id: mockKeyMap.notExists },
+    })
+
+    expect(result.status).toBe(404)
+    expect(articleUseCaseMock.updateArticle).toHaveBeenCalledTimes(2)
+    expect(draftUseCaseMock.deleteDraft).toHaveBeenCalledTimes(2)
+  })
+
+  it('responds 400 (Bad Request) when article data is invalid (update)', async () => {
+    const { req } = httpMocks.createMocks({
+      method: 'POST',
+      json: async () => Promise.resolve({ ...baseData, update: true }),
+    })
+
+    const result: NextResponse<any> = await POST(req, {
+      params: { id: mockKeyMap.invalidData },
+    })
+    expect(result.status).toBe(400)
+    expect(articleUseCaseMock.updateArticle).toHaveBeenCalledTimes(3)
+    expect(draftUseCaseMock.deleteDraft).toHaveBeenCalledTimes(2)
   })
 })
 

@@ -10,19 +10,24 @@ import {
 } from '@/components/ui/form'
 import TagPicker from '@/components/model/TagPicker'
 import TagList from '@/components/model/TagList'
+import { useContext } from 'react'
+import { WriteWorkspaceContext } from '../../../WriteWorkspaceProvider/hook'
 
 type Props = {
   form: UseFormReturn<any, undefined>
 }
 
 export default function TagSelector({ form }: Props) {
+  const { initialValues } = useContext(WriteWorkspaceContext)
+
   return (
     <FormField
       control={form.control}
       name="tags"
       render={({ field }) => {
-        if (field.value === undefined) {
-          form.setValue('tags', [])
+        if (field.value === undefined && initialValues.tags !== undefined) {
+          form.setValue('tags', initialValues.tags)
+          field.value = initialValues.tags
         }
 
         return (

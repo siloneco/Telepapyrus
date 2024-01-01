@@ -4,7 +4,7 @@ import { UseWriteWorkspaceProviderReturnProps } from './type'
 import { WriteWorkspaceContext, useWriteWorkspaceProvider } from './hook'
 import { Input } from '@/components/ui/input'
 import SaveButton from '@/components/misc/SaveButton'
-import { estimateMinToRead, postDraft } from './logic'
+import { estimateMinToRead } from './logic'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ReactNode } from 'react'
 import { WriteWorkspaceMode } from '../WriteWorkspace'
@@ -26,6 +26,7 @@ export default function WriteWorkspaceProvider({ mode, id, children }: Props) {
     saveStatus,
     onSaveButtonPressed,
     onTabValueChange,
+    postDraft,
   }: UseWriteWorkspaceProviderReturnProps = useWriteWorkspaceProvider({
     mode,
     id,
@@ -68,7 +69,7 @@ export default function WriteWorkspaceProvider({ mode, id, children }: Props) {
                 className="mr-4"
               />
               {/* TOOD: select correct postDraft function */}
-              <PostDialog postDraft={postDraft} />
+              <PostDialog mode={mode} postDraft={postDraft} />
             </div>
           </div>
           {children}

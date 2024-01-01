@@ -9,6 +9,7 @@ import {
   ArticleNotFoundError,
 } from '@/layers/use-case/article/errors'
 import { Draft } from '@/layers/entity/types'
+import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,6 +18,8 @@ type Props = {
     id: string
   }
 }
+
+type RequestJson = Draft & { update?: boolean }
 
 export async function GET(request: Request, { params }: Props) {
   const { id } = params
@@ -50,27 +53,54 @@ export async function POST(request: Request, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const data: Draft = await request.json()
+  const data: RequestJson = await request.json()
   data.id = params.id
 
-  const result = await getArticleUseCase().createArticle(data)
+  if (data.update === undefined || data.update === false) {
+    const result = await getArticleUseCase().createArticle(data)
 
-  if (result.isFailure()) {
-    const error = result.error
+    if (result.isFailure()) {
+      const error = result.error
 
-    if (error instanceof ArticleAlreadyExistsError) {
-      return NextResponse.json({ error: 'Already Exists' }, { status: 409 })
-    } else if (error instanceof ArticleInvalidDataError) {
-      return NextResponse.json({ error: 'Invalid Data' }, { status: 400 })
+      if (error instanceof ArticleAlreadyExistsError) {
+        return NextResponse.json({ error: 'Already Exists' }, { status: 409 })
+      } else if (error instanceof ArticleInvalidDataError) {
+        return NextResponse.json({ error: 'Invalid Data' }, { status: 400 })
+      }
+
+      return NextResponse.json(
+        { error: 'Internal Server Error' },
+        { status: 500 },
+      )
     }
 
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    )
-  }
+    // Delete draft
+    const _ignoreResult = await getDraftUseCase().deleteDraft(data.id)
 
-  return NextResponse.json({ status: 'OK' })
+    return NextResponse.json({ status: 'OK' })
+  } else {
+    const result = await getArticleUseCase().updateArticle(data)
+
+    if (result.isFailure()) {
+      const error = result.error
+
+      if (error instanceof ArticleNotFoundError) {
+        return NextResponse.json({ error: 'Not Found' }, { status: 404 })
+      } else if (error instanceof ArticleInvalidDataError) {
+        return NextResponse.json({ error: 'Invalid Data' }, { status: 400 })
+      }
+
+      return NextResponse.json(
+        { error: 'Internal Server Error' },
+        { status: 500 },
+      )
+    }
+
+    // Delete draft
+    const _ignoreResult = await getDraftUseCase().deleteDraft(data.id)
+
+    return NextResponse.json({ status: 'OK' })
+  }
 }
 
 export async function DELETE(request: Request, { params }: Props) {

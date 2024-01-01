@@ -53,7 +53,16 @@ export const loadData = ({ mode, id }: Props): Promise<Draft | null> => {
   if (mode === 'write-draft') {
     return loadDataFromDraft(id)
   } else if (mode === 'edit-article') {
-    return loadDataFromArticle(id)
+    return new Promise(async (resolve) => {
+      const draft: Draft | null = await loadDataFromDraft(id)
+
+      if (draft) {
+        resolve(draft)
+        return
+      }
+
+      resolve(await loadDataFromArticle(id))
+    })
   }
 
   return Promise.resolve(null)

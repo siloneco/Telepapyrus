@@ -17,26 +17,30 @@ import ConfirmationCheckbox from '../form/ConfirmationCheckbox'
 import { Loader2 } from 'lucide-react'
 import { usePostDialog } from './hook'
 import { Draft } from '@/layers/entity/types'
+import { WriteWorkspaceMode } from '../../WriteWorkspace'
 
 type Props = {
+  mode: WriteWorkspaceMode
   postDraft: (_draft: Draft) => Promise<boolean>
 }
 
-export default function PostDialog({ postDraft }: Props) {
+export default function PostDialog({ mode, postDraft }: Props) {
   const { form, isPosting, onModalOpenChange, onSubmit } = usePostDialog({
     postDraft,
   })
+
+  const submitVerb = mode === 'write-draft' ? '投稿' : '更新'
 
   return (
     <Dialog onOpenChange={onModalOpenChange}>
       <DialogTrigger asChild>
         <Button variant="default" className="ml-auto mr-0 text-base">
-          投稿
+          {submitVerb}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>投稿フォーム</DialogTitle>
+          <DialogTitle>{submitVerb}フォーム</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -63,7 +67,7 @@ export default function PostDialog({ postDraft }: Props) {
                 {isPosting && (
                   <Loader2 size={20} className="mr-2 animate-spin" />
                 )}
-                <p>投稿</p>
+                <p>{submitVerb}</p>
               </Button>
             </div>
           </form>

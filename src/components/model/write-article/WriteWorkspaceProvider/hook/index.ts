@@ -13,7 +13,12 @@ import {
 import { WriteWorkspaceMode } from '../../WriteWorkspace'
 import { Draft } from '@/layers/entity/types'
 import { loadData } from './dataLoader'
-import { saveDraft, sendPreviewData } from '../logic'
+import {
+  postDraftForCreate,
+  postDraftForUpdate,
+  saveDraft,
+  sendPreviewData,
+} from '../logic'
 import { useRouter } from 'next/navigation'
 import { useWriteWorkspaceShortcuts } from './shortcuts'
 
@@ -23,6 +28,7 @@ export const WriteWorkspaceContext = createContext({
   title: { value: '', set: (_title: string) => {} },
   initialValues: {
     tags: [''],
+    isPublic: true,
   },
   loadingWorkspace: true,
   isPreviewLoadingState: true,
@@ -54,6 +60,7 @@ export function useWriteWorkspaceProvider({
     title: { value: title, set: setTitle },
     initialValues: {
       tags: initialTags,
+      isPublic: true,
     },
     loadingWorkspace: loadingWorkspace,
     isPreviewLoadingState: loadingPreview,
@@ -150,6 +157,15 @@ export function useWriteWorkspaceProvider({
     pressSaveButtonRef,
   })
 
+  let postDraftForThisMode: (_data: Draft) => Promise<boolean>
+
+  if (mode === 'write-draft') {
+    postDraftForThisMode = postDraftForCreate
+  } else {
+    // mode === 'edit-article'
+    postDraftForThisMode = postDraftForUpdate
+  }
+
   return {
     title,
     setTitle,
@@ -159,5 +175,6 @@ export function useWriteWorkspaceProvider({
     saveStatus,
     onSaveButtonPressed,
     onTabValueChange,
+    postDraft: postDraftForThisMode,
   }
 }

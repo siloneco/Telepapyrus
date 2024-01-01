@@ -1,28 +1,19 @@
 import { Button } from '@/components/ui/button'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+
 import { FileEdit } from 'lucide-react'
+import Link from 'next/link'
 
 type Props = {
   id: string
   className?: string
 }
 
-export default function ArticleEditButton({ className }: Props) {
-  // TODO: Implement edit page and link it
+export default function ArticleEditButton({ id, className }: Props) {
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" className={className} aria-label="edit-article">
-          <FileEdit />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-fit">
-        <p>編集ボタン(未実装)</p>
-      </PopoverContent>
-    </Popover>
+    <Button variant="ghost" className={className} aria-label="edit-article">
+      <Link href={`/admin/edit/${id}`}>
+        <FileEdit className="text-foreground" />
+      </Link>
+    </Button>
   )
 }

@@ -10,19 +10,25 @@ import {
 } from '@/components/ui/form'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { UseFormReturn } from 'react-hook-form'
+import { WriteWorkspaceContext } from '../../../WriteWorkspaceProvider/hook'
+import { useContext } from 'react'
 
 type Props = {
   form: UseFormReturn<any, undefined>
 }
 
 export default function VisibilitySelector({ form }: Props) {
+  const { initialValues } = useContext(WriteWorkspaceContext)
+
   return (
     <FormField
       control={form.control}
       name="visibility"
       render={({ field }) => {
-        if (field.value === undefined) {
-          form.setValue('visibility', 'public')
+        if (field.value === undefined && initialValues.isPublic !== undefined) {
+          const initVisibility = initialValues.isPublic ? 'public' : 'private'
+          form.setValue('visibility', initVisibility)
+          field.value = initVisibility
         }
 
         return (
