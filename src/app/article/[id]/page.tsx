@@ -45,7 +45,7 @@ export async function generateMetadata(
   }
 
   return {
-    title: `${data.title} | Silolab Blog`,
+    title: data.title,
   }
 }
 
