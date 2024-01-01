@@ -120,6 +120,32 @@ beforeAll(() => {
 })
 
 describe('GET /api/v1/article/[id]', () => {
+  beforeAll(() => {
+    const getServerSessionMock = getServerSession as jest.Mock
+    getServerSessionMock
+      .mockClear()
+      .mockReturnValueOnce(Promise.resolve(null)) // Access Denied
+      .mockReturnValue(Promise.resolve({})) // Access Granted
+  })
+
+  it('responds 401 (Unauthorized) when you do not have permission', async () => {
+    const { req } = httpMocks.createMocks({
+      method: 'GET',
+    })
+
+    const getServerSessionMock = getServerSession as jest.Mock
+    expect(getServerSessionMock.mock.calls).toHaveLength(0)
+
+    const result: NextResponse<any> = await GET(req, {
+      params: { id: baseData.id },
+    })
+
+    expect(result.status).toBe(401)
+    expect(getServerSessionMock.mock.calls).toHaveLength(1)
+
+    expect(articleUseCaseMock.getArticle).toHaveBeenCalledTimes(0)
+  })
+
   it('responds 200 (OK) and correct article data', async () => {
     const { req } = httpMocks.createMocks({
       method: 'GET',

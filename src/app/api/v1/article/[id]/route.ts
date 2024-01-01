@@ -22,6 +22,12 @@ type Props = {
 type RequestJson = Draft & { update?: boolean }
 
 export async function GET(request: Request, { params }: Props) {
+  // Require authentication
+  const session = await getServerSession(authOptions)
+  if (!session) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   const { id } = params
 
   const result = await getArticleUseCase().getArticle(id)
