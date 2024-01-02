@@ -5,6 +5,11 @@
   padding: 0;
 }
 
+.article > p:has(+ p) {
+  margin: 0 0 1rem 0;
+  padding: 0;
+}
+
 .article h1,
 .article h2,
 .article h3 {
@@ -19,7 +24,15 @@
 }
 
 .article ol,
-.article ul,
+.article ul {
+  margin: 0px;
+}
+
+.article > ol,
+.article > ul {
+  margin: 10px 0px;
+}
+
 .article input,
 .article li {
   margin: 0px;
