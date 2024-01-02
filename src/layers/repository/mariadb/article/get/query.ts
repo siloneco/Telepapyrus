@@ -2,6 +2,7 @@ export const getArticleQuery = () => `
 SELECT
   articles.id,
   articles.title,
+  articles.description,
   articles.content,
   articles.date,
   articles.last_updated,

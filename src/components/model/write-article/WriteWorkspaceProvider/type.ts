@@ -5,6 +5,7 @@ export type ContextProps = {
   content: { value: string; set: (_content: string) => void }
   title: { value: string; set: (_title: string) => void }
   initialValues: {
+    description: string
     tags: string[]
     isPublic: boolean
   }

@@ -49,6 +49,7 @@ export const createArticle = async (
       await connection.query(insertArticleSQL, [
         draft.id,
         draft.title,
+        draft.description,
         draft.content,
       ])
 

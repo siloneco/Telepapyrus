@@ -20,6 +20,7 @@ describe('getDraft', () => {
   it('gets a draft correctly', async () => {
     const draft: Draft = {
       id: `test-draft-get-success`,
+      description: '',
       title: 'title',
       content: 'content',
       tags: [],

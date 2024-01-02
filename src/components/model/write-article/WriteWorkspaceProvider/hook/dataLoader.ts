@@ -16,6 +16,7 @@ const loadDataFromDraft = async (id: string): Promise<Draft | null> => {
   const result: Draft = {
     id: data.id,
     title: data.title,
+    description: '',
     content: data.content,
     tags: [],
     public: true,
@@ -36,6 +37,7 @@ const loadDataFromArticle = async (id: string): Promise<Draft | null> => {
   const result: Draft = {
     id: data.id,
     title: data.title,
+    description: data.description,
     content: data.content,
     tags: data.tags,
     public: true,

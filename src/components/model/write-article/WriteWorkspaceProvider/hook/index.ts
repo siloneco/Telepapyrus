@@ -27,6 +27,7 @@ export const WriteWorkspaceContext = createContext({
   content: { value: '', set: (_content: string) => {} },
   title: { value: '', set: (_title: string) => {} },
   initialValues: {
+    description: '',
     tags: [''],
     isPublic: true,
   },
@@ -45,6 +46,7 @@ export function useWriteWorkspaceProvider({
 }: Props): UseWriteWorkspaceProviderReturnProps {
   const [title, setTitle] = useState<string>('')
   const [content, setContent] = useState<string>('')
+  const [initialDescription, setInitialDescription] = useState<string>('')
   const [initialTags, setInitialTags] = useState<string[]>([])
   const [loadingWorkspace, setLoadingWorkspace] = useState<boolean>(true)
   const [isSaved, setSaved] = useState<boolean>(false)
@@ -59,6 +61,7 @@ export function useWriteWorkspaceProvider({
     content: { value: content, set: setContent },
     title: { value: title, set: setTitle },
     initialValues: {
+      description: initialDescription,
       tags: initialTags,
       isPublic: true,
     },
@@ -83,6 +86,7 @@ export function useWriteWorkspaceProvider({
       const data: Draft = {
         id: contextValue.id.value,
         title: contextValue.title.value,
+        description: '',
         content: contextValue.content.value,
         tags: [],
         public: true,
@@ -110,6 +114,7 @@ export function useWriteWorkspaceProvider({
     const draft: Draft = {
       id: id,
       title: title,
+      description: '',
       content: content,
       tags: [],
       public: true,
@@ -139,6 +144,7 @@ export function useWriteWorkspaceProvider({
 
         setTitle(draft.title)
         setContent(draft.content)
+        setInitialDescription(draft.description)
         setInitialTags(draft.tags)
       })
       .finally(() => {

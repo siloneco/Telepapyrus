@@ -53,6 +53,7 @@ export const getDraft = async (id: string): Promise<GetDraftReturnProps> => {
       const draft: Draft = {
         id: rawData.id,
         title: rawData.title,
+        description: '', // Draft only have description when its ready to publish
         content: rawData.content,
         tags: [], // Draft only have tags when its ready to publish
         public: true, // Edit this when you implement private draft

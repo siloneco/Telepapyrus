@@ -1,6 +1,7 @@
 export type Article = {
   id: string
   title: string
+  description: string
   content: string
   tags: string[]
   public: boolean
@@ -11,6 +12,7 @@ export type Article = {
 export type Draft = {
   id: string
   title: string
+  description: string
   content: string
   tags: string[]
   public: boolean

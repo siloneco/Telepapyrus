@@ -5,6 +5,7 @@ import { saveDraft } from './saveDraft'
 const baseData: Draft = {
   id: 'id',
   title: 'title',
+  description: 'description',
   content: 'content',
   tags: [],
   public: true,

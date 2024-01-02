@@ -5,6 +5,7 @@ import { setDraftForPreview } from '../setPreview/setDraftForPreview'
 const baseData: Draft = {
   id: 'id',
   title: 'title',
+  description: 'description',
   content: 'content',
   tags: [],
   public: true,

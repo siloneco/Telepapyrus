@@ -1,5 +1,5 @@
 export const insertArticleSQL = `
-INSERT INTO articles (id, title, content, date) VALUES (?, ?, ?, now(3));
+INSERT INTO articles (id, title, description, content, date) VALUES (?, ?, ?, ?, now(3));
 `
 
 export const insertTagsSQL = `

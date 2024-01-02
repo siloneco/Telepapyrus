@@ -18,6 +18,7 @@ import { Loader2 } from 'lucide-react'
 import { usePostDialog } from './hook'
 import { Draft } from '@/layers/entity/types'
 import { WriteWorkspaceMode } from '../../WriteWorkspace'
+import DescriptionInput from '../form/DescriptionInput'
 
 type Props = {
   mode: WriteWorkspaceMode
@@ -49,6 +50,7 @@ export default function PostDialog({ mode, postDraft }: Props) {
           >
             {/* >>> form items */}
             <TitleInput form={form} />
+            <DescriptionInput form={form} />
             <TagSelector form={form} />
             <VisibilitySelector form={form} />
             <ConfirmationCheckbox form={form} />

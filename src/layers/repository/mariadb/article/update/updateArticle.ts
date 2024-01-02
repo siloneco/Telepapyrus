@@ -54,6 +54,7 @@ export const updateArticle = async (
 
       const updateResult: any[] = await connection.query(updateArticleSQL(), [
         draft.title,
+        draft.description,
         draft.content,
         draft.id,
       ])

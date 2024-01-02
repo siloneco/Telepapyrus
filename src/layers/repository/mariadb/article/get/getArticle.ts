@@ -55,6 +55,7 @@ export const getArticle = async (
       const article: Article = {
         id: rawData.id,
         title: rawData.title,
+        description: rawData.description,
         content: rawData.content,
         tags: rawData.tag ? rawData.tag.split(',') : [],
         public: true, // Edit this when you implement private article

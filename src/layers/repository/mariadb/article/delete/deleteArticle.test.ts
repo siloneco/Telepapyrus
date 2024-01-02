@@ -23,6 +23,7 @@ describe('deleteArticle', () => {
     await createArticle({
       id: id,
       title: 'title',
+      description: 'description',
       content: 'content',
       tags: [],
       public: true,

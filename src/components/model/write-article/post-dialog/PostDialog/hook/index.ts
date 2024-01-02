@@ -12,6 +12,11 @@ const formSchema = z.object({
     .min(1, {
       message: 'タイトルは空にできません',
     }),
+  description: z
+    .string({ errorMap: () => ({ message: '説明文は空にできません' }) })
+    .min(1, {
+      message: '説明文は空にできません',
+    }),
   tags: z.string().array().optional(),
   visibility: z
     .enum(['public', 'private'], {
@@ -29,6 +34,7 @@ type ReturnProps = {
   form: UseFormReturn<
     {
       title: string
+      description: string
       tags?: string[] | undefined
       visibility: 'public' | 'private'
       confirm: boolean
@@ -56,6 +62,7 @@ export const usePostDialog = ({ postDraft }: Props): ReturnProps => {
     const data: Draft = {
       id: id.value,
       title: form.getValues().title,
+      description: form.getValues().description,
       content: content.value,
       tags: form.getValues().tags || [],
       public: form.getValues().visibility === 'public',

@@ -21,6 +21,7 @@ describe('getArticle', () => {
     const draft: Draft = {
       id: `test-article-get-success`,
       title: 'title',
+      description: 'description',
       content: 'content',
       tags: ['test-article-get-success-tag'],
       public: true,

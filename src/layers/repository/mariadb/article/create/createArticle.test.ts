@@ -1,9 +1,11 @@
+import { Draft } from '@/layers/entity/types'
 import getConnectionPool from '../../connection/getConnectionPool'
 import { createArticle } from './createArticle'
 
-const baseData = {
+const baseData: Draft = {
   id: 'id',
   title: 'title',
+  description: 'description',
   content: 'content',
   tags: [],
   public: true,

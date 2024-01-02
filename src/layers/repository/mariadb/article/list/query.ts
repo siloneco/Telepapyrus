@@ -2,6 +2,7 @@ export const listAllQuery = `
 SELECT
   articles.id,
   articles.title,
+  articles.description,
   articles.content,
   articles.date,
   articles.last_updated,
@@ -22,6 +23,7 @@ export const listAllWithPageQuery = `
 SELECT
   articles.id,
   articles.title,
+  articles.description,
   articles.content,
   articles.date,
   articles.last_updated,
@@ -61,6 +63,7 @@ export const listAllWithTagsAndPageQuery = `
 SELECT
   articles.id,
   articles.title,
+  articles.description,
   articles.content,
   date,
   last_updated,
