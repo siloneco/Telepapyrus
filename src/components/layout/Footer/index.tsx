@@ -10,7 +10,7 @@ export default function Footer() {
           <a
             href="https://github.com/siloneco/Telepapyrus"
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer nofollow"
             className="text-blue-400"
           >
             siloneco/Telepapyrus

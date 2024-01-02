@@ -27,18 +27,26 @@ async function getMaxPageNumber(): Promise<number> {
   return -1
 }
 
-export async function generateMetadata(
-  {},
-  _parent: ResolvingMetadata,
-): Promise<Metadata> {
-  return {
-    title: 'Silolab Blog | しろらぼブログ',
-  }
-}
-
 type Props = {
   params: {
     slug: string[]
+  }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  _parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const title = 'ホーム | Silolab Blog'
+  if (params.slug !== undefined && params.slug.length > 0) {
+    return {
+      title: title,
+      robots: 'noindex',
+    }
+  }
+
+  return {
+    title: title,
   }
 }
 

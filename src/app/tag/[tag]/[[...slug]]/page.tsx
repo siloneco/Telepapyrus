@@ -48,7 +48,8 @@ export async function generateMetadata(
   params.tag = decodeURI(params.tag)
 
   return {
-    title: `${params.tag} | Silolab Blog`,
+    title: `タグ ${params.tag} が付いている記事`,
+    robots: 'noindex',
   }
 }
 

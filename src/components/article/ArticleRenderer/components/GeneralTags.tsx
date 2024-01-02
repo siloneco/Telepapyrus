@@ -28,7 +28,7 @@ export const A: FC<any> = (props) => {
   return (
     <a
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noopener noreferrer nofollow"
       className="text-blue-400"
       {...props}
     />

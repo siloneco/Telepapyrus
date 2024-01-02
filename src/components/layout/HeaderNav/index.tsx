@@ -41,7 +41,7 @@ export default async function HeaderNav() {
                 <a
                   href={`https://github.com/${githubUsername}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer nofollow"
                 >
                   <FaGithub
                     className={cn(iconCss, isValidAdmin && darkenCss)}
@@ -54,7 +54,7 @@ export default async function HeaderNav() {
                 <a
                   href={`https://twitter.com/${xUsername}`}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer nofollow"
                 >
                   <FaXTwitter
                     className={cn(iconCss, isValidAdmin && darkenCss)}
@@ -70,7 +70,11 @@ export default async function HeaderNav() {
             )}
             {misskeyUrl && (
               <Button asChild variant="ghost" aria-label="misskey.io">
-                <a href={misskeyUrl} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={misskeyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                >
                   <SiMisskey
                     className={cn(iconCss, isValidAdmin && darkenCss)}
                   />
