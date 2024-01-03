@@ -21,3 +21,41 @@ export const formatDate = (date: Date) => {
     .toLocaleDateString('ja-JP', dateFormatOptions)
     .replaceAll('/', '-')
 }
+
+type ConvertSearchParamPageToIntegerReturnProps = {
+  isValid: boolean
+  fallback?: boolean
+  page?: number
+}
+
+export const convertSearchParamPageToInteger = (
+  page: string | string[] | undefined,
+  max: number,
+): ConvertSearchParamPageToIntegerReturnProps => {
+  if (page === undefined) {
+    return { isValid: true, page: 1 }
+  }
+
+  if (Array.isArray(page)) {
+    const firstElement = page[0]
+    return convertSearchParamPageToInteger(firstElement, max)
+  }
+
+  const parsedIntoInt = parseInt(page)
+  const parsedIntoFloat = parseFloat(page)
+
+  if (parsedIntoInt < 1) {
+    return { isValid: false, fallback: true, page: 1 }
+  } else if (parsedIntoInt > max) {
+    return { isValid: false, fallback: true, page: max }
+  }
+
+  if (parsedIntoInt !== parsedIntoFloat) {
+    return { isValid: false, fallback: true, page: parsedIntoInt }
+  }
+
+  return {
+    isValid: true,
+    page: parsedIntoInt,
+  }
+}

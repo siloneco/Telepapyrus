@@ -8,18 +8,15 @@ type Props = {
 }
 
 export default function PageSelector({ currentPage, totalPages, path }: Props) {
+  const next = Math.max(currentPage + 1, 1)
+  const prev = Math.min(currentPage - 1, totalPages)
+
   return (
     <div className="mt-2 text-center">
       {currentPage > 1 && (
-        <PageBack
-          path={path}
-          page={currentPage - 1}
-          bright={currentPage == totalPages}
-        />
+        <PageBack path={path} page={prev} bright={currentPage == totalPages} />
       )}
-      {currentPage != totalPages && (
-        <PageForward path={path} page={currentPage + 1} />
-      )}
+      {currentPage < totalPages && <PageForward path={path} page={next} />}
     </div>
   )
 }

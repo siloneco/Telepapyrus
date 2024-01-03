@@ -4,6 +4,8 @@ import {
   PresentationArticleOverview,
   getArticleUseCase,
 } from '@/layers/use-case/article/ArticleUseCase'
+import { redirect } from 'next/navigation'
+import { convertSearchParamPageToInteger } from '@/lib/utils'
 
 async function getArticles(
   page: number,
@@ -36,20 +38,20 @@ type Props = {
 
 export default async function Page({ searchParams }: Props) {
   const rawPage = searchParams['page']
+  const maxPage: number = await getMaxPageNumber()
+  const pageParseResult = convertSearchParamPageToInteger(rawPage, maxPage)
 
-  let page: number = 1
-  if (Array.isArray(rawPage)) {
-    page = parseInt(rawPage[0])
-  } else if (typeof rawPage === 'string') {
-    page = parseInt(rawPage)
+  if (!pageParseResult.isValid && !pageParseResult.fallback) {
+    redirect('/')
   }
 
-  if (Number.isNaN(page)) {
-    page = 1
+  if (pageParseResult.fallback) {
+    redirect(`/?page=${pageParseResult.page!}`)
   }
+
+  const page: number = pageParseResult.page!
 
   const data: PresentationArticleOverview[] | null = await getArticles(page)
-  const maxPage: number = await getMaxPageNumber()
 
   if (data === null) {
     return (

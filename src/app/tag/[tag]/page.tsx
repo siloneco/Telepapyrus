@@ -1,5 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { TAG_NAME_MAX_LENGTH } from '@/lib/constants/Constants'
 import ArticleList from '@/components/layout/ArticleList'
 import ArticleTag from '@/components/article/ArticleTag'
@@ -7,6 +7,7 @@ import {
   PresentationArticleOverview,
   getArticleUseCase,
 } from '@/layers/use-case/article/ArticleUseCase'
+import { convertSearchParamPageToInteger } from '@/lib/utils'
 
 async function getArticles(
   tag: string,
@@ -61,23 +62,23 @@ export default async function Page({ params, searchParams }: Props) {
   }
 
   const rawPage = searchParams['page']
+  const maxPageNum: number = (await getMaxPageNumber(tag)) ?? 1
+  const pageParseResult = convertSearchParamPageToInteger(rawPage, maxPageNum)
 
-  let page: number = 1
-  if (Array.isArray(rawPage)) {
-    page = parseInt(rawPage[0])
-  } else if (typeof rawPage === 'string') {
-    page = parseInt(rawPage)
+  if (!pageParseResult.isValid && !pageParseResult.fallback) {
+    redirect(`/tag/${tag}/`)
   }
 
-  if (Number.isNaN(page)) {
-    page = 1
+  if (pageParseResult.fallback) {
+    redirect(`/tag/${tag}/?page=${pageParseResult.page!}`)
   }
+
+  const page: number = pageParseResult.page!
 
   const data: PresentationArticleOverview[] | null = await getArticles(
     tag,
     page,
   )
-  const maxPageNum: number | null = await getMaxPageNumber(tag)
 
   if (data === null || maxPageNum === null) {
     notFound()
