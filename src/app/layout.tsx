@@ -5,6 +5,7 @@ import '@/components/style/layout/global.css'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
 import Footer from '@/components/layout/Footer'
+import { Toaster } from '@/components/ui/toaster'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: Props) {
             <div>{children}</div>
           </NextAuthProvider>
           <Footer />
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

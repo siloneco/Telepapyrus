@@ -9,8 +9,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { ExternalLink, MoreHorizontal } from 'lucide-react'
+import { Check, ExternalLink, MoreHorizontal } from 'lucide-react'
 import { DeleteDialogTrigger, DeleteDialogWrapper } from './delete-dialog'
+import { useToast } from '@/components/ui/use-toast'
 
 function getBaseURL(): string {
   const protocol = document.location.protocol
@@ -27,11 +28,22 @@ type Props = {
 }
 
 export function ActionButton({ article }: Props) {
+  const { toast } = useToast()
+
   const executeDelete = (id: string) => {
     fetch(`${getBaseURL()}/api/v1/article/${id}`, {
       method: 'DELETE',
     }).then(() => {
       location.reload()
+    })
+  }
+
+  const showCopiedToast = () => {
+    toast({
+      title: 'コピーしました！',
+      titleIcon: <Check size={24} className="text-green-400" />,
+      className: 'md:w-48 bg-secondary text-secondary-foreground',
+      duration: 1500,
     })
   }
 
@@ -57,14 +69,18 @@ export function ActionButton({ article }: Props) {
             </a>
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() =>
+            onClick={() => {
               navigator.clipboard.writeText(generateURL(article.id))
-            }
+              showCopiedToast()
+            }}
           >
             URLをコピー
           </DropdownMenuItem>
           <DropdownMenuItem
-            onClick={() => navigator.clipboard.writeText(article.id)}
+            onClick={() => {
+              navigator.clipboard.writeText(article.id)
+              showCopiedToast()
+            }}
           >
             IDをコピー
           </DropdownMenuItem>
