@@ -10,13 +10,15 @@ type Props = {
 }
 
 export default function PageBack({ path, page, bright }: Props) {
+  const url = page === 1 ? `${path}` : `${path}?page=${page}`
+
   return (
     <Button
       asChild
       variant="secondary"
       className={cn('mr-5', bright && 'border border-gray-400')}
     >
-      <Link key={page} href={`${path}${page}`}>
+      <Link key={page} href={url}>
         {bright && (
           <div className="flex flex-row items-center">
             <FaChevronLeft className="mr-2" />

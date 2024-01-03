@@ -37,8 +37,8 @@ async function getMaxPageNumber(tag: string): Promise<number | null> {
 type Props = {
   params: {
     tag: string
-    slug: string[]
   }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
 export async function generateMetadata(
@@ -53,19 +53,24 @@ export async function generateMetadata(
   }
 }
 
-export default async function Page({ params }: Props) {
+export default async function Page({ params, searchParams }: Props) {
   const tag = decodeURI(params.tag)
 
   if (tag.length > TAG_NAME_MAX_LENGTH) {
     notFound()
   }
 
+  const rawPage = searchParams['page']
+
   let page: number = 1
-  if (params.slug !== undefined && params.slug.length > 0) {
-    page = parseInt(params.slug[0])
-    if (isNaN(page)) {
-      page = 1
-    }
+  if (Array.isArray(rawPage)) {
+    page = parseInt(rawPage[0])
+  } else if (typeof rawPage === 'string') {
+    page = parseInt(rawPage)
+  }
+
+  if (Number.isNaN(page)) {
+    page = 1
   }
 
   const data: PresentationArticleOverview[] | null = await getArticles(

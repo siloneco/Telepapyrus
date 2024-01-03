@@ -1,5 +1,4 @@
-import { Metadata, ResolvingMetadata } from 'next'
-import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 import ArticleList from '@/components/layout/ArticleList'
 import {
   PresentationArticleOverview,
@@ -27,36 +26,26 @@ async function getMaxPageNumber(): Promise<number> {
   return -1
 }
 
+export const metadata: Metadata = {
+  title: 'ホーム | Silolab Blog',
+}
+
 type Props = {
-  params: {
-    slug: string[]
-  }
+  searchParams: { [key: string]: string | string[] | undefined }
 }
 
-export async function generateMetadata(
-  { params }: Props,
-  _parent: ResolvingMetadata,
-): Promise<Metadata> {
-  const title = 'ホーム | Silolab Blog'
-  if (params.slug !== undefined && params.slug.length > 0) {
-    return {
-      title: title,
-      robots: 'noindex',
-    }
-  }
+export default async function Page({ searchParams }: Props) {
+  const rawPage = searchParams['page']
 
-  return {
-    title: title,
-  }
-}
-
-export default async function Page({ params }: Props) {
   let page: number = 1
-  if (params.slug !== undefined && params.slug.length > 0) {
-    page = parseInt(params.slug[0])
-    if (isNaN(page)) {
-      notFound()
-    }
+  if (Array.isArray(rawPage)) {
+    page = parseInt(rawPage[0])
+  } else if (typeof rawPage === 'string') {
+    page = parseInt(rawPage)
+  }
+
+  if (Number.isNaN(page)) {
+    page = 1
   }
 
   const data: PresentationArticleOverview[] | null = await getArticles(page)
