@@ -1,7 +1,7 @@
 import { Inter as FontSans } from 'next/font/google'
 import HeaderNav from '@/components/layout/HeaderNav'
 import NextAuthProvider from '@/components/layout/NextAuth'
-import '@/components/style/layout/global.css'
+import './global.css'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from '@/components/layout/ThemeProvider'
 import Footer from '@/components/layout/Footer'
