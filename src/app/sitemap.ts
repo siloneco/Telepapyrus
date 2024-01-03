@@ -1,79 +1,69 @@
 import { MetadataRoute } from 'next'
-import { getConnectionPool } from '@/lib/database/MysqlConnectionPool'
-import { PoolConnection, Pool, QueryError } from 'mysql2'
+import { getRepository } from '@/layers/repository/ArticleRepository'
+import { ArticleOverview } from '@/layers/entity/types'
+import NodeCache from 'node-cache'
+
+const cache = new NodeCache()
+const cacheTTL = 60
 
 export const dynamic = 'force-dynamic'
 
 const baseUrl = process.env.BASE_URL || ''
-const query = `
-SELECT id, IFNULL(last_updated, date) as date FROM articles;
-`
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const connection: PoolConnection = await new Promise((resolve, reject) => {
-    getConnectionPool().then((connectionPool: Pool) => {
-      connectionPool.getConnection(
-        (error: NodeJS.ErrnoException | null, connection: PoolConnection) => {
-          if (error) {
-            reject(error)
-          }
-          resolve(connection)
-        },
-      )
-    })
-  })
+  const cachedData = cache.get<MetadataRoute.Sitemap>('key')
 
-  const sitemapData: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 1,
-    },
-  ]
+  if (cachedData) {
+    return cachedData
+  }
 
-  try {
-    const results: Array<any> = await new Promise((resolve, reject) => {
-      connection.query(query, (error: QueryError | null, results: any) => {
-        if (error) {
-          reject(error)
-        }
-        resolve(results)
-      })
-    })
+  const sitemapData: MetadataRoute.Sitemap = []
 
-    const currentTime: number = new Date().getTime()
-    for (const result of results) {
-      const date: Date = new Date(result.date)
-      let changeFreq:
-        | 'daily'
-        | 'always'
-        | 'hourly'
-        | 'weekly'
-        | 'monthly'
-        | 'yearly'
-        | 'never' = 'daily'
+  const result = await getRepository().listArticle({})
+  if (!result.success) {
+    throw new Error(`Failed to list article: ${result.error?.message}`)
+  }
 
-      if (currentTime - date.getTime() > 86400000 * 30) {
-        // a month passed since last update
-        changeFreq = 'monthly'
-      } else if (currentTime - date.getTime() > 86400000 * 7) {
-        // a week passed since last update
-        changeFreq = 'weekly'
-      } else {
-        changeFreq = 'daily'
-      }
+  const data: ArticleOverview[] = result.data!
 
+  const currentTime: number = new Date().getTime()
+  for (const result of data) {
+    let changeFreq:
+      | 'daily'
+      | 'always'
+      | 'hourly'
+      | 'weekly'
+      | 'monthly'
+      | 'yearly'
+      | 'never' = 'daily'
+
+    if (currentTime - result.date.getTime() > 86400000 * 30) {
+      // a month passed since last update
+      changeFreq = 'monthly'
+    } else if (currentTime - result.date.getTime() > 86400000 * 7) {
+      // a week passed since last update
+      changeFreq = 'weekly'
+    } else {
+      changeFreq = 'daily'
+    }
+
+    if (sitemapData.length === 0) {
       sitemapData.push({
-        url: `${baseUrl}/article/${result.id}`,
-        lastModified: new Date(result.date),
+        url: baseUrl,
+        lastModified: result.date,
         changeFrequency: changeFreq,
-        priority: 0.5,
+        priority: 1,
       })
     }
 
-    return sitemapData
-  } finally {
-    connection.release()
+    sitemapData.push({
+      url: `${baseUrl}/article/${result.id}`,
+      lastModified: result.date,
+      changeFrequency: changeFreq,
+      priority: 0.5,
+    })
   }
+
+  cache.set('key', sitemapData, cacheTTL)
+  return sitemapData
 }
