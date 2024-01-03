@@ -2,5 +2,6 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 pnpm run fmt
+pnpm run type-check
 pnpm run test
 npx lint-staged
