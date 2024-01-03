@@ -1,4 +1,4 @@
-import { Draft } from '@/layers/entity/types'
+import { PublishableDraft } from '@/layers/entity/types'
 import withConnection from '../../connection/withConnection'
 import { PoolConnection } from 'mysql2/promise'
 import { deleteTagsSQL, insertTagsSQL, updateArticleSQL } from './query'
@@ -39,12 +39,12 @@ const createError = (error: any): UpdateArticleReturnProps => {
 }
 
 export const updateArticle = async (
-  draft: Draft,
+  data: PublishableDraft,
 ): Promise<UpdateArticleReturnProps> => {
   const tagInsertValues: string[][] = []
-  if (draft.tags) {
-    draft.tags.forEach((tag) => {
-      tagInsertValues.push([draft.id, tag])
+  if (data.tags) {
+    data.tags.forEach((tag) => {
+      tagInsertValues.push([data.id, tag])
     })
   }
 
@@ -53,10 +53,10 @@ export const updateArticle = async (
       await connection.beginTransaction()
 
       const updateResult: any[] = await connection.query(updateArticleSQL(), [
-        draft.title,
-        draft.description,
-        draft.content,
-        draft.id,
+        data.title,
+        data.description,
+        data.content,
+        data.id,
       ])
 
       const updateAffectedRows: number = updateResult[0].affectedRows
@@ -66,7 +66,7 @@ export const updateArticle = async (
         return notExistsError
       }
 
-      await connection.query(deleteTagsSQL(), [draft.id])
+      await connection.query(deleteTagsSQL(), [data.id])
       if (tagInsertValues.length > 0) {
         await connection.query(insertTagsSQL(), [tagInsertValues])
       }

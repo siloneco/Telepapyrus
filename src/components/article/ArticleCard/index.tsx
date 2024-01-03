@@ -7,7 +7,7 @@ type Props = {
   id: string
   title: string
   date: string
-  lastUpdated: string | null
+  lastUpdated?: string
   tags: string[]
 }
 

@@ -4,16 +4,13 @@ export type Article = {
   description: string
   content: string
   tags: string[]
-  public: boolean
+  isPublic: boolean
   date: Date
-  last_updated: Date | null
+  last_updated?: Date
 }
 
-export type Draft = {
-  id: string
-  title: string
-  description: string
-  content: string
-  tags: string[]
-  public: boolean
-}
+export type ArticleOverview = Omit<Article, 'content'>
+
+export type Draft = Pick<Article, 'id' | 'title' | 'content'>
+
+export type PublishableDraft = Omit<Article, 'date' | 'last_updated'>

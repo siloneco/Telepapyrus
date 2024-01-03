@@ -1,5 +1,5 @@
 import withConnection from '../../connection/withConnection'
-import { Article } from '@/layers/entity/types'
+import { ArticleOverview } from '@/layers/entity/types'
 import {
   listAllQuery,
   listAllWithPageQuery,
@@ -14,7 +14,7 @@ export type ListArticleProps = {
 
 export type ListArticleReturnProps = {
   success: boolean
-  data?: Article[]
+  data?: ArticleOverview[]
   error?: {
     id: 'unknown'
     message: string

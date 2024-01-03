@@ -1,4 +1,4 @@
-import { Draft } from '@/layers/entity/types'
+import { Draft, PublishableDraft } from '@/layers/entity/types'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useContext, useState } from 'react'
 import { UseFormReturn, useForm } from 'react-hook-form'
@@ -59,13 +59,13 @@ export const usePostDialog = ({ postDraft }: Props): ReturnProps => {
   const onSubmit = async () => {
     setIsPosting(true)
 
-    const data: Draft = {
+    const data: PublishableDraft = {
       id: id.value,
       title: form.getValues().title,
       description: form.getValues().description,
       content: content.value,
       tags: form.getValues().tags || [],
-      public: form.getValues().visibility === 'public',
+      isPublic: form.getValues().visibility === 'public',
     }
 
     const success: boolean = await postDraft(data)

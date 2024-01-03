@@ -2,7 +2,7 @@ import { FaRegClock } from 'react-icons/fa'
 
 type Props = {
   date: string
-  lastUpdated: string | null
+  lastUpdated?: string
 }
 
 export default function ArticlePostTime({ date, lastUpdated }: Props) {

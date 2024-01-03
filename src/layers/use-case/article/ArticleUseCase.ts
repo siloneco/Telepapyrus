@@ -1,4 +1,4 @@
-import { Draft } from '../../entity/types'
+import { Article, ArticleOverview, PublishableDraft } from '../../entity/types'
 import {
   ArticleRepository,
   getRepository,
@@ -23,14 +23,20 @@ const flushCachesIfSuccess = (
   }
 }
 
-export type PresentationArticle = {
-  id: string
-  title: string
-  description: string
-  content: string
-  tags: string[]
+export type PresentationArticle = Omit<
+  Article,
+  'date' | 'last_updated' | 'isPublic'
+> & {
   date: string
-  last_updated: string | null
+  last_updated?: string
+}
+
+export type PresentationArticleOverview = Omit<
+  ArticleOverview,
+  'date' | 'last_updated'
+> & {
+  date: string
+  last_updated?: string
 }
 
 export type ListArticleProps = {
@@ -48,12 +54,12 @@ const createUseCase = (repo: ArticleRepository): ArticleUseCase => {
   ]
 
   return {
-    createArticle: async (draft: Draft) => {
+    createArticle: async (draft: PublishableDraft) => {
       const result = await createArticle(repo, draft)
       flushCachesIfSuccess(result, flushCacheFunctions, draft.id)
       return result
     },
-    updateArticle: async (draft: Draft) => {
+    updateArticle: async (draft: PublishableDraft) => {
       const result = await updateArticle(repo, draft)
       flushCachesIfSuccess(result, flushCacheFunctions, draft.id)
       return result

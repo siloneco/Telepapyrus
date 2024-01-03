@@ -4,14 +4,14 @@ import { TAG_NAME_MAX_LENGTH } from '@/lib/constants/Constants'
 import ArticleList from '@/components/layout/ArticleList'
 import ArticleTag from '@/components/article/ArticleTag'
 import {
-  PresentationArticle,
+  PresentationArticleOverview,
   getArticleUseCase,
 } from '@/layers/use-case/article/ArticleUseCase'
 
 async function getArticles(
   tag: string,
   page: number = 1,
-): Promise<PresentationArticle[] | null> {
+): Promise<PresentationArticleOverview[] | null> {
   const result = await getArticleUseCase().listArticle({
     tags: [tag],
     page: page,
@@ -68,7 +68,10 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const data: PresentationArticle[] | null = await getArticles(tag, page)
+  const data: PresentationArticleOverview[] | null = await getArticles(
+    tag,
+    page,
+  )
   const maxPageNum: number | null = await getMaxPageNumber(tag)
 
   if (data === null || maxPageNum === null) {

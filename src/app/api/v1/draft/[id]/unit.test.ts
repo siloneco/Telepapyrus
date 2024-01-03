@@ -19,8 +19,6 @@ const baseData: Draft = {
   id: 'id',
   title: 'title',
   content: 'content',
-  public: true,
-  tags: [],
 }
 
 const mockKeyMap = {

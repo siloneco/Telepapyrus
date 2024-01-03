@@ -15,7 +15,7 @@ const convertToPresentationArticle = (article: Article) => {
     date: formatDate(article.date),
     last_updated: article.last_updated
       ? formatDate(article.last_updated)
-      : null,
+      : undefined,
   }
 
   return presentationArticle

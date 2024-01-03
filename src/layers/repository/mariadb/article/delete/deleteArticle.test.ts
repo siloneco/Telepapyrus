@@ -1,5 +1,6 @@
 jest.mock('./query')
 
+import { PublishableDraft } from '@/layers/entity/types'
 import getConnectionPool from '../../connection/getConnectionPool'
 import { createArticle } from '../create/createArticle'
 import { deleteArticle } from './deleteArticle'
@@ -20,14 +21,16 @@ describe('deleteArticle', () => {
   it('deletes an article correctly', async () => {
     const id = `tmp-test-article-delete-success-${milliSec()}`
 
-    await createArticle({
+    const createData: PublishableDraft = {
       id: id,
       title: 'title',
       description: 'description',
       content: 'content',
       tags: [],
-      public: true,
-    })
+      isPublic: true,
+    }
+
+    await createArticle(createData)
 
     expect(await deleteArticle(id)).toMatchObject({
       success: true,

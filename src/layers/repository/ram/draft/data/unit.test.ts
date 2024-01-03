@@ -5,8 +5,6 @@ const baseData: Draft = {
   id: 'id',
   title: 'title',
   content: 'content',
-  tags: [],
-  public: true,
 }
 
 describe('draft data cache for preview', () => {

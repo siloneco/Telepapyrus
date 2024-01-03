@@ -1,6 +1,6 @@
 jest.mock('./query')
 
-import { Draft } from '@/layers/entity/types'
+import { PublishableDraft } from '@/layers/entity/types'
 import getConnectionPool from '../../connection/getConnectionPool'
 import { getArticle } from './getArticle'
 import { getArticleQuery as dummyArticleQuery } from './query'
@@ -18,13 +18,13 @@ describe('getArticle', () => {
   })
 
   it('gets an article correctly', async () => {
-    const draft: Draft = {
+    const draft: PublishableDraft = {
       id: `test-article-get-success`,
       title: 'title',
       description: 'description',
       content: 'content',
       tags: ['test-article-get-success-tag'],
-      public: true,
+      isPublic: true,
     }
 
     const fetched = (await getArticle(draft.id)).data

@@ -3,7 +3,6 @@ SELECT
   articles.id,
   articles.title,
   articles.description,
-  articles.content,
   articles.date,
   articles.last_updated,
   tags.tags
@@ -24,7 +23,6 @@ SELECT
   articles.id,
   articles.title,
   articles.description,
-  articles.content,
   articles.date,
   articles.last_updated,
   tags.tags
@@ -64,7 +62,6 @@ SELECT
   articles.id,
   articles.title,
   articles.description,
-  articles.content,
   date,
   last_updated,
   tags.tags

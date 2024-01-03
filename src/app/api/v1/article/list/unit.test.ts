@@ -13,6 +13,7 @@ import { Failure, Success } from '@/lib/utils/Result'
 const baseData: PresentationArticle = {
   id: 'id',
   title: 'title',
+  description: 'description',
   content: 'content',
   tags: ['tag1', 'tag2'],
   date: '2024/01/01',

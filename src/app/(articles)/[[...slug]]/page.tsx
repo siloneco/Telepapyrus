@@ -2,13 +2,13 @@ import { Metadata, ResolvingMetadata } from 'next'
 import { notFound } from 'next/navigation'
 import ArticleList from '@/components/layout/ArticleList'
 import {
-  PresentationArticle,
+  PresentationArticleOverview,
   getArticleUseCase,
 } from '@/layers/use-case/article/ArticleUseCase'
 
 async function getArticles(
   page: number,
-): Promise<PresentationArticle[] | null> {
+): Promise<PresentationArticleOverview[] | null> {
   const result = await getArticleUseCase().listArticle({ page: page })
   if (result.isSuccess()) {
     return result.value
@@ -59,7 +59,7 @@ export default async function Page({ params }: Props) {
     }
   }
 
-  const data: PresentationArticle[] | null = await getArticles(page)
+  const data: PresentationArticleOverview[] | null = await getArticles(page)
   const maxPage: number = await getMaxPageNumber()
 
   if (data === null) {

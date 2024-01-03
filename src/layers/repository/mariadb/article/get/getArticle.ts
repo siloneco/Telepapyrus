@@ -58,9 +58,9 @@ export const getArticle = async (
         description: rawData.description,
         content: rawData.content,
         tags: rawData.tag ? rawData.tag.split(',') : [],
-        public: true, // Edit this when you implement private article
+        isPublic: true, // Edit this when you implement private article
         date: rawData.date,
-        last_updated: rawData.last_updated,
+        last_updated: rawData.last_updated ?? undefined,
       }
 
       const returnValue: GetArticleReturnProps = {

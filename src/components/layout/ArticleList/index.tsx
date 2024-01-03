@@ -1,11 +1,11 @@
-import { ArticleOverview } from '@/components/types/Article'
 import ArticleCard from '@/components/article/ArticleCard'
 import PageSelector from '@/components/page/PageSelector'
 import { FC, memo } from 'react'
 import { Separator } from '@/components/ui/separator'
+import { PresentationArticleOverview } from '@/layers/use-case/article/ArticleUseCase'
 
 type Props = {
-  articles: Array<ArticleOverview>
+  articles: PresentationArticleOverview[]
   currentPage: number
   totalPages: number
   path?: string
@@ -21,18 +21,22 @@ export default async function ArticleList(data: Props) {
     return (
       <main>
         <div className="max-w-3xl mx-5 mt-5 md:mx-auto">
-          {articles.map((article: ArticleOverview, index: number) => (
-            <div key={article.id}>
-              <ArticleCard
-                id={article.id}
-                title={article.title}
-                date={article.date}
-                lastUpdated={article.last_updated}
-                tags={article.tags}
-              />
-              {index !== articles.length - 1 && <Separator className="my-2" />}
-            </div>
-          ))}
+          {articles.map(
+            (article: PresentationArticleOverview, index: number) => (
+              <div key={article.id}>
+                <ArticleCard
+                  id={article.id}
+                  title={article.title}
+                  date={article.date}
+                  lastUpdated={article.last_updated}
+                  tags={article.tags}
+                />
+                {index !== articles.length - 1 && (
+                  <Separator className="my-2" />
+                )}
+              </div>
+            ),
+          )}
           <PageSelector
             path={path}
             currentPage={currentPage}

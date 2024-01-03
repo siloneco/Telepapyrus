@@ -11,7 +11,7 @@ import {
   SaveStatusProps,
 } from '../type'
 import { WriteWorkspaceMode } from '../../WriteWorkspace'
-import { Draft } from '@/layers/entity/types'
+import { Draft, PublishableDraft } from '@/layers/entity/types'
 import { loadData } from './dataLoader'
 import {
   postDraftForCreate,
@@ -86,10 +86,7 @@ export function useWriteWorkspaceProvider({
       const data: Draft = {
         id: contextValue.id.value,
         title: contextValue.title.value,
-        description: '',
         content: contextValue.content.value,
-        tags: [],
-        public: true,
       }
 
       sendPreviewData(data).then(() => {
@@ -114,10 +111,7 @@ export function useWriteWorkspaceProvider({
     const draft: Draft = {
       id: id,
       title: title,
-      description: '',
       content: content,
-      tags: [],
-      public: true,
     }
 
     const result = await saveDraft(draft)
@@ -144,8 +138,11 @@ export function useWriteWorkspaceProvider({
 
         setTitle(draft.title)
         setContent(draft.content)
-        setInitialDescription(draft.description)
-        setInitialTags(draft.tags)
+
+        const publishableDraft = draft as PublishableDraft
+
+        setInitialDescription(publishableDraft.description ?? '')
+        setInitialTags(publishableDraft.tags ?? [])
       })
       .finally(() => {
         setLoadingWorkspace(false)

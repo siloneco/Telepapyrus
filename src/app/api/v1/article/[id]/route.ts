@@ -8,7 +8,7 @@ import {
   ArticleInvalidDataError,
   ArticleNotFoundError,
 } from '@/layers/use-case/article/errors'
-import { Draft } from '@/layers/entity/types'
+import { PublishableDraft } from '@/layers/entity/types'
 import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
 
 export const dynamic = 'force-dynamic'
@@ -19,7 +19,7 @@ type Props = {
   }
 }
 
-type RequestJson = Draft & { update?: boolean }
+type RequestJson = PublishableDraft & { update?: boolean }
 
 export async function GET(request: Request, { params }: Props) {
   // Require authentication

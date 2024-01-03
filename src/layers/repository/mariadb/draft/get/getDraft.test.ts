@@ -20,11 +20,8 @@ describe('getDraft', () => {
   it('gets a draft correctly', async () => {
     const draft: Draft = {
       id: `test-draft-get-success`,
-      description: '',
       title: 'title',
       content: 'content',
-      tags: [],
-      public: true,
     }
 
     const fetched = (await getDraft(draft.id)).data

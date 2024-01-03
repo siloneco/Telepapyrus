@@ -1,5 +1,9 @@
-import { Draft } from '../../entity/types'
-import { ListArticleProps, PresentationArticle } from './ArticleUseCase'
+import { PublishableDraft } from '../../entity/types'
+import {
+  ListArticleProps,
+  PresentationArticle,
+  PresentationArticleOverview,
+} from './ArticleUseCase'
 import {
   ArticleAlreadyExistsError,
   ArticleExcessiveScopeError,
@@ -11,7 +15,7 @@ import { Result } from '@/lib/utils/Result'
 
 export interface ArticleUseCase {
   createArticle(
-    _draft: Draft,
+    _draft: PublishableDraft,
   ): Promise<
     Result<true, ArticleAlreadyExistsError | ArticleInvalidDataError | Error>
   >
@@ -24,7 +28,7 @@ export interface ArticleUseCase {
     >
   >
   updateArticle(
-    _draft: Draft,
+    _draft: PublishableDraft,
   ): Promise<
     Result<true, ArticleInvalidDataError | ArticleNotFoundError | Error>
   >
@@ -44,5 +48,5 @@ export interface ArticleUseCase {
   >
   listArticle(
     _data: ListArticleProps,
-  ): Promise<Result<PresentationArticle[], Error>>
+  ): Promise<Result<PresentationArticleOverview[], Error>>
 }

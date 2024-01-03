@@ -1,11 +1,11 @@
 import { Failure, Result, Success } from '@/lib/utils/Result'
 import { ArticleInvalidDataError, ArticleNotFoundError } from '../errors'
 import { ArticleRepository } from '@/layers/repository/ArticleRepository'
-import { Draft } from '@/layers/entity/types'
+import { PublishableDraft } from '@/layers/entity/types'
 
 export const updateArticle = async (
   repo: ArticleRepository,
-  draft: Draft,
+  draft: PublishableDraft,
 ): Promise<
   Result<true, ArticleNotFoundError | ArticleInvalidDataError | Error>
 > => {

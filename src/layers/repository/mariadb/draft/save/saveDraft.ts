@@ -1,7 +1,7 @@
-import { Draft } from '@/layers/entity/types'
 import withConnection from '../../connection/withConnection'
 import { PoolConnection } from 'mysql2/promise'
 import { insertDraftSQL } from './query'
+import { Draft } from '@/layers/entity/types'
 
 export type SaveDraftReturnProps = {
   success: boolean

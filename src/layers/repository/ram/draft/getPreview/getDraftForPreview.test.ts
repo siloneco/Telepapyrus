@@ -1,14 +1,11 @@
-import { Draft } from '@/layers/entity/types'
 import { getDraftForPreview } from './getDraftForPreview'
 import { setDraftForPreview } from '../setPreview/setDraftForPreview'
+import { Draft } from '@/layers/entity/types'
 
 const baseData: Draft = {
   id: 'id',
   title: 'title',
-  description: 'description',
   content: 'content',
-  tags: [],
-  public: true,
 }
 
 describe('getDraftForPreview', () => {

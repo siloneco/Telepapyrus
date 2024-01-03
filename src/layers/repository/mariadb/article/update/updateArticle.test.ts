@@ -1,15 +1,15 @@
-import { Draft } from '@/layers/entity/types'
+import { PublishableDraft } from '@/layers/entity/types'
 import getConnectionPool from '../../connection/getConnectionPool'
 import { createArticle } from '../create/createArticle'
 import { updateArticle } from './updateArticle'
 
-const baseData: Draft = {
+const baseData: PublishableDraft = {
   id: 'id',
   title: 'title',
   description: 'description',
   content: 'content',
   tags: [],
-  public: true,
+  isPublic: true,
 }
 
 const milliSec = () => {

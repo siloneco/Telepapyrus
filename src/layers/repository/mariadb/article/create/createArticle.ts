@@ -1,4 +1,4 @@
-import { Draft } from '@/layers/entity/types'
+import { PublishableDraft } from '@/layers/entity/types'
 import withConnection from '../../connection/withConnection'
 import { PoolConnection } from 'mysql2/promise'
 import { insertArticleSQL, insertTagsSQL } from './query'
@@ -33,7 +33,7 @@ const createError = (error: any): CreateArticleReturnProps => {
 }
 
 export const createArticle = async (
-  draft: Draft,
+  draft: PublishableDraft,
 ): Promise<CreateArticleReturnProps> => {
   const tagInsertValues: string[][] = []
   if (draft.tags) {

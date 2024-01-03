@@ -1,4 +1,4 @@
-import { Draft } from '@/layers/entity/types'
+import { Draft, PublishableDraft } from '@/layers/entity/types'
 import { WriteWorkspaceMode } from '../../WriteWorkspace'
 import { getBaseURL } from '../logic'
 import { PresentationArticle } from '@/layers/use-case/article/ArticleUseCase'
@@ -16,16 +16,15 @@ const loadDataFromDraft = async (id: string): Promise<Draft | null> => {
   const result: Draft = {
     id: data.id,
     title: data.title,
-    description: '',
     content: data.content,
-    tags: [],
-    public: true,
   }
 
   return result
 }
 
-const loadDataFromArticle = async (id: string): Promise<Draft | null> => {
+const loadDataFromArticle = async (
+  id: string,
+): Promise<PublishableDraft | null> => {
   const res = await fetch(`${getBaseURL()}/api/v1/article/${id}`)
 
   if (res.status !== 200) {
@@ -34,13 +33,13 @@ const loadDataFromArticle = async (id: string): Promise<Draft | null> => {
 
   const data: PresentationArticle = await res.json()
 
-  const result: Draft = {
+  const result: PublishableDraft = {
     id: data.id,
     title: data.title,
     description: data.description,
     content: data.content,
     tags: data.tags,
-    public: true,
+    isPublic: true,
   }
 
   return result
@@ -51,7 +50,10 @@ type Props = {
   id: string
 }
 
-export const loadData = ({ mode, id }: Props): Promise<Draft | null> => {
+export const loadData = ({
+  mode,
+  id,
+}: Props): Promise<Draft | PublishableDraft | null> => {
   if (mode === 'write-draft') {
     return loadDataFromDraft(id)
   } else if (mode === 'edit-article') {

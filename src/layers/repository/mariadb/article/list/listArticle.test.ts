@@ -9,7 +9,6 @@ const checkTypes = (articles: any[] | undefined) => {
     expect(article).toMatchObject({
       id: expect.any(String),
       title: expect.any(String),
-      content: expect.any(String),
       tags: expect.any(Array),
       public: expect.any(Boolean),
       date: expect.any(Date),

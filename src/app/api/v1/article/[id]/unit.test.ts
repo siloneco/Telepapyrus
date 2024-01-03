@@ -17,19 +17,29 @@ import {
   ArticleInvalidDataError,
   ArticleNotFoundError,
 } from '@/layers/use-case/article/errors'
-import { Draft } from '@/layers/entity/types'
+import { Draft, PublishableDraft } from '@/layers/entity/types'
 import { getServerSession } from 'next-auth'
 import { DraftUseCase } from '@/layers/use-case/draft/interface'
 import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
 
-const baseData: PresentationArticle = {
+const baseArticle: PresentationArticle = {
   id: 'id',
   title: 'title',
+  description: 'description',
   content: 'content',
   tags: ['tag1', 'tag2'],
   date: '2024/01/01',
   last_updated: '2024/01/01',
-}
+} as const
+
+const basePublishableDraft: PublishableDraft = {
+  id: baseArticle.id,
+  title: baseArticle.title,
+  description: baseArticle.description,
+  content: baseArticle.content,
+  tags: baseArticle.tags,
+  isPublic: true,
+} as const
 
 const mockKeyMap = {
   success: 'success',
@@ -43,7 +53,7 @@ const mockKeyMap = {
 const articleUseCaseMock: ArticleUseCase = {
   createArticle: jest.fn().mockImplementation(async (draft: Draft) => {
     if (draft.id === mockKeyMap.success) {
-      return new Success(baseData)
+      return new Success(baseArticle)
     } else if (draft.id === mockKeyMap.alreadyExists) {
       return new Failure(new ArticleAlreadyExistsError(''))
     } else if (draft.id === mockKeyMap.invalidData) {
@@ -54,7 +64,7 @@ const articleUseCaseMock: ArticleUseCase = {
   }),
   getArticle: jest.fn().mockImplementation(async (id: string) => {
     if (id === mockKeyMap.success) {
-      return new Success(baseData)
+      return new Success(baseArticle)
     } else if (id === mockKeyMap.notExists) {
       return new Failure(new ArticleNotFoundError(''))
     } else if (id === mockKeyMap.scopeError) {
@@ -65,7 +75,7 @@ const articleUseCaseMock: ArticleUseCase = {
   }),
   updateArticle: jest.fn().mockImplementation(async (draft: Draft) => {
     if (draft.id === mockKeyMap.success) {
-      return new Success(baseData)
+      return new Success(baseArticle)
     } else if (draft.id === mockKeyMap.notExists) {
       return new Failure(new ArticleNotFoundError(''))
     } else if (draft.id === mockKeyMap.invalidData) {
@@ -76,7 +86,7 @@ const articleUseCaseMock: ArticleUseCase = {
   }),
   deleteArticle: jest.fn().mockImplementation(async (id: string) => {
     if (id === mockKeyMap.success) {
-      return new Success(baseData)
+      return new Success(baseArticle)
     } else if (id === mockKeyMap.notExists) {
       return new Failure(new ArticleNotFoundError(''))
     } else if (id === mockKeyMap.scopeError) {
@@ -137,7 +147,7 @@ describe('GET /api/v1/article/[id]', () => {
     expect(getServerSessionMock.mock.calls).toHaveLength(0)
 
     const result: NextResponse<any> = await GET(req, {
-      params: { id: baseData.id },
+      params: { id: baseArticle.id },
     })
 
     expect(result.status).toBe(401)
@@ -158,7 +168,7 @@ describe('GET /api/v1/article/[id]', () => {
     expect(data.status).toBe(200)
 
     const responseJson = await data.json()
-    expect(responseJson).toEqual(baseData)
+    expect(responseJson).toEqual(baseArticle)
   })
 
   it('responds 404 (Not Found) when the article not found', async () => {
@@ -216,7 +226,7 @@ describe('POST /api/v1/article/[id]', () => {
     expect(getServerSessionMock.mock.calls).toHaveLength(0)
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: baseData.id },
+      params: { id: baseArticle.id },
     })
 
     expect(result.status).toBe(401)
@@ -229,7 +239,7 @@ describe('POST /api/v1/article/[id]', () => {
   it('responds 200 (OK) when article successfully posted', async () => {
     const { req } = httpMocks.createMocks({
       method: 'POST',
-      json: async () => Promise.resolve(baseData),
+      json: async () => Promise.resolve(basePublishableDraft),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -244,7 +254,7 @@ describe('POST /api/v1/article/[id]', () => {
   it('responds 409 (Conflict) when article with the specified ID already exists', async () => {
     const { req } = httpMocks.createMocks({
       method: 'POST',
-      json: async () => Promise.resolve(baseData),
+      json: async () => Promise.resolve(basePublishableDraft),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -259,7 +269,7 @@ describe('POST /api/v1/article/[id]', () => {
   it('responds 400 (Bad Request) when article data is invalid (create)', async () => {
     const { req } = httpMocks.createMocks({
       method: 'POST',
-      json: async () => Promise.resolve(baseData),
+      json: async () => Promise.resolve(basePublishableDraft),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -273,7 +283,7 @@ describe('POST /api/v1/article/[id]', () => {
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
     const { req } = httpMocks.createMocks({
       method: 'POST',
-      json: async () => Promise.resolve(baseData),
+      json: async () => Promise.resolve(basePublishableDraft),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -288,7 +298,8 @@ describe('POST /api/v1/article/[id]', () => {
   it('responds 200 (OK) when article successfully updated', async () => {
     const { req } = httpMocks.createMocks({
       method: 'POST',
-      json: async () => Promise.resolve({ ...baseData, update: true }),
+      json: async () =>
+        Promise.resolve({ ...basePublishableDraft, update: true }),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -303,7 +314,8 @@ describe('POST /api/v1/article/[id]', () => {
   it('responds 404 (Not Found) when article with the specified ID not exists', async () => {
     const { req } = httpMocks.createMocks({
       method: 'POST',
-      json: async () => Promise.resolve({ ...baseData, update: true }),
+      json: async () =>
+        Promise.resolve({ ...basePublishableDraft, update: true }),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -318,7 +330,8 @@ describe('POST /api/v1/article/[id]', () => {
   it('responds 400 (Bad Request) when article data is invalid (update)', async () => {
     const { req } = httpMocks.createMocks({
       method: 'POST',
-      json: async () => Promise.resolve({ ...baseData, update: true }),
+      json: async () =>
+        Promise.resolve({ ...basePublishableDraft, update: true }),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -348,7 +361,7 @@ describe('DELETE /api/v1/article/[id]', () => {
     expect(getServerSessionMock.mock.calls).toHaveLength(0)
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: { id: baseData.id },
+      params: { id: baseArticle.id },
     })
 
     expect(result.status).toBe(401)
