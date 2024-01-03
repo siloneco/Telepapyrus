@@ -1,6 +1,5 @@
 'use client'
 
-import { ArticleOverview } from '@/components/types/Article'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -12,6 +11,7 @@ import {
 import { Check, ExternalLink, MoreHorizontal } from 'lucide-react'
 import { DeleteDialogTrigger, DeleteDialogWrapper } from './delete-dialog'
 import { useToast } from '@/components/ui/use-toast'
+import { PresentationArticleOverview } from '@/layers/use-case/article/ArticleUseCase'
 
 function getBaseURL(): string {
   const protocol = document.location.protocol
@@ -24,7 +24,7 @@ function generateURL(id: string): string {
 }
 
 type Props = {
-  article: ArticleOverview
+  article: PresentationArticleOverview
 }
 
 export function ActionButton({ article }: Props) {

@@ -1,20 +1,30 @@
 import { ArticleTable } from '@/components/admin/ArticleTable'
 import { columns } from '@/components/admin/ArticleTable/columns'
 import { NewArticleInput } from '@/components/admin/NewArticleInput'
-import { ArticleOverview } from '@/components/types/Article'
-import { getAllArticles } from '@/lib/database/FetchAllArticles'
+import {
+  PresentationArticleOverview,
+  getArticleUseCase,
+} from '@/layers/use-case/article/ArticleUseCase'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Dashboard | Silolab Blog',
 }
 
-async function getArticleOverview(): Promise<ArticleOverview[]> {
-  return await getAllArticles()
+async function getArticleOverview(): Promise<PresentationArticleOverview[]> {
+  const result = await getArticleUseCase().listArticle({})
+
+  if (result.isSuccess()) {
+    return result.value
+  }
+
+  console.error(`Failed to get article overview: ${result.error}`)
+
+  return []
 }
 
 export default async function Page() {
-  const data: ArticleOverview[] = await getArticleOverview()
+  const data: PresentationArticleOverview[] = await getArticleOverview()
 
   return (
     <div className="max-w-5xl mx-auto mt-5 mb-10">

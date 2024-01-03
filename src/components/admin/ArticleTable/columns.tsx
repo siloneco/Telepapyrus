@@ -1,13 +1,13 @@
 'use client'
 
-import { ArticleOverview } from '@/components/types/Article'
 import { ColumnDef } from '@tanstack/react-table'
 import { ActionButton } from './actions'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown } from 'lucide-react'
 import TagList from '@/components/model/TagList'
+import { PresentationArticleOverview } from '@/layers/use-case/article/ArticleUseCase'
 
-export const columns: ColumnDef<ArticleOverview>[] = [
+export const columns: ColumnDef<PresentationArticleOverview>[] = [
   {
     accessorKey: 'id',
     header: 'ID',
@@ -73,7 +73,7 @@ export const columns: ColumnDef<ArticleOverview>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const article: ArticleOverview = row.original
+      const article: PresentationArticleOverview = row.original
       return <ActionButton article={article} />
     },
   },

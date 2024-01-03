@@ -1,4 +1,3 @@
-import { ArticleOverview } from '@/components/types/Article'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -10,11 +9,12 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { PresentationArticleOverview } from '@/layers/use-case/article/ArticleUseCase'
 import { FileText, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 
 type Props = {
-  article: ArticleOverview
+  article: PresentationArticleOverview
   executeDelete: (_id: string) => void
   children: React.ReactNode
 }
