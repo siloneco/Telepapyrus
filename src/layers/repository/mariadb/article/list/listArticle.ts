@@ -96,23 +96,27 @@ export const listArticle = async ({
         page,
       )
 
-      const results = resultsWithColumnData[0]
+      const rawResults = resultsWithColumnData[0]
+      const results: ArticleOverview[] = []
 
-      for (let i = 0; i < results.length; i++) {
-        results[i].public = true // Edit this when you implement private article
-
-        const tagStr: string = results[i].tags
-        if (tagStr == null) {
-          results[i].tags = []
-          continue
+      for (const data of rawResults) {
+        const rawTags: string | null = data.tags
+        const overview: ArticleOverview = {
+          id: data.id,
+          title: data.title,
+          description: data.description,
+          tags: rawTags ? rawTags.split(',') : [],
+          date: data.date,
+          last_updated: data.last_updated,
+          isPublic: true, // Edit this when you implement private article
         }
 
-        results[i].tags = tagStr.split(',')
+        results.push(overview)
       }
 
       const returnValue: ListArticleReturnProps = {
         success: true,
-        data: results!,
+        data: results,
       }
 
       return returnValue
