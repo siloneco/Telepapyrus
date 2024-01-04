@@ -1,4 +1,4 @@
-name: Build and Lint Test
+name: Code Style Test
 on:
   push:
     paths-ignore:
@@ -12,7 +12,7 @@ on:
 jobs:
   build-test:
     if: ${{ github.event_name != 'pull_request' || github.repository != github.event.pull_request.head.repo.full_name }}
-    name: Build and Lint Test
+    name: Code Style Test
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
@@ -36,4 +36,5 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm run build
+      - run: pnpm run lint
+      - run: pnpm run type-check
