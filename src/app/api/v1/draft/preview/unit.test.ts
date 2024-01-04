@@ -1,13 +1,13 @@
 jest.mock('@/layers/use-case/draft/DraftUsesCase')
 jest.mock('next-auth')
 
-import httpMocks from 'node-mocks-http'
 import { PUT } from './route'
 import { Failure, Success } from '@/lib/utils/Result'
 import { Draft } from '@/layers/entity/types'
 import { getServerSession } from 'next-auth'
 import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
 import { DraftUseCase } from '@/layers/use-case/draft/interface'
+import { NextRequest } from 'next/server'
 
 const baseData: Draft = {
   id: 'id',
@@ -57,9 +57,9 @@ describe('PUT /api/v1/draft/preview', () => {
   })
 
   it('responds 401 (Unauthorized) when you does not have permission', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'PUT',
-      json: async () => Promise.resolve(baseData),
+      body: JSON.stringify(baseData),
     })
 
     const data: Response = await PUT(req)
@@ -70,9 +70,9 @@ describe('PUT /api/v1/draft/preview', () => {
   it('responds 204 (No Content) when it successfully stored data', async () => {
     const draftData = { ...baseData, id: mockKeyMap.success }
 
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'PUT',
-      json: async () => Promise.resolve(draftData),
+      body: JSON.stringify(draftData),
     })
 
     const data: Response = await PUT(req)
@@ -83,9 +83,9 @@ describe('PUT /api/v1/draft/preview', () => {
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
     const draftData = { ...baseData, id: mockKeyMap.error }
 
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'PUT',
-      json: async () => Promise.resolve(draftData),
+      body: JSON.stringify(draftData),
     })
 
     const data: Response = await PUT(req)

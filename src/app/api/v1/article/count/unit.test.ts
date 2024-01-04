@@ -1,7 +1,6 @@
 jest.mock('@/layers/use-case/article/ArticleUseCase')
 
-import httpMocks from 'node-mocks-http'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { GET } from './route'
 import { getArticleUseCase } from '@/layers/use-case/article/ArticleUseCase'
 import { ArticleUseCase } from '@/layers/use-case/article/interface'
@@ -56,14 +55,7 @@ beforeAll(() => {
 
 describe('GET /api/v1/article/count', () => {
   it('responds 200 (OK) and correct data', async () => {
-    const searchParams: URLSearchParams = new URLSearchParams()
-
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const req = new NextRequest('http://localhost/')
 
     const countArticleMock = articleUseCaseMock.countArticle as jest.Mock
 
@@ -79,15 +71,9 @@ describe('GET /api/v1/article/count', () => {
   })
 
   it('responds 200 (OK) and correct data when tags specified', async () => {
-    const searchParams: URLSearchParams = new URLSearchParams()
+    const searchParams = new URLSearchParams()
     searchParams.set('tags', mockKeyMap.success)
-
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const countArticleMock = articleUseCaseMock.countArticle as jest.Mock
 
@@ -105,15 +91,9 @@ describe('GET /api/v1/article/count', () => {
   })
 
   it('responds 500 (Internal Server Error) when invalid data returned', async () => {
-    const searchParams: URLSearchParams = new URLSearchParams()
+    const searchParams = new URLSearchParams()
     searchParams.set('tags', mockKeyMap.invalidReturnValueError)
-
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const data: NextResponse<any> = await GET(req)
 
@@ -121,15 +101,9 @@ describe('GET /api/v1/article/count', () => {
   })
 
   it('responds 500 (Internal Server Error) when it detects illegal behaviour', async () => {
-    const searchParams: URLSearchParams = new URLSearchParams()
+    const searchParams = new URLSearchParams()
     searchParams.set('tags', mockKeyMap.scopeError)
-
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const data: NextResponse<any> = await GET(req)
 
@@ -137,15 +111,9 @@ describe('GET /api/v1/article/count', () => {
   })
 
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
-    const searchParams: URLSearchParams = new URLSearchParams()
+    const searchParams = new URLSearchParams()
     searchParams.set('tags', mockKeyMap.error)
-
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const data: NextResponse<any> = await GET(req)
 

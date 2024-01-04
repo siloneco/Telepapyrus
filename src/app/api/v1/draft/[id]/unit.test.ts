@@ -1,8 +1,7 @@
 jest.mock('@/layers/use-case/draft/DraftUsesCase')
 jest.mock('next-auth')
 
-import httpMocks from 'node-mocks-http'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { DELETE, GET, POST } from './route'
 import { Failure, Success } from '@/lib/utils/Result'
 import { Draft } from '@/layers/entity/types'
@@ -85,9 +84,7 @@ describe('GET /api/v1/draft/[id]', () => {
   })
 
   it('responds 401 (Unauthorized) when you does not have permission', async () => {
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-    })
+    const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
       params: { id: mockKeyMap.success },
@@ -97,9 +94,7 @@ describe('GET /api/v1/draft/[id]', () => {
   })
 
   it('responds 200 (OK) and correct draft data', async () => {
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-    })
+    const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
       params: { id: mockKeyMap.success },
@@ -112,9 +107,7 @@ describe('GET /api/v1/draft/[id]', () => {
   })
 
   it('responds 404 (Not Found) when the draft not found', async () => {
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-    })
+    const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
       params: { id: mockKeyMap.notExists },
@@ -124,9 +117,7 @@ describe('GET /api/v1/draft/[id]', () => {
   })
 
   it('responds 500 (Internal Server Error) when it detected illegal behaviour', async () => {
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-    })
+    const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
       params: { id: mockKeyMap.scopeError },
@@ -136,9 +127,7 @@ describe('GET /api/v1/draft/[id]', () => {
   })
 
   it('responds 500 (Internal Server Error) when unkown error occured', async () => {
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-    })
+    const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
       params: { id: mockKeyMap.error },
@@ -158,7 +147,7 @@ describe('POST /api/v1/draft/[id]', () => {
   })
 
   it('responds 401 (Unauthorized) when you do not have permission', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
     })
 
@@ -174,9 +163,9 @@ describe('POST /api/v1/draft/[id]', () => {
   })
 
   it('responds 200 (OK) when draft successfully posted', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
-      json: async () => Promise.resolve(baseData),
+      body: JSON.stringify(baseData),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -187,9 +176,9 @@ describe('POST /api/v1/draft/[id]', () => {
   })
 
   it('responds 400 (Bad Request) when draft data is invalid', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
-      json: async () => Promise.resolve(baseData),
+      body: JSON.stringify(baseData),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -199,9 +188,9 @@ describe('POST /api/v1/draft/[id]', () => {
   })
 
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
-      json: async () => Promise.resolve(baseData),
+      body: JSON.stringify(baseData),
     })
 
     const result: NextResponse<any> = await POST(req, {
@@ -221,7 +210,7 @@ describe('DELETE /api/v1/draft/[id]', () => {
   })
 
   it('responds 401 (Unauthorized) when you do not have permission', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 
@@ -237,7 +226,7 @@ describe('DELETE /api/v1/draft/[id]', () => {
   })
 
   it('responds 200 (OK) when draft successfully deleted', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 
@@ -249,7 +238,7 @@ describe('DELETE /api/v1/draft/[id]', () => {
   })
 
   it('responds 404 (Not Found) when draft not found', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 
@@ -261,7 +250,7 @@ describe('DELETE /api/v1/draft/[id]', () => {
   })
 
   it('responds 500 (Internal Server Error) when it detected illegal behaviour', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 
@@ -272,7 +261,7 @@ describe('DELETE /api/v1/draft/[id]', () => {
   })
 
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 

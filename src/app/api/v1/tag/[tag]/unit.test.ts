@@ -1,8 +1,7 @@
 jest.mock('@/layers/use-case/tag/TagUsesCase')
 jest.mock('next-auth')
 
-import httpMocks from 'node-mocks-http'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { POST, DELETE } from './route'
 import { Failure, Success } from '@/lib/utils/Result'
 import { TagUseCase } from '@/layers/use-case/tag/interface'
@@ -67,7 +66,7 @@ describe('POST /api/v1/tag/[tag]', () => {
   })
 
   it('responds 401 (Unauthorized) when you do not have permission', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
     })
 
@@ -81,7 +80,7 @@ describe('POST /api/v1/tag/[tag]', () => {
   })
 
   it('responds 200 (OK) and creates tag correctly', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
     })
 
@@ -99,7 +98,7 @@ describe('POST /api/v1/tag/[tag]', () => {
   })
 
   it('responds 409 (Conflict) when the tag already exists', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
     })
 
@@ -117,7 +116,7 @@ describe('POST /api/v1/tag/[tag]', () => {
   })
 
   it('responds 400 (Bad Request) when invalid tag name specified', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
     })
 
@@ -135,7 +134,7 @@ describe('POST /api/v1/tag/[tag]', () => {
   })
 
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'POST',
     })
 
@@ -163,7 +162,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
   })
 
   it('responds 401 (Unauthorized) when you do not have permission', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 
@@ -177,7 +176,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
   })
 
   it('responds 200 (OK) and deletes tag correctly', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 
@@ -195,7 +194,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
   })
 
   it('responds 404 (Not Found) when the tag does not exists', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 
@@ -213,7 +212,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
   })
 
   it('responds 500 (Internal Server Error) when the tag has excessive scope', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 
@@ -231,7 +230,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
   })
 
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
-    const { req } = httpMocks.createMocks({
+    const req = new NextRequest('http://localhost/', {
       method: 'DELETE',
     })
 

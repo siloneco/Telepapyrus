@@ -1,7 +1,6 @@
 jest.mock('@/layers/use-case/tag/TagUsesCase')
 
-import httpMocks from 'node-mocks-http'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { GET } from './route'
 import { Failure, Success } from '@/lib/utils/Result'
 import { TagUseCase } from '@/layers/use-case/tag/interface'
@@ -29,9 +28,7 @@ beforeAll(() => {
 
 describe('GET /api/v1/tag/list', () => {
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-    })
+    const req = new NextRequest('http://localhost/')
 
     const listTagsMock = tagUseCaseMock.listTags as jest.Mock
 
@@ -42,9 +39,7 @@ describe('GET /api/v1/tag/list', () => {
   })
 
   it('responds 200 (OK) and correct list of tags', async () => {
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-    })
+    const req = new NextRequest('http://localhost/')
 
     const listTagsMock = tagUseCaseMock.listTags as jest.Mock
 

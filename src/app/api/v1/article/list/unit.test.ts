@@ -1,7 +1,6 @@
 jest.mock('@/layers/use-case/article/ArticleUseCase')
 
-import httpMocks from 'node-mocks-http'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { GET } from './route'
 import {
   PresentationArticle,
@@ -51,15 +50,10 @@ beforeAll(() => {
 describe('GET /api/v1/article/list', () => {
   it('responds 200 (OK) and correct list of article data', async () => {
     const tag = 'tmp-test-api-list-success-tag'
-    const searchParams: URLSearchParams = new URLSearchParams()
-    searchParams.set('tags', tag)
 
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const searchParams = new URLSearchParams()
+    searchParams.set('tags', tag)
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const listArticleMock = articleUseCaseMock.listArticle as jest.Mock
 
@@ -78,15 +72,11 @@ describe('GET /api/v1/article/list', () => {
   })
 
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {
-    const searchParams: URLSearchParams = new URLSearchParams()
-    searchParams.set('page', '1')
+    const page = 1
 
-    const { req } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const searchParams = new URLSearchParams()
+    searchParams.set('page', `${page}`)
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const listArticleMock = articleUseCaseMock.listArticle as jest.Mock
 
@@ -97,17 +87,13 @@ describe('GET /api/v1/article/list', () => {
   })
 
   it('responds 400 (Bad Request) when page number is negative', async () => {
-    const searchParams: URLSearchParams = new URLSearchParams()
-    searchParams.set('page', '-1')
+    const page = -1
 
-    const { req: pageReq } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const searchParams = new URLSearchParams()
+    searchParams.set('page', `${page}`)
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
-    const result: NextResponse<any> = await GET(pageReq)
+    const result: NextResponse<any> = await GET(req)
 
     expect(result.status).toBe(400)
   })
@@ -115,19 +101,13 @@ describe('GET /api/v1/article/list', () => {
   it('calls usecase.listArticle with correct page number', async () => {
     const page = 5
 
-    const searchParams: URLSearchParams = new URLSearchParams()
-    searchParams.set('page', page.toString())
-
-    const { req: pageReq } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const searchParams = new URLSearchParams()
+    searchParams.set('page', `${page}`)
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const listArticleMock = articleUseCaseMock.listArticle as jest.Mock
 
-    await GET(pageReq)
+    await GET(req)
 
     const callLength = 3
     expect(listArticleMock.mock.calls).toHaveLength(callLength)
@@ -137,26 +117,22 @@ describe('GET /api/v1/article/list', () => {
   })
 
   it('calls usecase.listArticle with correct tags list', async () => {
-    const tagBase = 'tmp-test-api-list-tag-'
-    const searchParams: URLSearchParams = new URLSearchParams()
-    searchParams.set('tags', `${tagBase}-1,${tagBase}-2,${tagBase}-3`)
+    const tagBase = 'tmp-test-api-list-tag'
+    const tags = [`${tagBase}-1`, `${tagBase}-2`, `${tagBase}-3`]
 
-    const { req: pageReq } = httpMocks.createMocks({
-      method: 'GET',
-      nextUrl: {
-        searchParams: searchParams,
-      },
-    })
+    const searchParams = new URLSearchParams()
+    searchParams.set('tags', tags.join(','))
+    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const listArticleMock = articleUseCaseMock.listArticle as jest.Mock
 
-    await GET(pageReq)
+    await GET(req)
 
     const callLength = 4
     expect(listArticleMock.mock.calls).toHaveLength(callLength)
     expect(listArticleMock.mock.calls[callLength - 1][0]).toEqual({
       page: 1,
-      tags: [`${tagBase}-1`, `${tagBase}-2`, `${tagBase}-3`],
+      tags: tags,
     })
   })
 })
