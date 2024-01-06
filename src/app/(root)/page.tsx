@@ -30,6 +30,8 @@ async function getMaxPageNumber(): Promise<number> {
 
 export const metadata: Metadata = {
   title: 'ホーム | Silolab Blog',
+  description:
+    'エンジニアとして日々学んだ技術的なことや、個人的な備忘録を不定期に書いているブログです。',
 }
 
 type Props = {
