@@ -21,17 +21,19 @@ export default function SigninPage() {
   }
 
   return (
-    <div className="max-w-3xl my-40 mx-3 flex justify-center md:mx-auto">
-      <Button
-        variant={'secondary'}
-        className="h-20 rounded-xl px-12"
-        onClick={onClick}
-        disabled={loading}
-      >
-        {loading && <Loader2 className="animate-spin" size={36} />}
-        {!loading && <FaGithub className="text-4xl" />}
-        <p className="text-xl ml-4">GitHubでログイン</p>
-      </Button>
+    <div className="flex justify-center items-center h-[calc(100vh-130px)]">
+      <div className="flex justify-center items-center p-12 bg-card rounded-3xl">
+        <Button
+          variant={'secondary'}
+          className="h-20 rounded-xl px-12"
+          onClick={onClick}
+          disabled={loading}
+        >
+          {loading && <Loader2 className="animate-spin" size={36} />}
+          {!loading && <FaGithub className="text-4xl" />}
+          <p className="text-xl ml-4">GitHubでログイン</p>
+        </Button>
+      </div>
     </div>
   )
 }

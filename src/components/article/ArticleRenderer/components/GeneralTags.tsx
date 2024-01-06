@@ -23,13 +23,13 @@ export const A: FC<any> = (props) => {
     props['data-footnote-ref'] == true ||
     props['data-footnote-backref'] == true
   ) {
-    return <a className="text-blue-400" {...props} />
+    return <a className="text-link" {...props} />
   }
   return (
     <a
       target="_blank"
       rel="noopener noreferrer nofollow"
-      className="text-blue-400"
+      className="text-link"
       {...props}
     />
   )

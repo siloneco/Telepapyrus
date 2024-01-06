@@ -17,11 +17,11 @@ export default function PreviousPageNavigator({ className }: Props) {
       <p
         onClick={() => router.back()}
         className={cn(
-          'mb-2 flex flex-row items-center text-gray-400 cursor-pointer',
+          'mb-2 flex flex-row items-center text-foreground/60 font-bold dark:font-normal cursor-pointer',
           className,
         )}
       >
-        <ArrowLeft size={26} />
+        <ArrowLeft size={26} className="text-foreground/60" />
         戻る
       </p>
     </div>

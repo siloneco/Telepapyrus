@@ -36,13 +36,16 @@ export default function SaveButton({
     >
       <span className="flex text-center">
         {isLoading && (
-          <Loader2 size={20} className="text-gray-500 mx-auto animate-spin" />
+          <Loader2
+            size={20}
+            className="text-card-foreground/60 mx-auto animate-spin"
+          />
         )}
         {!isLoading && !checked && (
-          <SaveIcon size={20} className="text-gray-500 mx-auto" />
+          <SaveIcon size={20} className="text-foreground/60 mx-auto" />
         )}
         {!isLoading && checked && (
-          <CheckIcon size={20} className="text-green-400 mx-auto" />
+          <CheckIcon size={20} className="text-green-500 mx-auto" />
         )}
       </span>
     </Button>

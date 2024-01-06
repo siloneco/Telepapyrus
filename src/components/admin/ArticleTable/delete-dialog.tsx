@@ -32,9 +32,9 @@ export function DeleteDialogWrapper({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>本当に削除しますか？</AlertDialogTitle>
-          <AlertDialogDescription className="text-white">
+          <AlertDialogDescription className="text-card-foreground">
             <div className="flex flex-row items-center">
-              <FileText size={24} className="text-gray-400 mr-2" />
+              <FileText size={24} className="text-card-foreground/60 mr-2" />
               <p className="text-lg font-bold">{`${article.id} - ${article.title}`}</p>
             </div>
           </AlertDialogDescription>

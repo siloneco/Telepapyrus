@@ -41,8 +41,9 @@ export function ActionButton({ article }: Props) {
   const showCopiedToast = () => {
     toast({
       title: 'コピーしました！',
-      titleIcon: <Check size={24} className="text-green-400" />,
-      className: 'md:w-48 bg-secondary text-secondary-foreground',
+      titleIcon: <Check size={24} className="text-green-500" />,
+      className:
+        'md:w-48 bg-card text-card-foreground dark:bg-secondary dark:text-secondary-foreground',
       duration: 1500,
     })
   }
@@ -64,7 +65,10 @@ export function ActionButton({ article }: Props) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ExternalLink size={16} className="text-gray-600 mr-1" />
+              <ExternalLink
+                size={16}
+                className="text-card-foreground/40 mr-1"
+              />
               開く
             </a>
           </DropdownMenuItem>

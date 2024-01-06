@@ -1,6 +1,5 @@
 import { FaDiscord } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
 import {
   Popover,
   PopoverTrigger,
@@ -8,8 +7,6 @@ import {
 } from '@/components/ui/popover'
 import { Label } from '@/components/ui/label'
 import CopyButton from '@/components/misc/CopyButton'
-
-const iconCss: string = 'text-2xl pr-5 text-white pr-0'
 
 type Props = {
   username: string
@@ -20,7 +17,7 @@ export default function DiscordButton({ username, className }: Props) {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="ghost" aria-label="discord">
-          <FaDiscord className={cn(iconCss, className)} />
+          <FaDiscord className={className} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-52">

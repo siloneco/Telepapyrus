@@ -36,9 +36,9 @@ export default function WriteWorkspaceProvider({ mode, id, children }: Props) {
 
   return (
     <WriteWorkspaceContext.Provider value={contextValue}>
-      <div className="mx-auto max-w-3xl mt-8">
+      <div>
         <Input
-          className="mb-3 text-base"
+          className="w-full mb-3 text-base"
           placeholder={loadingWorkspace ? 'Loading...' : '記事のタイトルを入力'}
           disabled={loadingWorkspace}
           value={title}
@@ -58,7 +58,7 @@ export default function WriteWorkspaceProvider({ mode, id, children }: Props) {
                 プレビュー
               </TabsTrigger>
             </TabsList>
-            <p className="text-base text-gray-400 ml-2">
+            <p className="text-base text-card-foreground/80 ml-2">
               {minToRead} min to read
             </p>
             <div className="ml-auto flex items-center">

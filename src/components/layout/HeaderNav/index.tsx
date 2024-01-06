@@ -10,8 +10,9 @@ import { getServerSession } from 'next-auth/next'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { FolderLock } from 'lucide-react'
 import SignOutNavButton from '@/components/misc/SignOutNavButton'
+import ToggleThemeButton from '@/components/misc/ToggleThemeButton'
 
-const iconCss: string = 'text-2xl pr-5 text-white pr-0'
+const iconCss: string = 'text-2xl pr-5 text-foreground pr-0'
 
 const githubUsername: string | undefined = process.env.PROFILE_GITHUB_USERNAME
 const xUsername: string | undefined = process.env.PROFILE_X_USERNAME
@@ -22,11 +23,12 @@ export default async function HeaderNav() {
   const session = await getServerSession(authOptions)
   const isValidAdmin = session !== undefined && session !== null
 
-  const darkenCss: string = 'text-gray-600'
+  const darkenCss: string =
+    'text-card-foreground/20 dark:text-card-foreground/30'
 
   return (
     <nav className="sticky top-0 shadow-sm z-10">
-      <div className="h-14 w-full bg-background flex flex-row justify-center items-center">
+      <div className="h-14 w-full bg-card flex flex-row justify-center items-center">
         <div className="h-full w-full max-w-4xl flex flex-row content-between items-center justify-center">
           <div className="flex items-center">
             <Button asChild variant="ghost" aria-label="home">
@@ -36,6 +38,7 @@ export default async function HeaderNav() {
             </Button>
           </div>
           <div className="content-end flex items-center ml-auto">
+            <ToggleThemeButton className="mr-2" />
             {githubUsername && (
               <Button asChild variant="ghost" aria-label="github">
                 <a
@@ -65,7 +68,7 @@ export default async function HeaderNav() {
             {discordUsername && (
               <DiscordButton
                 username={discordUsername}
-                className={cn(isValidAdmin && darkenCss)}
+                className={cn(iconCss, isValidAdmin && darkenCss)}
               />
             )}
             {misskeyUrl && (

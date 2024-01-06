@@ -6,11 +6,11 @@ import { CheckIcon, CopyIcon } from 'lucide-react'
 import { useEffect, useState } from 'react'
 
 type Props = {
-  className?: string
   value: string
+  className?: string
 }
 
-export default function CopyButton({ className, value }: Props) {
+export default function CopyButton({ value, className }: Props) {
   const [copied, setCopied] = useState(false)
 
   const onClick = async () => {
@@ -29,13 +29,13 @@ export default function CopyButton({ className, value }: Props) {
   return (
     <Button
       variant="ghost"
-      className={cn('h-6 w-6', className)}
+      className={cn('h-6 w-6 hover:bg-gray-700 hover:text-gray-200', className)}
       onClick={onClick}
       aria-label="copy"
     >
       <span className="flex text-center">
-        {!copied && <CopyIcon size={15} className="text-gray-500 mx-auto" />}
-        {copied && <CheckIcon size={15} className="text-green-400 mx-auto" />}
+        {!copied && <CopyIcon size={15} className="text-inherit/60 mx-auto" />}
+        {copied && <CheckIcon size={15} className="text-green-500 mx-auto" />}
       </span>
     </Button>
   )

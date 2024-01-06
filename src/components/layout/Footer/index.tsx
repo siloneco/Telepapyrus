@@ -5,13 +5,13 @@ export default function Footer() {
     <footer className="max-w-3xl mx-auto mt-3 mb-6">
       <Separator />
       <div className="mt-3">
-        <p className="text-center text-gray-400">
+        <p className="text-center text-foreground dark:text-foreground/60">
           Contribute at GitHub:{' '}
           <a
             href="https://github.com/siloneco/Telepapyrus"
             target="_blank"
             rel="noopener noreferrer nofollow"
-            className="text-blue-400"
+            className="text-link"
           >
             siloneco/Telepapyrus
           </a>

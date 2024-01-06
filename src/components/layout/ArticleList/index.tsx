@@ -20,7 +20,7 @@ export default async function ArticleList(data: Props) {
   }: Props) {
     return (
       <main>
-        <div className="max-w-3xl mx-5 mt-5 md:mx-auto">
+        <div className="max-w-3xl mx-auto bg-card px-6 py-2 rounded-2xl">
           {articles.map(
             (article: PresentationArticleOverview, index: number) => (
               <div key={article.id}>
@@ -37,12 +37,12 @@ export default async function ArticleList(data: Props) {
               </div>
             ),
           )}
-          <PageSelector
-            path={path}
-            currentPage={currentPage}
-            totalPages={totalPages}
-          />
         </div>
+        <PageSelector
+          path={path}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
       </main>
     )
   })

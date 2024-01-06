@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { FaChevronLeft } from 'react-icons/fa'
-import { cn } from '@/lib/utils'
 
 type Props = {
   path: string
@@ -13,11 +12,7 @@ export default function PageBack({ path, page, bright }: Props) {
   const url = page === 1 ? `${path}` : `${path}?page=${page}`
 
   return (
-    <Button
-      asChild
-      variant="secondary"
-      className={cn('mr-5', bright && 'border border-gray-400')}
-    >
+    <Button asChild variant="secondary" className="mr-5">
       <Link key={page} href={url}>
         {bright && (
           <div className="flex flex-row items-center">

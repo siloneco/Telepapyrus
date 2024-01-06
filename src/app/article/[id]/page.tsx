@@ -70,7 +70,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <div className="max-w-3xl mt-5 mx-3 md:mx-auto">
+    <div className="max-w-3xl mt-5 mx-auto p-4 md:p-6 bg-card rounded-2xl">
       <ArticleHeader
         id={data.id}
         title={data.title}

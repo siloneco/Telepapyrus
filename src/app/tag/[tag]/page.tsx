@@ -86,9 +86,9 @@ export default async function Page({ params, searchParams }: Props) {
 
   return (
     <div>
-      <div className="flex flex-row justify-center mt-7">
-        <ArticleTag tag={tag} noLink className="mr-2" />
-        <h3>が付いている記事</h3>
+      <div className="flex flex-row justify-center items-center my-7">
+        <h2 className="text-xl">タグで絞り込み: </h2>
+        <ArticleTag tag={tag} noLink className="ml-2" />
       </div>
       <ArticleList
         articles={data}

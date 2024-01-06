@@ -1,6 +1,5 @@
 import ArticlePostTime from '../ArticlePostTime'
 import { Separator } from '@/components/ui/separator'
-import PreviousPageNavigator from '@/components/misc/PreviousPageNavigator'
 import { getServerSession } from 'next-auth/next'
 import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import ArticleEditButton from '@/components/misc/ArticleEditButton'
@@ -31,7 +30,6 @@ export default async function ArticleHeader({
 
   return (
     <div className="mb-3">
-      <PreviousPageNavigator />
       {fullWidthTitle && <Title />}
       <div className="flex flex-rows items-end">
         <div>

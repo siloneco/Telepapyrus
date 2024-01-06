@@ -12,7 +12,7 @@ export default function PageSelector({ currentPage, totalPages, path }: Props) {
   const prev = Math.min(currentPage - 1, totalPages)
 
   return (
-    <div className="mt-2 text-center">
+    <div className="my-6 text-center">
       {currentPage > 1 && (
         <PageBack path={path} page={prev} bright={currentPage == totalPages} />
       )}

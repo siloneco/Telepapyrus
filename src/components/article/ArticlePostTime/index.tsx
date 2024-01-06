@@ -13,7 +13,7 @@ export default function ArticlePostTime({ date, lastUpdated }: Props) {
       : ''
 
   return (
-    <div className="my-1 flex flex-row items-center text-sm text-gray-300">
+    <div className="my-1 flex flex-row items-center text-sm text-secondary-foreground/80">
       <p className="flex flex-row items-center">
         <FaRegClock className="mr-1" />
         <time dateTime={dateTime}>{date}</time>

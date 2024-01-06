@@ -16,7 +16,7 @@ export default function WriteTab() {
           value={content.value}
           disabled={loadingWorkspace}
           onChange={(e) => content.set(e.target.value)}
-          className="font-mono w-full h-[calc(100vh-250px)] min-h-[500px] resize-none outline-none bg-gray-800 "
+          className="font-mono w-full h-[calc(100vh-250px)] min-h-[500px] resize-none outline-none dark:bg-muted"
         />
       </div>
     </TabsContent>
