@@ -29,7 +29,7 @@ export default async function HeaderNav() {
   return (
     <nav className="sticky top-0 shadow-sm z-10">
       <div className="h-14 w-full bg-card flex flex-row justify-center items-center">
-        <div className="h-full w-full max-w-4xl flex flex-row content-between items-center justify-center">
+        <div className="h-full w-full max-w-4xl mx-4 flex flex-row content-between items-center justify-center">
           <div className="flex items-center">
             <Button asChild variant="ghost" aria-label="home">
               <Link href={'/'}>
