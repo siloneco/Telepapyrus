@@ -8,6 +8,29 @@ figure[data-rehype-pretty-code-figure] > pre {
   padding: 15px 0;
 }
 
+span[data-rehype-pretty-code-figure] {
+  display: inline-flex;
+  text-align: center;
+}
+
+/* plaintext inline code */
+span[data-rehype-pretty-code-figure]:not(
+    :has(> code[data-language='plaintext'])
+  ) {
+  border-radius: 4px;
+  background-color: #020817;
+}
+
+span[data-rehype-pretty-code-figure] > code {
+  padding: 0 4px;
+}
+
+/* plaintext inline code */
+span[data-rehype-pretty-code-figure] > code[data-language='plaintext'] {
+  color: hsl(var(--card-foreground));
+  padding: 0;
+}
+
 code {
   font-family: 'Sans Mono', 'Consolas', 'Courier', monospace;
   counter-reset: line;
