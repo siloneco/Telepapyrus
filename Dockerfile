@@ -35,7 +35,7 @@ FROM gcr.io/distroless/nodejs20-debian12:nonroot AS runner
 WORKDIR /app
 
 # Uncomment this when you have at least one public asset.
-# COPY --from=build /app/public ./public
+# COPY --from=build --chown=65532:65532 /work/public ./public
 
 COPY --from=sharp --chown=65532:65532 /work/node_modules/ ./node_modules/
 COPY --from=build --chown=65532:65532 /work/.next/standalone ./
