@@ -21,7 +21,7 @@ export default function SigninPage() {
   }
 
   return (
-    <div className="flex justify-center items-center h-[calc(100vh-130px)]">
+    <div className="flex justify-center items-center h-[calc(100vh-170px)]">
       <div className="flex justify-center items-center p-12 bg-card rounded-3xl">
         <Button
           variant={'secondary'}
