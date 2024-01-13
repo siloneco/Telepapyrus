@@ -8,9 +8,14 @@ import { useEffect, useState } from 'react'
 type Props = {
   value: string
   className?: string
+  hoverAccent?: boolean
 }
 
-export default function CopyButton({ value, className }: Props) {
+export default function CopyButton({
+  value,
+  className,
+  hoverAccent = true,
+}: Props) {
   const [copied, setCopied] = useState(false)
 
   const onClick = async () => {
@@ -29,7 +34,11 @@ export default function CopyButton({ value, className }: Props) {
   return (
     <Button
       variant="ghost"
-      className={cn('h-6 w-6 p-0 hover:bg-accent hover:text-accent', className)}
+      className={cn(
+        'h-6 w-6 p-0',
+        !hoverAccent && 'hover:bg-transparent hover:text-inherit',
+        className,
+      )}
       onClick={onClick}
       aria-label="copy"
     >
