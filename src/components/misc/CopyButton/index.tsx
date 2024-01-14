@@ -30,7 +30,9 @@ export default function CopyButton({ value, className }: Props) {
     <Button
       variant="ghost"
       className={cn(
-        'h-6 w-6 p-0 text-card-foreground/60 hover:text-card-foreground/60',
+        'h-6 w-6 p-0',
+        'text-card-foreground/60 bg-transparent', // define text and background color
+        'hover:text-card-foreground/60 hover:bg-transparent', // disable hover color changes
         className,
       )}
       onClick={onClick}
