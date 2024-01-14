@@ -26,7 +26,10 @@ FROM pnpm AS sharp
 
 WORKDIR /work
 
-RUN pnpm install sharp
+COPY package.json ./package.d.json
+
+RUN SHARP_VERSION=`node -p -e "require('./package.d.json').dependencies.sharp"` \
+    pnpm install sharp@"$SHARP_VERSION"
 
 
 # Create runner image
