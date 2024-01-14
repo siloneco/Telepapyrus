@@ -22,8 +22,7 @@ export default function Footer() {
             </a>
             <CopyButton
               value={contactEmail}
-              className="h-6 w-6 align-bottom"
-              hoverAccent={false}
+              className="h-6 w-6 align-bottom text-card-foreground/60 hover:text-card-foreground/60"
             />
             <span>まで</span>
           </p>

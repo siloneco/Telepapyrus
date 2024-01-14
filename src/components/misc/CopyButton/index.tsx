@@ -8,14 +8,9 @@ import { useEffect, useState } from 'react'
 type Props = {
   value: string
   className?: string
-  hoverAccent?: boolean
 }
 
-export default function CopyButton({
-  value,
-  className,
-  hoverAccent = true,
-}: Props) {
+export default function CopyButton({ value, className }: Props) {
   const [copied, setCopied] = useState(false)
 
   const onClick = async () => {
@@ -35,20 +30,14 @@ export default function CopyButton({
     <Button
       variant="ghost"
       className={cn(
-        'h-6 w-6 p-0',
-        !hoverAccent && 'hover:bg-transparent hover:text-inherit',
+        'h-6 w-6 p-0 text-card-foreground/60 hover:text-card-foreground/60',
         className,
       )}
       onClick={onClick}
       aria-label="copy"
     >
       <span className="flex text-center">
-        {!copied && (
-          <CopyIcon
-            size={15}
-            className="mx-auto text-white/60 dark:text-foreground/60"
-          />
-        )}
+        {!copied && <CopyIcon size={15} className="mx-auto text-inherit" />}
         {copied && (
           <CheckIcon
             size={15}
