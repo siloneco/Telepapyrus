@@ -44,7 +44,10 @@ export default function CopyButton({
     >
       <span className="flex text-center">
         {!copied && (
-          <CopyIcon size={15} className="mx-auto text-foreground/60" />
+          <CopyIcon
+            size={15}
+            className="mx-auto text-white/60 dark:text-foreground/60"
+          />
         )}
         {copied && (
           <CheckIcon

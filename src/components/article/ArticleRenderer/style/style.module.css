@@ -50,7 +50,3 @@
 .article table {
   margin: 5px;
 }
-
-.article th {
-  color: hsl(var(--card-foreground));
-}

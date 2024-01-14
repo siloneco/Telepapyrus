@@ -13,12 +13,12 @@ span[data-rehype-pretty-code-figure] {
   text-align: center;
 }
 
-/* plaintext inline code */
+/* not plaintext inline code */
 span[data-rehype-pretty-code-figure]:not(
     :has(> code[data-language='plaintext'])
   ) {
   border-radius: 4px;
-  background-color: #020817;
+  background-color: var(--tw-prose-pre-bg);
 }
 
 span[data-rehype-pretty-code-figure] > code {
