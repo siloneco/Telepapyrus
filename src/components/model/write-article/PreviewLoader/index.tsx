@@ -1,6 +1,6 @@
 import ArticleRenderer from '@/components/article/ArticleRenderer'
+import { NotFoundError } from '@/layers/entity/errors'
 import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
-import { DraftNotFoundError } from '@/layers/use-case/draft/errors'
 
 type Props = {
   id: string
@@ -12,7 +12,7 @@ export default async function PreviewLoader({ id }: Props) {
   if (result.isFailure()) {
     const error = result.error
 
-    if (error instanceof DraftNotFoundError) {
+    if (error instanceof NotFoundError) {
       return <p>Not Found</p>
     }
 

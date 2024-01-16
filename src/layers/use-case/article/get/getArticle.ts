@@ -1,10 +1,13 @@
 import { Failure, Result, Success } from '@/lib/utils/Result'
-import { ArticleExcessiveScopeError, ArticleNotFoundError } from '../errors'
 import { ArticleRepository } from '@/layers/repository/ArticleRepository'
 import { Article } from '@/layers/entity/types'
 import { formatDate } from '@/lib/utils'
 import { FlushCacheFunction, PresentationArticle } from '../ArticleUseCase'
 import NodeCache from 'node-cache'
+import {
+  NotFoundError,
+  UnexpectedBehaviorDetectedError,
+} from '@/layers/entity/errors'
 
 const cache = new NodeCache()
 const cacheTTL = 60
@@ -27,7 +30,7 @@ export const getArticle = async (
 ): Promise<
   Result<
     PresentationArticle,
-    ArticleNotFoundError | ArticleExcessiveScopeError | Error
+    NotFoundError | UnexpectedBehaviorDetectedError | Error
   >
 > => {
   const cacheKey = id
@@ -47,10 +50,10 @@ export const getArticle = async (
   const errorId = result.error?.id
 
   if (errorId === 'not-exists') {
-    return new Failure(new ArticleNotFoundError(`Article not found: ${id}`))
+    return new Failure(new NotFoundError(`Article not found: ${id}`))
   } else if (errorId === 'too-many-rows-selected') {
     return new Failure(
-      new ArticleExcessiveScopeError(`Too many rows selected: ${id}`),
+      new UnexpectedBehaviorDetectedError(`Too many rows selected: ${id}`),
     )
   }
 

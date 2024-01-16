@@ -6,18 +6,18 @@ import { POST, DELETE } from './route'
 import { Failure, Success } from '@/lib/utils/Result'
 import { TagUseCase } from '@/layers/use-case/tag/interface'
 import { getTagUseCase } from '@/layers/use-case/tag/TagUsesCase'
-import {
-  TagAlreadyExistsError,
-  TagExcessiveScopeError,
-  TagInvalidDataError,
-  TagNotFoundError,
-} from '@/layers/use-case/tag/errors'
 import { getServerSession } from 'next-auth'
+import {
+  AlreadyExistsError,
+  InvalidDataError,
+  NotFoundError,
+  UnexpectedBehaviorDetectedError,
+} from '@/layers/entity/errors'
 
 const mockKeyMap = {
   success: 'success',
   notExists: 'not-exists',
-  scopeError: 'scope-error',
+  illegalBehavior: 'illegal-behavior',
   alreadyExists: 'already-exists',
   invalidData: 'invalid-data',
   error: 'error',
@@ -28,9 +28,9 @@ const tagUseCaseMock: TagUseCase = {
     if (id === mockKeyMap.success) {
       return new Success(true)
     } else if (id === mockKeyMap.invalidData) {
-      return new Failure(new TagInvalidDataError(''))
+      return new Failure(new InvalidDataError(''))
     } else if (id === mockKeyMap.alreadyExists) {
-      return new Failure(new TagAlreadyExistsError(''))
+      return new Failure(new AlreadyExistsError(''))
     } else {
       return new Failure(new Error(''))
     }
@@ -39,9 +39,9 @@ const tagUseCaseMock: TagUseCase = {
     if (id === mockKeyMap.success) {
       return new Success(true)
     } else if (id === mockKeyMap.notExists) {
-      return new Failure(new TagNotFoundError(''))
-    } else if (id === mockKeyMap.scopeError) {
-      return new Failure(new TagExcessiveScopeError(''))
+      return new Failure(new NotFoundError(''))
+    } else if (id === mockKeyMap.illegalBehavior) {
+      return new Failure(new UnexpectedBehaviorDetectedError(''))
     } else {
       return new Failure(new Error(''))
     }
@@ -218,7 +218,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
 
     const result: NextResponse<any> = await DELETE(req, {
       params: {
-        tag: mockKeyMap.scopeError,
+        tag: mockKeyMap.illegalBehavior,
       },
     })
 
@@ -226,7 +226,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
 
     expect(result.status).toBe(500)
     expect(deleteTagMock).toHaveBeenCalledTimes(3)
-    expect(deleteTagMock.mock.calls[2][0]).toBe(mockKeyMap.scopeError)
+    expect(deleteTagMock.mock.calls[2][0]).toBe(mockKeyMap.illegalBehavior)
   })
 
   it('responds 500 (Internal Server Error) when unknown error occured', async () => {

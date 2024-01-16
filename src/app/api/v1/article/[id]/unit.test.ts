@@ -10,16 +10,16 @@ import {
 } from '@/layers/use-case/article/ArticleUseCase'
 import { ArticleUseCase } from '@/layers/use-case/article/interface'
 import { Failure, Success } from '@/lib/utils/Result'
-import {
-  ArticleAlreadyExistsError,
-  ArticleExcessiveScopeError,
-  ArticleInvalidDataError,
-  ArticleNotFoundError,
-} from '@/layers/use-case/article/errors'
 import { Draft, PublishableDraft } from '@/layers/entity/types'
 import { getServerSession } from 'next-auth'
 import { DraftUseCase } from '@/layers/use-case/draft/interface'
 import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
+import {
+  AlreadyExistsError,
+  InvalidDataError,
+  NotFoundError,
+  UnexpectedBehaviorDetectedError,
+} from '@/layers/entity/errors'
 
 const baseArticle: PresentationArticle = {
   id: 'id',
@@ -54,9 +54,9 @@ const articleUseCaseMock: ArticleUseCase = {
     if (draft.id === mockKeyMap.success) {
       return new Success(baseArticle)
     } else if (draft.id === mockKeyMap.alreadyExists) {
-      return new Failure(new ArticleAlreadyExistsError(''))
+      return new Failure(new AlreadyExistsError(''))
     } else if (draft.id === mockKeyMap.invalidData) {
-      return new Failure(new ArticleInvalidDataError(''))
+      return new Failure(new InvalidDataError(''))
     } else {
       return new Failure(new Error(''))
     }
@@ -65,9 +65,9 @@ const articleUseCaseMock: ArticleUseCase = {
     if (id === mockKeyMap.success) {
       return new Success(baseArticle)
     } else if (id === mockKeyMap.notExists) {
-      return new Failure(new ArticleNotFoundError(''))
+      return new Failure(new NotFoundError(''))
     } else if (id === mockKeyMap.scopeError) {
-      return new Failure(new ArticleExcessiveScopeError(''))
+      return new Failure(new UnexpectedBehaviorDetectedError(''))
     } else {
       return new Failure(new Error(''))
     }
@@ -76,9 +76,9 @@ const articleUseCaseMock: ArticleUseCase = {
     if (draft.id === mockKeyMap.success) {
       return new Success(baseArticle)
     } else if (draft.id === mockKeyMap.notExists) {
-      return new Failure(new ArticleNotFoundError(''))
+      return new Failure(new NotFoundError(''))
     } else if (draft.id === mockKeyMap.invalidData) {
-      return new Failure(new ArticleInvalidDataError(''))
+      return new Failure(new InvalidDataError(''))
     } else {
       return new Failure(new Error(''))
     }
@@ -87,9 +87,9 @@ const articleUseCaseMock: ArticleUseCase = {
     if (id === mockKeyMap.success) {
       return new Success(baseArticle)
     } else if (id === mockKeyMap.notExists) {
-      return new Failure(new ArticleNotFoundError(''))
+      return new Failure(new NotFoundError(''))
     } else if (id === mockKeyMap.scopeError) {
-      return new Failure(new ArticleExcessiveScopeError(''))
+      return new Failure(new UnexpectedBehaviorDetectedError(''))
     } else {
       return new Failure(new Error(''))
     }

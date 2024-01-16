@@ -5,15 +5,11 @@ import { GET } from './route'
 import { getArticleUseCase } from '@/layers/use-case/article/ArticleUseCase'
 import { ArticleUseCase } from '@/layers/use-case/article/interface'
 import { Failure, Success } from '@/lib/utils/Result'
-import {
-  ArticleExcessiveScopeError,
-  ArticleUnexpectedReturnValueError,
-} from '@/layers/use-case/article/errors'
+import { UnexpectedBehaviorDetectedError } from '@/layers/entity/errors'
 
 const mockKeyMap = {
   success: 'success',
-  scopeError: 'scope-error',
-  invalidReturnValueError: 'invalid-return-value-error',
+  illegalBehavior: 'illegal-behavior',
   error: 'error',
 }
 
@@ -35,10 +31,8 @@ const articleUseCaseMock: ArticleUseCase = {
       return new Success(1)
     } else if (tags[0] === mockKeyMap.success) {
       return new Success(2)
-    } else if (tags[0] === mockKeyMap.scopeError) {
-      return new Failure(new ArticleExcessiveScopeError(''))
-    } else if (tags[0] === mockKeyMap.invalidReturnValueError) {
-      return new Failure(new ArticleUnexpectedReturnValueError(''))
+    } else if (tags[0] === mockKeyMap.illegalBehavior) {
+      return new Failure(new UnexpectedBehaviorDetectedError(''))
     } else {
       return new Failure(new Error(''))
     }
@@ -90,19 +84,9 @@ describe('GET /api/v1/article/count', () => {
     ])
   })
 
-  it('responds 500 (Internal Server Error) when invalid data returned', async () => {
-    const searchParams = new URLSearchParams()
-    searchParams.set('tags', mockKeyMap.invalidReturnValueError)
-    const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
-
-    const data: NextResponse<any> = await GET(req)
-
-    expect(data.status).toBe(500)
-  })
-
   it('responds 500 (Internal Server Error) when it detects illegal behaviour', async () => {
     const searchParams = new URLSearchParams()
-    searchParams.set('tags', mockKeyMap.scopeError)
+    searchParams.set('tags', mockKeyMap.illegalBehavior)
     const req = new NextRequest(`http://localhost/?${searchParams.toString()}`)
 
     const data: NextResponse<any> = await GET(req)

@@ -2,7 +2,10 @@ import { Failure, Result, Success } from '@/lib/utils/Result'
 import { PresentationDraft } from '../DraftUsesCase'
 import { Draft } from '@/layers/entity/types'
 import { DraftRepository } from '@/layers/repository/DraftRepository'
-import { DraftExcessiveScopeError, DraftNotFoundError } from '../errors'
+import {
+  NotFoundError,
+  UnexpectedBehaviorDetectedError,
+} from '@/layers/entity/errors'
 
 const convertToPresentationDraft = (draft: Draft) => {
   const presentationDraft: PresentationDraft = {
@@ -18,7 +21,7 @@ export const getDraft = async (
 ): Promise<
   Result<
     PresentationDraft,
-    DraftNotFoundError | DraftExcessiveScopeError | Error
+    NotFoundError | UnexpectedBehaviorDetectedError | Error
   >
 > => {
   const result = await repo.getDraft(id)
@@ -30,10 +33,10 @@ export const getDraft = async (
   const errorId = result.error?.id
 
   if (errorId === 'not-exists') {
-    return new Failure(new DraftNotFoundError(`Draft not found: ${id}`))
+    return new Failure(new NotFoundError(`Draft not found: ${id}`))
   } else if (errorId === 'too-many-rows-selected') {
     return new Failure(
-      new DraftExcessiveScopeError(`Too many rows selected: ${id}`),
+      new UnexpectedBehaviorDetectedError(`Too many rows selected: ${id}`),
     )
   }
 

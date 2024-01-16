@@ -1,6 +1,6 @@
-export class TagNotFoundError extends Error {
+export class AlreadyExistsError extends Error {
   static {
-    this.prototype.name = 'TagNotFoundError'
+    this.prototype.name = 'AlreadyExistsError'
   }
 
   constructor(message: string, options?: ErrorOptions) {
@@ -8,9 +8,9 @@ export class TagNotFoundError extends Error {
   }
 }
 
-export class TagAlreadyExistsError extends Error {
+export class NotFoundError extends Error {
   static {
-    this.prototype.name = 'TagAlreadyExistsError'
+    this.prototype.name = 'NotFoundError'
   }
 
   constructor(message: string, options?: ErrorOptions) {
@@ -18,9 +18,9 @@ export class TagAlreadyExistsError extends Error {
   }
 }
 
-export class TagInvalidDataError extends Error {
+export class InvalidDataError extends Error {
   static {
-    this.prototype.name = 'TagInvalidDataError'
+    this.prototype.name = 'InvalidDataError'
   }
 
   constructor(message: string, options?: ErrorOptions) {
@@ -28,9 +28,9 @@ export class TagInvalidDataError extends Error {
   }
 }
 
-export class TagExcessiveScopeError extends Error {
+export class UnexpectedBehaviorDetectedError extends Error {
   static {
-    this.prototype.name = 'TagExcessiveScopeError'
+    this.prototype.name = 'UnexpectedBehaviorDetectedError'
   }
 
   constructor(message: string, options?: ErrorOptions) {

@@ -1,11 +1,8 @@
 import { Failure, Result, Success } from '@/lib/utils/Result'
 import { ArticleRepository } from '@/layers/repository/ArticleRepository'
-import {
-  ArticleExcessiveScopeError,
-  ArticleUnexpectedReturnValueError,
-} from '../errors'
 import { FlushCacheFunction } from '../ArticleUseCase'
 import NodeCache from 'node-cache'
+import { UnexpectedBehaviorDetectedError } from '@/layers/entity/errors'
 
 const cache = new NodeCache()
 const cacheTTL = 60
@@ -13,12 +10,7 @@ const cacheTTL = 60
 export const countArticle = async (
   repo: ArticleRepository,
   tags?: string[],
-): Promise<
-  Result<
-    number,
-    ArticleExcessiveScopeError | ArticleUnexpectedReturnValueError | Error
-  >
-> => {
+): Promise<Result<number, UnexpectedBehaviorDetectedError | Error>> => {
   const cacheKey = tags ? JSON.stringify(tags?.sort()) : 'all'
 
   const cached = cache.get<number>(cacheKey)
@@ -37,11 +29,11 @@ export const countArticle = async (
 
   if (errorId === 'too-many-rows-selected') {
     return new Failure(
-      new ArticleExcessiveScopeError(`Too many rows selected.`),
+      new UnexpectedBehaviorDetectedError(`Too many rows selected.`),
     )
   } else if (errorId === 'invalid-data-queried') {
     return new Failure(
-      new ArticleUnexpectedReturnValueError(`Invalid data returned.`),
+      new UnexpectedBehaviorDetectedError(`Invalid data returned.`),
     )
   }
 

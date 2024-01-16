@@ -1,51 +1,41 @@
+import {
+  AlreadyExistsError,
+  InvalidDataError,
+  NotFoundError,
+  UnexpectedBehaviorDetectedError,
+} from '@/layers/entity/errors'
 import { PublishableDraft } from '../../entity/types'
 import {
   ListArticleProps,
   PresentationArticle,
   PresentationArticleOverview,
 } from './ArticleUseCase'
-import {
-  ArticleAlreadyExistsError,
-  ArticleExcessiveScopeError,
-  ArticleInvalidDataError,
-  ArticleNotFoundError,
-  ArticleUnexpectedReturnValueError,
-} from './errors'
 import { Result } from '@/lib/utils/Result'
 
 export interface ArticleUseCase {
   createArticle(
     _draft: PublishableDraft,
-  ): Promise<
-    Result<true, ArticleAlreadyExistsError | ArticleInvalidDataError | Error>
-  >
+  ): Promise<Result<true, AlreadyExistsError | InvalidDataError | Error>>
   getArticle(
     _id: string,
   ): Promise<
     Result<
       PresentationArticle,
-      ArticleNotFoundError | ArticleExcessiveScopeError | Error
+      NotFoundError | UnexpectedBehaviorDetectedError | Error
     >
   >
   updateArticle(
     _draft: PublishableDraft,
-  ): Promise<
-    Result<true, ArticleInvalidDataError | ArticleNotFoundError | Error>
-  >
+  ): Promise<Result<true, InvalidDataError | NotFoundError | Error>>
   deleteArticle(
     _id: string,
   ): Promise<
-    Result<true, ArticleNotFoundError | ArticleExcessiveScopeError | Error>
+    Result<true, NotFoundError | UnexpectedBehaviorDetectedError | Error>
   >
 
   countArticle(
     _tags?: string[],
-  ): Promise<
-    Result<
-      number,
-      ArticleExcessiveScopeError | ArticleUnexpectedReturnValueError | Error
-    >
-  >
+  ): Promise<Result<number, UnexpectedBehaviorDetectedError | Error>>
   listArticle(
     _data: ListArticleProps,
   ): Promise<Result<PresentationArticleOverview[], Error>>

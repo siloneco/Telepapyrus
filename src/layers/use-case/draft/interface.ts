@@ -1,30 +1,30 @@
 import { Draft } from '../../entity/types'
 import { Result } from '@/lib/utils/Result'
-import {
-  DraftExcessiveScopeError,
-  DraftInvalidDataError,
-  DraftNotFoundError,
-} from './errors'
 import { PresentationDraft } from './DraftUsesCase'
+import {
+  InvalidDataError,
+  NotFoundError,
+  UnexpectedBehaviorDetectedError,
+} from '@/layers/entity/errors'
 
 export interface DraftUseCase {
-  saveDraft(_draft: Draft): Promise<Result<true, DraftInvalidDataError | Error>>
+  saveDraft(_draft: Draft): Promise<Result<true, InvalidDataError | Error>>
   getDraft(
     _id: string,
   ): Promise<
     Result<
       PresentationDraft,
-      DraftNotFoundError | DraftExcessiveScopeError | Error
+      NotFoundError | UnexpectedBehaviorDetectedError | Error
     >
   >
   deleteDraft(
     _id: string,
   ): Promise<
-    Result<true, DraftNotFoundError | DraftExcessiveScopeError | Error>
+    Result<true, NotFoundError | UnexpectedBehaviorDetectedError | Error>
   >
 
   setDraftForPreview(_draft: Draft): Promise<Result<true, Error>>
   getDraftForPreview(
     _id: string,
-  ): Promise<Result<PresentationDraft, DraftNotFoundError | Error>>
+  ): Promise<Result<PresentationDraft, NotFoundError | Error>>
 }
