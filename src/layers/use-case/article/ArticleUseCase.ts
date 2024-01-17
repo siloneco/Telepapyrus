@@ -23,6 +23,13 @@ const flushCachesIfSuccess = (
   }
 }
 
+const showErrorMessageIfItFails = (result: Result<any, Error>) => {
+  if (result.isFailure()) {
+    const error = result.error
+    console.error(`${error.name}: ${error.message}`)
+  }
+}
+
 export type PresentationArticle = Omit<
   Article,
   'date' | 'last_updated' | 'isPublic'
@@ -57,22 +64,36 @@ const createUseCase = (repo: ArticleRepository): ArticleUseCase => {
     createArticle: async (draft: PublishableDraft) => {
       const result = await createArticle(repo, draft)
       flushCachesIfSuccess(result, flushCacheFunctions, draft.id)
+      showErrorMessageIfItFails(result)
       return result
     },
     updateArticle: async (draft: PublishableDraft) => {
       const result = await updateArticle(repo, draft)
       flushCachesIfSuccess(result, flushCacheFunctions, draft.id)
+      showErrorMessageIfItFails(result)
       return result
     },
     deleteArticle: async (id: string) => {
       const result = await deleteArticle(repo, id)
       flushCachesIfSuccess(result, flushCacheFunctions, id)
+      showErrorMessageIfItFails(result)
       return result
     },
-    getArticle: async (id: string) => await getArticle(repo, id),
-    countArticle: async (tags?: string[]) => await countArticle(repo, tags),
-    listArticle: async (data: ListArticleProps) =>
-      await listArticle(repo, data),
+    getArticle: async (id: string) => {
+      const result = await getArticle(repo, id)
+      showErrorMessageIfItFails(result)
+      return result
+    },
+    countArticle: async (tags?: string[]) => {
+      const result = await countArticle(repo, tags)
+      showErrorMessageIfItFails(result)
+      return result
+    },
+    listArticle: async (data: ListArticleProps) => {
+      const result = await listArticle(repo, data)
+      showErrorMessageIfItFails(result)
+      return result
+    },
   }
 }
 

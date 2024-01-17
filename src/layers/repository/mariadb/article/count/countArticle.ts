@@ -7,7 +7,7 @@ export type CountArticleReturnProps = {
   data?: number
   error?: {
     id: 'too-many-rows-selected' | 'invalid-data-queried' | 'unknown'
-    message: string
+    message?: string
   }
 }
 
@@ -19,12 +19,8 @@ const createError = (
     success: false,
     error: {
       id,
-      message: 'Unknown error',
+      message,
     },
-  }
-
-  if (message !== undefined) {
-    data.error!.message = message
   }
 
   return data
@@ -74,13 +70,13 @@ export const countArticle = async (
       const resultRows = resultsWithColumnData[0]
 
       if (resultRows.length !== 1) {
-        return createError('too-many-rows-selected', 'Too many rows queried')
+        return createError('too-many-rows-selected')
       }
 
       const count: number = resultRows[0]['count']
 
       if (count === undefined || count < 0) {
-        return createError('invalid-data-queried', 'Invalid data queried')
+        return createError('invalid-data-queried')
       }
 
       const returnValue: CountArticleReturnProps = {
@@ -90,7 +86,7 @@ export const countArticle = async (
 
       return returnValue
     } catch (error: any) {
-      return createError(error.message)
+      return createError('unknown', error.message)
     }
   })
 }

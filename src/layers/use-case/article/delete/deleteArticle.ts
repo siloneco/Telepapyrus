@@ -4,6 +4,7 @@ import {
   NotFoundError,
   UnexpectedBehaviorDetectedError,
 } from '@/layers/entity/errors'
+import { concatErrorMessages } from '@/lib/utils'
 
 export const deleteArticle = async (
   repo: ArticleRepository,
@@ -17,16 +18,28 @@ export const deleteArticle = async (
   }
 
   const errorId = result.error?.id
+  const errorMsg = result.error?.message
 
   if (errorId === 'not-exists') {
-    return new Failure(new NotFoundError(`Article not found: ${id}`))
+    return new Failure(
+      new NotFoundError(
+        concatErrorMessages(`Article "${id}" not found`, errorMsg),
+      ),
+    )
   } else if (errorId === 'too-many-rows-affected') {
     return new Failure(
-      new UnexpectedBehaviorDetectedError(`Too many rows affected: ${id}`),
+      new UnexpectedBehaviorDetectedError(
+        concatErrorMessages(
+          `Too many rows affected while deleting article "${id}"`,
+          errorMsg,
+        ),
+      ),
     )
   }
 
   return new Failure(
-    new Error(`Failed to delete article: ${result.error?.message}`),
+    new Error(
+      concatErrorMessages(`Failed to delete article "${id}"`, errorMsg),
+    ),
   )
 }

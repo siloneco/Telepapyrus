@@ -3,6 +3,7 @@ import { ArticleRepository } from '@/layers/repository/ArticleRepository'
 import { FlushCacheFunction } from '../ArticleUseCase'
 import NodeCache from 'node-cache'
 import { UnexpectedBehaviorDetectedError } from '@/layers/entity/errors'
+import { concatErrorMessages } from '@/lib/utils'
 
 const cache = new NodeCache()
 const cacheTTL = 60
@@ -26,19 +27,24 @@ export const countArticle = async (
   }
 
   const errorId = result.error?.id
+  const errorMsg = result.error?.message
 
   if (errorId === 'too-many-rows-selected') {
     return new Failure(
-      new UnexpectedBehaviorDetectedError(`Too many rows selected.`),
+      new UnexpectedBehaviorDetectedError(
+        concatErrorMessages('Too many rows selected', errorMsg),
+      ),
     )
   } else if (errorId === 'invalid-data-queried') {
     return new Failure(
-      new UnexpectedBehaviorDetectedError(`Invalid data returned.`),
+      new UnexpectedBehaviorDetectedError(
+        concatErrorMessages('Invalid data queried', errorMsg),
+      ),
     )
   }
 
   return new Failure(
-    new Error(`Failed to count articles: ${result.error?.message}`),
+    new Error(concatErrorMessages('Failed to count article', errorMsg)),
   )
 }
 

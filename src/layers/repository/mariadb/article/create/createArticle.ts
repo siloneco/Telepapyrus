@@ -1,22 +1,23 @@
 import { PublishableDraft } from '@/layers/entity/types'
 import withConnection from '../../connection/withConnection'
-import { PoolConnection } from 'mysql2/promise'
+import { PoolConnection, QueryError } from 'mysql2/promise'
 import { insertArticleSQL, insertTagsSQL } from './query'
+
+type ErrorId = 'already-exists' | 'invalid-data' | 'unknown'
 
 export type CreateArticleReturnProps = {
   success: boolean
   error?: {
-    id: 'already-exists' | 'invalid-data' | 'unknown'
-    message: string
+    id: ErrorId
+    message?: string
   }
 }
 
-const createError = (error: any): CreateArticleReturnProps => {
+const createError = (error: QueryError): CreateArticleReturnProps => {
   const data: CreateArticleReturnProps = {
     success: false,
     error: {
       id: 'unknown',
-      message: error.message,
     },
   }
 

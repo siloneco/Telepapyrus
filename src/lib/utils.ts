@@ -59,3 +59,11 @@ export const convertSearchParamPageToInteger = (
     page: parsedIntoInt,
   }
 }
+
+export const concatErrorMessages = (parent: string, child?: string): string => {
+  if (child === undefined || child === '') {
+    return parent
+  }
+
+  return `${parent}: ${child}`
+}
