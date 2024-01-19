@@ -1,4 +1,4 @@
-import { Draft } from '../../entity/types'
+import { Draft, DraftOverview } from '../../entity/types'
 import { Result } from '@/lib/utils/Result'
 import { PresentationDraft } from './DraftUsesCase'
 import {
@@ -22,6 +22,7 @@ export interface DraftUseCase {
   ): Promise<
     Result<true, NotFoundError | UnexpectedBehaviorDetectedError | Error>
   >
+  listDraft(_page?: number): Promise<Result<DraftOverview[], Error>>
 
   setDraftForPreview(_draft: Draft): Promise<Result<true, Error>>
   getDraftForPreview(

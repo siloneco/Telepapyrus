@@ -9,6 +9,7 @@ import { Draft } from '@/layers/entity/types'
 import { setDraftForPreview } from './setForPreview/setDraftForPreview'
 import { getDraftForPreview } from './getForPreview/getForPreview'
 import { deleteDraft } from './delete/deleteDraft'
+import { listDraft } from './list/listDraft'
 
 export type PresentationDraft = {
   id: string
@@ -21,6 +22,7 @@ const createUseCase = (repo: DraftRepository): DraftUseCase => {
     getDraft: async (id: string) => getDraft(repo, id),
     saveDraft: async (draft: Draft) => saveDraft(repo, draft),
     deleteDraft: async (id: string) => deleteDraft(repo, id),
+    listDraft: async (page?: number) => listDraft(repo, page),
 
     setDraftForPreview: async (draft: Draft) => setDraftForPreview(repo, draft),
     getDraftForPreview: async (id: string) => getDraftForPreview(repo, id),
