@@ -1,17 +1,19 @@
 import { ArticleTable } from '@/components/admin/ArticleTable'
-import { columns } from '@/components/admin/ArticleTable/columns'
+import { DraftTable } from '@/components/admin/DraftTable'
 import { NewArticleInput } from '@/components/admin/NewArticleInput'
+import { DraftOverview } from '@/layers/entity/types'
 import {
   PresentationArticleOverview,
   getArticleUseCase,
 } from '@/layers/use-case/article/ArticleUseCase'
+import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
   title: 'Dashboard | Silolab Blog',
 }
 
-async function getArticleOverview(): Promise<PresentationArticleOverview[]> {
+const getArticleOverview = async (): Promise<PresentationArticleOverview[]> => {
   const result = await getArticleUseCase().listArticle({})
 
   if (result.isSuccess()) {
@@ -19,12 +21,23 @@ async function getArticleOverview(): Promise<PresentationArticleOverview[]> {
   }
 
   console.error(`Failed to get article overview: ${result.error}`)
+  return []
+}
 
+const getDraftOverview = async (): Promise<DraftOverview[]> => {
+  const result = await getDraftUseCase().listDraft()
+
+  if (result.isSuccess()) {
+    return result.value
+  }
+
+  console.error(`Failed to get draft overview: ${result.error}`)
   return []
 }
 
 export default async function Page() {
-  const data: PresentationArticleOverview[] = await getArticleOverview()
+  const articles: PresentationArticleOverview[] = await getArticleOverview()
+  const drafts: DraftOverview[] = await getDraftOverview()
 
   return (
     <div className="max-w-5xl mx-auto mt-5 mb-10">
@@ -35,7 +48,13 @@ export default async function Page() {
       <div className="w-4/5 mx-auto">
         <h2 className="text-xl font-bold mt-8 mb-2">記事一覧</h2>
         <div className="w-full">
-          <ArticleTable columns={columns} data={data} />
+          <ArticleTable data={articles} />
+        </div>
+      </div>
+      <div className="w-4/5 mx-auto">
+        <h2 className="text-xl font-bold mt-8 mb-2">下書き一覧</h2>
+        <div className="w-full">
+          <DraftTable data={drafts} />
         </div>
       </div>
     </div>
