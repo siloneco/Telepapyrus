@@ -7,8 +7,12 @@ import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { KeyboardEvent, useState } from 'react'
 
-export function NewArticleInput() {
-  const [draftId, setDraftId] = useState<string>('')
+type Props = {
+  defaultId?: string
+}
+
+export function NewArticleInput({ defaultId = '' }: Props) {
+  const [draftId, setDraftId] = useState<string>(defaultId)
   const [loading, setLoading] = useState<boolean>(false)
   const router = useRouter()
 
@@ -29,7 +33,6 @@ export function NewArticleInput() {
 
   return (
     <div>
-      <h2 className="w-fit text-xl font-bold">記事を作成する</h2>
       <div className="flex flex-row mt-2">
         <Input
           className="w-full"
