@@ -1,4 +1,5 @@
 jest.mock('@/layers/use-case/draft/DraftUsesCase')
+jest.mock('next-auth')
 
 import { NextRequest, NextResponse } from 'next/server'
 import { GET } from './route'
@@ -6,6 +7,7 @@ import { Failure, Success } from '@/lib/utils/Result'
 import { DraftUseCase } from '@/layers/use-case/draft/interface'
 import { getDraftUseCase } from '@/layers/use-case/draft/DraftUsesCase'
 import { DraftOverview } from '@/layers/entity/types'
+import { getServerSession } from 'next-auth'
 
 const mockData: DraftOverview = {
   id: 'id',
@@ -41,6 +43,24 @@ beforeAll(() => {
 })
 
 describe('GET /api/v1/draft/list', () => {
+  beforeAll(() => {
+    const getServerSessionMock = getServerSession as jest.Mock
+    getServerSessionMock
+      .mockReturnValueOnce(Promise.resolve(null)) // Access Denied
+      .mockReturnValue(Promise.resolve({})) // Access Granted
+  })
+
+  it('responds 401 (Unauthorized) when you do not have permission', async () => {
+    const req = new NextRequest(`http://localhost/`)
+
+    const listDraftMock = draftUseCaseMock.listDraft as jest.Mock
+
+    const data: NextResponse<any> = await GET(req)
+
+    expect(data.status).toBe(401)
+    expect(listDraftMock.mock.calls).toHaveLength(0)
+  })
+
   it('responds 200 (OK) and correct list of draft data', async () => {
     const page = 1
 
