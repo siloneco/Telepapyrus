@@ -96,6 +96,22 @@ describe('GET /api/v1/draft/list', () => {
     expect(listDraftMock.mock.calls).toHaveLength(2)
   })
 
+  it('responds 200 (OK) with page 1 selected even if page is not specified', async () => {
+    const req = new NextRequest(`http://localhost/`)
+
+    const listDraftMock = draftUseCaseMock.listDraft as jest.Mock
+
+    const data: NextResponse<any> = await GET(req)
+    const responseJson = await data.json()
+
+    expect(data.status).toBe(200)
+    expect(responseJson).toEqual([mockData])
+
+    const callLength = 3
+    expect(listDraftMock.mock.calls).toHaveLength(callLength)
+    expect(listDraftMock.mock.calls[callLength - 1][0]).toEqual(1)
+  })
+
   it('responds 400 (Bad Request) when page number is negative', async () => {
     const page = -1
 
@@ -119,7 +135,7 @@ describe('GET /api/v1/draft/list', () => {
 
     await GET(req)
 
-    const callLength = 3
+    const callLength = 4
     expect(listDraftMock.mock.calls).toHaveLength(callLength)
     expect(listDraftMock.mock.calls[callLength - 1][0]).toEqual(page)
   })

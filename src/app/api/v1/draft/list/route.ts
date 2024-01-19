@@ -13,9 +13,11 @@ export async function GET(request: NextRequest) {
   }
 
   const searchParams = request.nextUrl.searchParams
-  const tmpPage = Number(searchParams.get('page'))
+  const tmpPage = searchParams.has('page')
+    ? Number(searchParams.get('page'))
+    : 1
 
-  if (searchParams.has('page') && tmpPage < 1) {
+  if (tmpPage < 1) {
     return NextResponse.json(
       { error: 'Page number must be greater than or equal to 1' },
       { status: 400 },
