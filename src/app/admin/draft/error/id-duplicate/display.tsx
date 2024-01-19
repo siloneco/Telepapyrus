@@ -15,15 +15,21 @@ export default function ArticleIdConflictError() {
       <h2 className="mb-4 flex justify-center text-3xl">
         エラー: この記事IDは既に利用されています
       </h2>
-      <div className="w-full mt-8 flex justify-center">
-        <Button asChild variant="default">
-          <a href="/admin/dashboard">
-            <FileEdit className="text-2xl mr-2" />
-            記事を編集する
-          </a>
-        </Button>
-      </div>
-      <p className="flex justify-center m-4 text-card-foreground/60">または</p>
+      {id && (
+        <>
+          <div className="w-full mt-8 flex justify-center">
+            <Button asChild variant="default">
+              <a href={`/admin/edit/${id}`}>
+                <FileEdit className="text-2xl mr-2" />
+                記事を編集する
+              </a>
+            </Button>
+          </div>
+          <p className="flex justify-center m-4 text-card-foreground/60">
+            または
+          </p>
+        </>
+      )}
       <div className="w-2/3 mx-auto mt-4">
         <h2 className="w-fit text-lg text-card-foreground font-bold">
           別のIDで続行する
