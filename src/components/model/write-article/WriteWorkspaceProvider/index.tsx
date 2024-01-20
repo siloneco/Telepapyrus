@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ReactNode } from 'react'
 import { WriteWorkspaceMode } from '../WriteWorkspace'
 import PostDialog from '../post-dialog/PostDialog'
+import ChangeIdDialog from '../ChangeIdDialog'
 
 type Props = {
   mode: WriteWorkspaceMode
@@ -27,6 +28,7 @@ export default function WriteWorkspaceProvider({ mode, id, children }: Props) {
     onSaveButtonPressed,
     onTabValueChange,
     postDraft,
+    changeDraftId,
   }: UseWriteWorkspaceProviderReturnProps = useWriteWorkspaceProvider({
     mode,
     id,
@@ -61,6 +63,12 @@ export default function WriteWorkspaceProvider({ mode, id, children }: Props) {
             <p className="text-base text-card-foreground/80 ml-2">
               {minToRead} min to read
             </p>
+            <p className="ml-2 text-card-foreground/60">/</p>
+            <ChangeIdDialog
+              currentId={id}
+              saveDraft={onSaveButtonPressed}
+              changeDraftId={changeDraftId}
+            />
             <div className="ml-auto flex items-center">
               <SaveButton
                 checked={saveStatus.isSaved}

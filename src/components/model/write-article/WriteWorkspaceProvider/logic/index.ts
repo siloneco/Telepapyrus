@@ -1,3 +1,4 @@
+import { ChangeDraftIdRequestProps } from '@/app/api/v1/draft/change-id/route'
 import { Draft } from '@/layers/entity/types'
 
 const roundOneDecimal = (num: number) => {
@@ -45,6 +46,20 @@ export const sendPreviewData = async (data: Draft): Promise<boolean> => {
   const res = await fetch(`${getBaseURL()}/api/v1/draft/preview`, {
     method: 'PUT',
     body: JSON.stringify(data),
+  })
+
+  return res.status === 200
+}
+
+export const changeIdRequest = async (oldId: string, newId: string) => {
+  const body: ChangeDraftIdRequestProps = {
+    oldId,
+    newId,
+  }
+
+  const res = await fetch(`${getBaseURL()}/api/v1/draft/change-id`, {
+    method: 'POST',
+    body: JSON.stringify(body),
   })
 
   return res.status === 200

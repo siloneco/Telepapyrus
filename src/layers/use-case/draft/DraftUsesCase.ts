@@ -10,6 +10,7 @@ import { setDraftForPreview } from './setForPreview/setDraftForPreview'
 import { getDraftForPreview } from './getForPreview/getForPreview'
 import { deleteDraft } from './delete/deleteDraft'
 import { listDraft } from './list/listDraft'
+import { changeDraftId } from './changeId/changeDraftId'
 
 export type PresentationDraft = {
   id: string
@@ -23,6 +24,8 @@ const createUseCase = (repo: DraftRepository): DraftUseCase => {
     saveDraft: async (draft: Draft) => saveDraft(repo, draft),
     deleteDraft: async (id: string) => deleteDraft(repo, id),
     listDraft: async (page?: number) => listDraft(repo, page),
+    changeDraftId: async (oldId: string, newId: string) =>
+      changeDraftId(repo, oldId, newId),
 
     setDraftForPreview: async (draft: Draft) => setDraftForPreview(repo, draft),
     getDraftForPreview: async (id: string) => getDraftForPreview(repo, id),

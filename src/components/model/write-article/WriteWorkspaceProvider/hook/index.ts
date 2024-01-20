@@ -14,6 +14,7 @@ import { WriteWorkspaceMode } from '../../WriteWorkspace'
 import { Draft, PublishableDraft } from '@/layers/entity/types'
 import { loadData } from './dataLoader'
 import {
+  changeIdRequest,
   postDraftForCreate,
   postDraftForUpdate,
   saveDraft,
@@ -123,6 +124,10 @@ export function useWriteWorkspaceProvider({
     setSavingDraft(false)
   }
 
+  const changeDraftId = async (newId: string): Promise<boolean> => {
+    return await changeIdRequest(id, newId)
+  }
+
   // Reset saved state when title or content changes
   useEffect(() => setSaved(false), [title, content])
 
@@ -179,5 +184,6 @@ export function useWriteWorkspaceProvider({
     onSaveButtonPressed,
     onTabValueChange,
     postDraft: postDraftForThisMode,
+    changeDraftId,
   }
 }

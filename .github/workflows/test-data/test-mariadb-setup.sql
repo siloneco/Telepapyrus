@@ -68,7 +68,11 @@ INSERT INTO `telepapyrus`.`drafts` VALUES
 ("test-draft-create-success-update", "title", "content"),
 ("test-draft-get-success", "title", "content"),
 ("test-draft-delete-fail-too-many-deleted-1", "title", "content"),
-("test-draft-delete-fail-too-many-deleted-2", "title", "content");
+("test-draft-delete-fail-too-many-deleted-2", "title", "content"),
+("test-draft-changeid-fail-too-many-affected-1", "title", "content"),
+("test-draft-changeid-fail-too-many-affected-2", "title", "content"),
+("test-draft-changeid-fail-already-exists-1", "title", "content"),
+("test-draft-changeid-fail-already-exists-2", "title", "content");
 
 CREATE VIEW `telepapyrus`.`pages` AS
 select

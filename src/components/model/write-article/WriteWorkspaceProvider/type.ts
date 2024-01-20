@@ -30,4 +30,5 @@ export type UseWriteWorkspaceProviderReturnProps = {
   onSaveButtonPressed: () => Promise<void>
   onTabValueChange: (_tab: string) => void
   postDraft: (_draft: Draft) => Promise<boolean>
+  changeDraftId: (_newId: string) => Promise<boolean>
 }

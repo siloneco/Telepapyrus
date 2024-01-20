@@ -61,6 +61,9 @@ const draftUseCaseMock: DraftUseCase = {
       return new Failure(new Error(''))
     }
   }),
+  changeDraftId: jest.fn().mockImplementation(async () => {
+    throw new Error('Not Used and Not Implemented')
+  }),
   listDraft: jest.fn().mockImplementation(async () => {
     throw new Error('Not Used and Not Implemented')
   }),
