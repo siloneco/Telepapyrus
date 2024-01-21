@@ -36,7 +36,7 @@ FROM
       )
     ORDER BY date DESC
     LIMIT 10
-  )  as articles LEFT JOIN
+  ) as articles LEFT JOIN
     (
       SELECT
         id,
@@ -53,8 +53,8 @@ FROM
             )
         )
       GROUP BY id
-	)
-  AS tags ON tags.id = articles.id;
+	) AS tags ON tags.id = articles.id
+ORDER BY date DESC;
 `
 
 export const listAllWithTagsAndPageQuery = `
