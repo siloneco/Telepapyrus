@@ -16,7 +16,9 @@ export default function CodeBlockTitle(props: Props) {
 
   return (
     <figcaption {...props}>
-      <p>{props.children}</p>
+      <div className="w-full break-words overflow-hidden">
+        <p>{props.children}</p>
+      </div>
       <CopyButton
         value={code}
         className="ml-auto my-auto text-white/60 hover:text-white/60 hover:bg-[#464646]"
