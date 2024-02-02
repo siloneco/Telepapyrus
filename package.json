@@ -10,7 +10,7 @@
     "type-check": "tsc --noEmit",
     "preinstall": "npx only-allow pnpm",
     "start": "next start",
-    "prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
+    "prepare": "husky",
     "test": "jest",
     "test:watch": "jest --watch"
   },
