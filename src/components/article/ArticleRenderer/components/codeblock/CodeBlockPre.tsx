@@ -29,7 +29,9 @@ function getRawCode(lines: any[]) {
 
     // Add each token to the code
     for (const token of spans) {
-      code += token.props.children
+      if (token.props.children) {
+        code += token.props.children
+      }
     }
 
     // Add a new line
