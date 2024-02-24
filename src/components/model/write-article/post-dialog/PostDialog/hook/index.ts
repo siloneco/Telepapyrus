@@ -39,8 +39,7 @@ type ReturnProps = {
       visibility: 'public' | 'private'
       confirm: boolean
     },
-    any,
-    undefined
+    any
   >
   onSubmit: () => Promise<void>
   onModalOpenChange: (_open: boolean) => void

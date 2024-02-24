@@ -6,7 +6,7 @@ settings:
 
 dependencies:
   '@hookform/resolvers':
-    specifier: ^3.3.2
+    specifier: ^3.3.4
     version: 3.3.4(react-hook-form@7.50.1)
   '@radix-ui/react-tabs':
     specifier: ^1.0.4
@@ -63,7 +63,7 @@ dependencies:
     specifier: ^4.0.11
     version: 4.0.12(react@18.2.0)
   react-hook-form:
-    specifier: ^7.48.2
+    specifier: ^7.50.1
     version: 7.50.1(react@18.2.0)
   react-icons:
     specifier: ^5.0.0
