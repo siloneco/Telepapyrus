@@ -146,8 +146,8 @@ devDependencies:
     specifier: 29.5.12
     version: 29.5.12
   '@types/mysql':
-    specifier: 2.15.25
-    version: 2.15.25
+    specifier: 2.15.26
+    version: 2.15.26
   '@types/node':
     specifier: 20.11.25
     version: 20.11.25
@@ -2521,8 +2521,8 @@ packages:
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}
     dev: false
 
-  /@types/mysql@2.15.25:
-    resolution: {integrity: sha512-pKjbzNu/xvD2xOx4psIfxu9CBg+GovLvQFk8NYTW3oT7Gf5QY65MvNgQNFvVb0nC3l9DCKGqBFYhujVrDqii4A==}
+  /@types/mysql@2.15.26:
+    resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
     dependencies:
       '@types/node': 20.11.25
     dev: true
