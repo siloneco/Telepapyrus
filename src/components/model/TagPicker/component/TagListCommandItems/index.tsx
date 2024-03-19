@@ -45,7 +45,7 @@ const TagListCommandItems: FC<Props> = ({
           }}
         >
           <TagCheckIcon tag={tag} selectedTags={sortedSelectedTags} />
-          <span className="truncate">{tag}</span>
+          <span className="truncate w-32">{tag}</span>
         </CommandItem>
       ))}
       <CommandItem>
@@ -55,7 +55,7 @@ const TagListCommandItems: FC<Props> = ({
         )}
         <input
           placeholder="新しいタグを作成"
-          className="bg-transparent outline-none"
+          className="bg-transparent outline-none w-32"
           value={newTagValue}
           onChange={(e) => setNewTagValue(e.target.value)}
           disabled={creatingTag}
