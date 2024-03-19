@@ -6,13 +6,13 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
+  CommandList,
 } from '@/components/ui/command'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { PlusIcon } from 'lucide-react'
 import { FC } from 'react'
 import TagListCommandItems from './component/TagListCommandItems'
@@ -42,7 +42,7 @@ const TagPicker: FC<Props> = ({ tags, setTags, className }) => {
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandInput placeholder="タグを検索" />
-          <ScrollArea className="h-60">
+          <CommandList>
             <CommandEmpty>タグが見つかりません</CommandEmpty>
             <CommandGroup>
               <TagListCommandItems
@@ -52,7 +52,7 @@ const TagPicker: FC<Props> = ({ tags, setTags, className }) => {
                 setSortedAllTags={setSortedAllTags}
               />
             </CommandGroup>
-          </ScrollArea>
+          </CommandList>
         </Command>
       </PopoverContent>
     </Popover>
