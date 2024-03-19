@@ -3,7 +3,7 @@ import HeaderNav from '@/components/layout/HeaderNav'
 import NextAuthProvider from '@/components/layout/NextAuth'
 import './global.css'
 import { cn } from '@/lib/utils'
-import { ThemeProvider } from '@/components/layout/ThemeProvider'
+import { ThemeProvider } from 'next-themes'
 import Footer from '@/components/layout/Footer'
 import { Toaster } from '@/components/ui/toaster'
 
