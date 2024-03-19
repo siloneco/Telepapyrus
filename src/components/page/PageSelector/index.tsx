@@ -12,10 +12,8 @@ export default function PageSelector({ currentPage, totalPages, path }: Props) {
   const prev = Math.min(currentPage - 1, totalPages)
 
   return (
-    <div className="my-6 text-center">
-      {currentPage > 1 && (
-        <PageBack path={path} page={prev} bright={currentPage == totalPages} />
-      )}
+    <div className="h-16 flex items-center justify-center">
+      {currentPage > 1 && <PageBack path={path} page={prev} />}
       {currentPage < totalPages && <PageForward path={path} page={next} />}
     </div>
   )
