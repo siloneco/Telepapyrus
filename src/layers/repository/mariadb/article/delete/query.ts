@@ -1,3 +1,3 @@
 export const deleteArticleQuery = () => `
-DELETE FROM articles WHERE id = ?;
+DELETE FROM articles WHERE id = :id;
 `

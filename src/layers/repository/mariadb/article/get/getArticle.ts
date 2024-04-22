@@ -41,7 +41,7 @@ export const getArticle = async (
 ): Promise<GetArticleReturnProps> => {
   return withConnection(async (connection) => {
     try {
-      const result: any[] = await connection.query(getArticleQuery(), [id, id])
+      const result: any[] = await connection.query(getArticleQuery(), { id })
 
       const selectResults = result[0]
       if (selectResults.length <= 0) {

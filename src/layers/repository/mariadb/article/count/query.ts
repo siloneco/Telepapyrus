@@ -11,8 +11,8 @@ FROM (
   SELECT
 	  id
 	FROM tags
-    WHERE tag IN (?)
+    WHERE tag IN (:tags)
     GROUP BY id
-    HAVING COUNT(DISTINCT tag) = ?
+    HAVING COUNT(DISTINCT tag) = :amountOfTags
   ) AS a;
 `

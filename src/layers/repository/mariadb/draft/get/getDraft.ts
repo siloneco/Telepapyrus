@@ -39,7 +39,7 @@ const createError = (
 export const getDraft = async (id: string): Promise<GetDraftReturnProps> => {
   return withConnection(async (connection) => {
     try {
-      const result: any[] = await connection.query(getDraftQuery(), [id])
+      const result: any[] = await connection.query(getDraftQuery(), { id })
 
       const selectResults = result[0]
       if (selectResults.length <= 0) {

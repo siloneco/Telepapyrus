@@ -45,7 +45,7 @@ const queryWithPage = async (
   connection: PoolConnection,
   page: number,
 ): Promise<any[]> => {
-  return await connection.query(listAllWithPageQuery, [page, page])
+  return await connection.query(listAllWithPageQuery, { page })
 }
 
 const queryWithTags = async (
@@ -57,11 +57,11 @@ const queryWithTags = async (
     return self.indexOf(tag) === index
   })
 
-  return await connection.query(listAllWithTagsAndPageQuery, [
-    distinctTags,
-    distinctTags.length,
-    10 * (page - 1),
-  ])
+  return await connection.query(listAllWithTagsAndPageQuery, {
+    tags: distinctTags,
+    amountOfTags: distinctTags.length,
+    offset: 10 * (page - 1),
+  })
 }
 
 const executeWithPreferQuery = async (

@@ -47,15 +47,15 @@ export const createArticle = async (
     try {
       await connection.beginTransaction()
 
-      await connection.query(insertArticleSQL, [
-        draft.id,
-        draft.title,
-        draft.description,
-        draft.content,
-      ])
+      await connection.query(insertArticleSQL, {
+        id: draft.id,
+        title: draft.title,
+        description: draft.description,
+        content: draft.content,
+      })
 
       if (tagInsertValues.length > 0) {
-        await connection.query(insertTagsSQL, [tagInsertValues])
+        await connection.query(insertTagsSQL, { items: tagInsertValues })
       }
 
       await connection.commit()

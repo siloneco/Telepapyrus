@@ -1,3 +1,3 @@
 export const getQuery = () => `
-UPDATE drafts SET id = ? WHERE id = ?;
+UPDATE drafts SET id = :newId WHERE id = :oldId;
 `

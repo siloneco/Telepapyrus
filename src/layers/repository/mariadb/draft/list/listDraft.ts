@@ -37,7 +37,7 @@ const queryWithPage = async (
   page: number,
 ): Promise<any[]> => {
   const offset = (page - 1) * 10
-  return await connection.query(listAllWithPageQuery, [offset])
+  return await connection.query(listAllWithPageQuery, { offset })
 }
 
 const executeWithPreferQuery = async (

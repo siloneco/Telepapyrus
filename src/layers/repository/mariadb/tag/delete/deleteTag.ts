@@ -38,7 +38,7 @@ export const deleteTag = async (tag: string): Promise<DeleteTagReturnProps> => {
     try {
       await connection.beginTransaction()
 
-      const result: any[] = await connection.query(getDeleteTagSQL(), [tag])
+      const result: any[] = await connection.query(getDeleteTagSQL(), { tag })
 
       const affectedRows: number = result[0].affectedRows
 

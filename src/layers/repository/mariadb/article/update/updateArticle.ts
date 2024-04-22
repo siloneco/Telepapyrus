@@ -52,12 +52,12 @@ export const updateArticle = async (
     try {
       await connection.beginTransaction()
 
-      const updateResult: any[] = await connection.query(updateArticleSQL(), [
-        data.title,
-        data.description,
-        data.content,
-        data.id,
-      ])
+      const updateResult: any[] = await connection.query(updateArticleSQL(), {
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        content: data.content,
+      })
 
       const updateAffectedRows: number = updateResult[0].affectedRows
 
@@ -66,9 +66,9 @@ export const updateArticle = async (
         return notExistsError
       }
 
-      await connection.query(deleteTagsSQL(), [data.id])
+      await connection.query(deleteTagsSQL(), { id: data.id })
       if (tagInsertValues.length > 0) {
-        await connection.query(insertTagsSQL(), [tagInsertValues])
+        await connection.query(insertTagsSQL(), { items: tagInsertValues })
       }
 
       await connection.commit()

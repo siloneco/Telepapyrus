@@ -38,10 +38,10 @@ const queryWithTags = async (
     return self.indexOf(tag) === index
   })
 
-  return await connection.query(countWithTagsQuery, [
-    distinctTags,
-    distinctTags.length,
-  ])
+  return await connection.query(countWithTagsQuery, {
+    tags: distinctTags,
+    amountOfTags: distinctTags.length,
+  })
 }
 
 const executeWithPreferQuery = async (

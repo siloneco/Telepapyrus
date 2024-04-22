@@ -12,5 +12,5 @@ SELECT
   title
 FROM
   drafts
-ORDER BY id ASC LIMIT 10 OFFSET ?;
+ORDER BY id ASC LIMIT 10 OFFSET :offset;
 `

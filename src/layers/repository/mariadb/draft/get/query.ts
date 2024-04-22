@@ -1,3 +1,3 @@
 export const getDraftQuery = () => `
-SELECT id, title, content FROM drafts WHERE id = ?;
+SELECT id, title, content FROM drafts WHERE id = :id;
 `

@@ -31,7 +31,7 @@ const createError = (error: any): CreateTagReturnProps => {
 export const createTag = async (tag: string): Promise<CreateTagReturnProps> => {
   return await withConnection(async (connection: PoolConnection) => {
     try {
-      await connection.query(insertTagSQL, [tag])
+      await connection.query(insertTagSQL, { tag })
 
       const returnValue: CreateTagReturnProps = { success: true }
       return returnValue

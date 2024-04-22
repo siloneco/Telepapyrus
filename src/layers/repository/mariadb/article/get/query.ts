@@ -15,11 +15,11 @@ FROM
         SELECT
           GROUP_CONCAT(DISTINCT tag SEPARATOR ',') AS tag
   	    FROM tags
-        WHERE id = ?
+        WHERE id = :id
         GROUP BY id
       ),
       NULL
     ) AS tag
   ) AS tag
-WHERE articles.id = ?;
+WHERE articles.id = :id;
 `

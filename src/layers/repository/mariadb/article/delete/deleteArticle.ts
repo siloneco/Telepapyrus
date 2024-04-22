@@ -40,9 +40,9 @@ export const deleteArticle = async (
   return withConnection(async (connection) => {
     try {
       await connection.beginTransaction()
-      const deleteResult: any[] = await connection.query(deleteArticleQuery(), [
+      const deleteResult: any[] = await connection.query(deleteArticleQuery(), {
         id,
-      ])
+      })
 
       const affectedRows: number = deleteResult[0].affectedRows
 

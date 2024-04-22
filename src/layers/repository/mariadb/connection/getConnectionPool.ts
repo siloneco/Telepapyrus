@@ -17,6 +17,7 @@ async function getConnectionPool() {
     password: connectionData.password,
     database: connectionData.database,
     connectionLimit: connectionData.connectionLimit,
+    namedPlaceholders: true,
   }
 
   connectionPool = createPool(connectionOptions)

@@ -43,9 +43,9 @@ export const deleteDraft = async (
     try {
       await connection.beginTransaction()
 
-      const deleteResult: any[] = await connection.query(getDeleteDraftSQL(), [
+      const deleteResult: any[] = await connection.query(getDeleteDraftSQL(), {
         id,
-      ])
+      })
 
       const affectedRows: number = deleteResult[0].affectedRows
 

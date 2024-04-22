@@ -52,10 +52,10 @@ export const changeDraftId = async (
     try {
       await connection.beginTransaction()
 
-      const updateResult: any[] = await connection.query(getQuery(), [
+      const updateResult: any[] = await connection.query(getQuery(), {
         newId,
         oldId,
-      ])
+      })
 
       const affectedRows: number = updateResult[0].affectedRows
 

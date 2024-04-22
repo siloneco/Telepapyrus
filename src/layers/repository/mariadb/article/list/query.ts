@@ -32,7 +32,7 @@ FROM
       *
 	  FROM articles
     WHERE date <= (
-        SELECT date FROM pages WHERE page = ?
+        SELECT date FROM pages WHERE page = :page
       )
     ORDER BY date DESC
     LIMIT 10
@@ -49,7 +49,7 @@ FROM
           FROM articles
           WHERE date <=
             (
-              SELECT date FROM pages WHERE page = ?
+              SELECT date FROM pages WHERE page = :page
             )
         )
       GROUP BY id
@@ -77,11 +77,11 @@ FROM
         SELECT
 	      id
         FROM tags
-        WHERE tag IN (?)
+        WHERE tag IN (:tags)
         GROUP BY id
-        HAVING COUNT(DISTINCT tag) = ?
+        HAVING COUNT(DISTINCT tag) = :amountOfTags
       )
       GROUP BY id
     ) as tags ON tags.id = articles.id
-ORDER BY date DESC LIMIT 10 OFFSET ?;
+ORDER BY date DESC LIMIT 10 OFFSET :offset;
 `

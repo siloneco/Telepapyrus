@@ -37,11 +37,11 @@ export const saveDraft = async (
     try {
       await connection.beginTransaction()
 
-      await connection.query(insertDraftSQL, [
-        draft.id,
-        draft.title,
-        draft.content,
-      ])
+      await connection.query(insertDraftSQL, {
+        id: draft.id,
+        title: draft.title,
+        content: draft.content,
+      })
 
       await connection.commit()
 
