@@ -21,6 +21,7 @@ CREATE TABLE `telepapyrus`.`articles` (
   `content` text NOT NULL,
   `date` datetime(3) NOT NULL,
   `last_updated` datetime(3) DEFAULT NULL,
+  `public` tinyint(1) NOT NULL DEFAULT false,
   PRIMARY KEY (`id`)
 );
 
