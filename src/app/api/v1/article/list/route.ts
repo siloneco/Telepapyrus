@@ -33,6 +33,7 @@ export async function GET(request: NextRequest) {
   const result = await getArticleUseCase().listArticle({
     page,
     tags: listArticleArgTags,
+    includePrivateArticles: false,
   })
 
   if (result.isFailure()) {

@@ -69,6 +69,7 @@ describe('GET /api/v1/article/list', () => {
     expect(listArticleMock.mock.calls[callLength - 1][0]).toEqual({
       tags: [tag],
       page: 1,
+      includePrivateArticles: false,
     })
   })
 
@@ -114,6 +115,7 @@ describe('GET /api/v1/article/list', () => {
     expect(listArticleMock.mock.calls).toHaveLength(callLength)
     expect(listArticleMock.mock.calls[callLength - 1][0]).toEqual({
       page: page,
+      includePrivateArticles: false,
     })
   })
 
@@ -134,6 +136,7 @@ describe('GET /api/v1/article/list', () => {
     expect(listArticleMock.mock.calls[callLength - 1][0]).toEqual({
       page: 1,
       tags: tags,
+      includePrivateArticles: false,
     })
   })
 })

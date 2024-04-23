@@ -29,6 +29,7 @@ SELECT
   articles.description,
   articles.date,
   articles.last_updated,
+  articles.public,
   tags.tags
 FROM
   (
@@ -71,6 +72,7 @@ SELECT
   articles.description,
   date,
   last_updated,
+  articles.public,
   tags.tags
 FROM
   articles INNER JOIN 
@@ -90,5 +92,6 @@ FROM
       )
       GROUP BY id
     ) as tags ON tags.id = articles.id
+WHERE articles.public = true
 ORDER BY date DESC LIMIT 10 OFFSET :offset;
 `
