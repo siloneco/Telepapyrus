@@ -13,6 +13,15 @@ describe('countArticle', () => {
 
     expect(typeof count).toBe('number')
     expect(count).toBeGreaterThanOrEqual(0)
+
+    const returnedValueForIncludingPrivate = await countArticle(undefined, true)
+    expect(returnedValueForIncludingPrivate).toMatchObject({
+      success: true,
+    })
+    const countForIncludingPrivate = returnedValueForIncludingPrivate.data
+
+    expect(typeof countForIncludingPrivate).toBe('number')
+    expect(countForIncludingPrivate).toBeGreaterThan(count!)
   })
 
   it('counts articles correctly when a tag specified', async () => {

@@ -5,6 +5,7 @@ import { GET as authOptions } from '@/app/api/auth/[...nextauth]/route'
 import ArticleEditButton from '@/components/misc/ArticleEditButton'
 import { FC } from 'react'
 import TagList from '@/components/model/TagList'
+import PrivateArticleNotice from './components/PrivateArticleNotice'
 
 type Props = {
   id: string
@@ -12,6 +13,7 @@ type Props = {
   date: string
   lastUpdated?: string
   tags: string[]
+  isPublic: boolean
 }
 
 export default async function ArticleHeader({
@@ -20,9 +22,12 @@ export default async function ArticleHeader({
   date,
   lastUpdated,
   tags,
+  isPublic,
 }: Props) {
   const session = await getServerSession(authOptions)
   const isValidAdmin = session !== undefined && session !== null
+
+  console.log(`isPublic: ${isPublic}`)
 
   const fullWidthTitle = tags.length > 0
 
@@ -30,6 +35,7 @@ export default async function ArticleHeader({
 
   return (
     <div className="mb-3">
+      {!isPublic && <PrivateArticleNotice />}
       {fullWidthTitle && <Title />}
       <div className="flex flex-rows items-end">
         <div>

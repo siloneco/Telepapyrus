@@ -5,6 +5,7 @@ SELECT
   articles.description,
   articles.date,
   articles.last_updated,
+  articles.public,
   tags.tags
 FROM
   articles LEFT JOIN
@@ -15,7 +16,10 @@ FROM
   	  FROM tags
       GROUP BY id
 	)
-  AS tags ON tags.id = articles.id;
+  AS tags ON tags.id = articles.id
+WHERE
+  articles.public = true OR
+  (:includePrivateArticles = true AND articles.public = false);
 `
 
 export const listAllWithPageQuery = `
@@ -31,9 +35,11 @@ FROM
     SELECT
       *
 	  FROM articles
-    WHERE date <= (
+    WHERE
+      date <= (
         SELECT date FROM pages WHERE page = :page
-      )
+      ) AND
+      public = true
     ORDER BY date DESC
     LIMIT 10
   ) as articles LEFT JOIN
@@ -47,10 +53,11 @@ FROM
           SELECT
             id
           FROM articles
-          WHERE date <=
-            (
+          WHERE
+            date <= (
               SELECT date FROM pages WHERE page = :page
-            )
+            ) AND
+            public = true
         )
       GROUP BY id
 	) AS tags ON tags.id = articles.id

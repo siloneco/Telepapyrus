@@ -31,7 +31,10 @@ export interface ArticleRepository {
   updateArticle(_draft: PublishableDraft): Promise<UpdateArticleReturnProps>
   deleteArticle(_id: string): Promise<DeleteArticleReturnProps>
 
-  countArticle(_tags?: string[]): Promise<CountArticleReturnProps>
+  countArticle(
+    _tags?: string[],
+    _includePrivateArticles?: boolean,
+  ): Promise<CountArticleReturnProps>
   listArticle(_props: ListArticleProps): Promise<ListArticleReturnProps>
 }
 

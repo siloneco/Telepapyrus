@@ -52,6 +52,7 @@ export const createArticle = async (
         title: draft.title,
         description: draft.description,
         content: draft.content,
+        isPublic: draft.isPublic,
       })
 
       if (tagInsertValues.length > 0) {

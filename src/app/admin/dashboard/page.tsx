@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 }
 
 const getArticleOverview = async (): Promise<PresentationArticleOverview[]> => {
-  const result = await getArticleUseCase().listArticle({})
+  const result = await getArticleUseCase().listArticle({
+    includePrivateArticles: true,
+  })
 
   if (result.isSuccess()) {
     return result.value

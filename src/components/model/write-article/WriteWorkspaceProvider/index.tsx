@@ -76,7 +76,6 @@ export default function WriteWorkspaceProvider({ mode, id, children }: Props) {
                 loading={saveStatus.isSavingDraft}
                 className="mr-4"
               />
-              {/* TOOD: select correct postDraft function */}
               <PostDialog mode={mode} postDraft={postDraft} />
             </div>
           </div>

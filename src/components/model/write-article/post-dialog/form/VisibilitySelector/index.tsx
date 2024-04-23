@@ -26,7 +26,8 @@ export default function VisibilitySelector({ form }: Props) {
       name="visibility"
       render={({ field }) => {
         if (field.value === undefined && initialValues.isPublic !== undefined) {
-          const initVisibility = initialValues.isPublic ? 'public' : 'private'
+          const initVisibility = initialValues.isPublic ? 'public' : 'unlisted'
+          console.log(initVisibility)
           form.setValue('visibility', initVisibility)
           field.value = initVisibility
         }
@@ -51,11 +52,11 @@ export default function VisibilitySelector({ form }: Props) {
                 </FormItem>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
-                    <RadioGroupItem value="private" disabled />
+                    <RadioGroupItem value="unlisted" />
                   </FormControl>
-                  <FormLabel className="font-normal">非公開</FormLabel>
+                  <FormLabel className="font-normal">限定公開</FormLabel>
                   <FormDescription>
-                    記事は管理画面にのみ表示され管理者だけが閲覧できます
+                    記事はリンクを知っている人のみ閲覧できます
                   </FormDescription>
                 </FormItem>
               </RadioGroup>

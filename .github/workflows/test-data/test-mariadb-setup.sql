@@ -25,17 +25,18 @@ CREATE TABLE `telepapyrus`.`articles` (
 );
 
 INSERT INTO `telepapyrus`.`articles` VALUES
-('test-article-create-fail-already-exists', 'title', 'description', 'content', '2024-01-01 00:00:00.000', NULL),
-('test-article-delete-fail-too-many-deleted-1', 'title', 'description', 'content', '2024-01-01 00:00:00.001', NULL),
-('test-article-delete-fail-too-many-deleted-2', 'title', 'description', 'content', '2024-01-01 00:00:00.002', NULL),
-('test-article-get-success', 'title', 'description', 'content', '2024-01-01 00:00:00.003', '2024-01-01 00:00:00.004'),
-('test-article-list-success-specific-tags-1', 'title', 'description', 'content', '2024-01-01 00:00:00.005', NULL),
-('test-article-list-success-specific-tags-2', 'title', 'description', 'content', '2024-01-01 00:00:00.006', NULL),
-('test-article-list-success-specific-tags-3', 'title', 'description', 'content', '2024-01-01 00:00:00.007', NULL),
-('test-article-update-fail-invalid-tag', 'title', 'description', 'content', '2024-01-01 00:00:00.008', NULL),
-("test-article-count-success-specific-tags-1", "title", 'description', "content", '2024-01-01 00:00:00.009', NULL),
-("test-article-count-success-specific-tags-2", "title", 'description', "content", '2024-01-01 00:00:00.010', NULL),
-("test-article-count-success-specific-tags-3", "title", 'description', "content", '2024-01-01 00:00:00.011', NULL);
+('test-article-create-fail-already-exists', 'title', 'description', 'content', '2024-01-01 00:00:00.000', NULL, true),
+('test-article-delete-fail-too-many-deleted-1', 'title', 'description', 'content', '2024-01-01 00:00:00.001', NULL, true),
+('test-article-delete-fail-too-many-deleted-2', 'title', 'description', 'content', '2024-01-01 00:00:00.002', NULL, true),
+('test-article-get-success', 'title', 'description', 'content', '2024-01-01 00:00:00.003', '2024-01-01 00:00:00.004', false),
+('test-article-list-success-specific-tags-1', 'title', 'description', 'content', '2024-01-01 00:00:00.005', NULL, true),
+('test-article-list-success-specific-tags-2', 'title', 'description', 'content', '2024-01-01 00:00:00.006', NULL, true),
+('test-article-list-success-specific-tags-3', 'title', 'description', 'content', '2024-01-01 00:00:00.007', NULL, true),
+('test-article-list-success-unlisted', 'title', 'description', 'content', '2024-01-01 00:00:00.008', NULL, false),
+('test-article-update-fail-invalid-tag', 'title', 'description', 'content', '2024-01-01 00:00:00.009', NULL, true),
+("test-article-count-success-specific-tags-1", "title", 'description', "content", '2024-01-01 00:00:00.010', NULL, true),
+("test-article-count-success-specific-tags-2", "title", 'description', "content", '2024-01-01 00:00:00.011', NULL, true),
+("test-article-count-success-specific-tags-3", "title", 'description', "content", '2024-01-01 00:00:00.012', NULL, true);
 
 CREATE TABLE `telepapyrus`.`tags` (
   `id` varchar(64) NOT NULL,
@@ -88,6 +89,8 @@ from
       ) AS `row_num`
     from
       `telepapyrus`.`articles`
+    where
+      `telepapyrus`.`articles`.`public` = true
   ) `t`
 where
   `t`.`row_num` MOD 10 = 1

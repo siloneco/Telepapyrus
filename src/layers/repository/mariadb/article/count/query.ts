@@ -1,18 +1,26 @@
 export const countAllQuery = `
 SELECT
   COUNT(*) AS count
-FROM articles;
+FROM articles
+WHERE
+  public = true OR
+  (:includePrivateArticles = true AND public = false);
 `
 
 export const countWithTagsQuery = `
 SELECT
   COUNT(*) AS count
-FROM (
-  SELECT
-	  id
-	FROM tags
+FROM articles
+WHERE
+  id IN (
+    SELECT
+	    id
+    FROM tags
     WHERE tag IN (:tags)
     GROUP BY id
     HAVING COUNT(DISTINCT tag) = :amountOfTags
-  ) AS a;
+  ) AND (
+    public = true OR
+    (:includePrivateArticles = true AND public = false)
+  );
 `

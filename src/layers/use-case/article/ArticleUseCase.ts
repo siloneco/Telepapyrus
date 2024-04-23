@@ -30,10 +30,7 @@ const showErrorMessageIfItFails = (result: Result<any, Error>) => {
   }
 }
 
-export type PresentationArticle = Omit<
-  Article,
-  'date' | 'last_updated' | 'isPublic'
-> & {
+export type PresentationArticle = Omit<Article, 'date' | 'last_updated'> & {
   date: string
   last_updated?: string
 }
@@ -49,6 +46,7 @@ export type PresentationArticleOverview = Omit<
 export type ListArticleProps = {
   tags?: string[]
   page?: number
+  includePrivateArticles?: boolean
 }
 
 export type FlushCacheFunction = (_id: string) => Promise<void>
@@ -84,8 +82,8 @@ const createUseCase = (repo: ArticleRepository): ArticleUseCase => {
       showErrorMessageIfItFails(result)
       return result
     },
-    countArticle: async (tags?: string[]) => {
-      const result = await countArticle(repo, tags)
+    countArticle: async (tags?: string[], includePrivateArticles?: boolean) => {
+      const result = await countArticle(repo, tags, includePrivateArticles)
       showErrorMessageIfItFails(result)
       return result
     },

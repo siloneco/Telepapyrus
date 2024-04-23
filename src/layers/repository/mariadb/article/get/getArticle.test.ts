@@ -24,7 +24,7 @@ describe('getArticle', () => {
       description: 'description',
       content: 'content',
       tags: ['test-article-get-success-tag'],
-      isPublic: true,
+      isPublic: false,
     }
 
     const fetched = (await getArticle(draft.id)).data

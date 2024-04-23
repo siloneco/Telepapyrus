@@ -33,9 +33,34 @@ describe('listArticle', () => {
       success: true,
     })
 
-    const articles = returnedValue.data
+    const articles = returnedValue.data!
 
     checkTypes(articles)
+
+    // Only public articles
+    for (const article of articles) {
+      expect(article.isPublic).toBe(true)
+    }
+  })
+
+  it('gets all articles correctly including unlisted one', async () => {
+    const returnedValue = await listArticle({ includePrivateArticles: true })
+
+    expect(returnedValue).toMatchObject({
+      success: true,
+    })
+
+    const articles = returnedValue.data!
+
+    let hasPrivateArticle = false
+    for (const article of articles) {
+      if (!article.isPublic) {
+        hasPrivateArticle = true
+        break
+      }
+    }
+
+    expect(hasPrivateArticle).toBe(true)
   })
 
   it('gets articles correctly by specifying tags', async () => {

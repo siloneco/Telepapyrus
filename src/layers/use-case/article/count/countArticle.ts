@@ -11,15 +11,20 @@ const cacheTTL = 60
 export const countArticle = async (
   repo: ArticleRepository,
   tags?: string[],
+  includePrivateArticles: boolean = false,
 ): Promise<Result<number, UnexpectedBehaviorDetectedError | Error>> => {
-  const cacheKey = tags ? JSON.stringify(tags?.sort()) : 'all'
+  const cacheKeyObject = {
+    tags: tags ? JSON.stringify(tags?.sort()) : 'all',
+    includePrivateArticles,
+  }
+  const cacheKey = JSON.stringify(cacheKeyObject)
 
   const cached = cache.get<number>(cacheKey)
   if (cached) {
     return new Success(cached)
   }
 
-  const result = await repo.countArticle(tags)
+  const result = await repo.countArticle(tags, includePrivateArticles)
   if (result.success) {
     const data = result.data!
     cache.set(cacheKey, data, cacheTTL)

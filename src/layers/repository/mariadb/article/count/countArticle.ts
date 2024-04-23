@@ -26,13 +26,17 @@ const createError = (
   return data
 }
 
-const queryAll = async (connection: PoolConnection): Promise<any[]> => {
-  return await connection.query(countAllQuery)
+const queryAll = async (
+  connection: PoolConnection,
+  includePrivateArticles: boolean,
+): Promise<any[]> => {
+  return await connection.query(countAllQuery, { includePrivateArticles })
 }
 
 const queryWithTags = async (
   connection: PoolConnection,
   tags: string[],
+  includePrivateArticles: boolean,
 ): Promise<any[]> => {
   const distinctTags = tags.filter((tag, index, self) => {
     return self.indexOf(tag) === index
@@ -41,30 +45,34 @@ const queryWithTags = async (
   return await connection.query(countWithTagsQuery, {
     tags: distinctTags,
     amountOfTags: distinctTags.length,
+    includePrivateArticles,
   })
 }
 
 const executeWithPreferQuery = async (
   connection: PoolConnection,
   tags?: string[],
+  includePrivateArticles: boolean = false,
 ): Promise<any[]> => {
   const haveTags = tags !== undefined && tags.length > 0
 
   if (!haveTags) {
-    return await queryAll(connection)
+    return await queryAll(connection, includePrivateArticles)
   } else {
-    return await queryWithTags(connection, tags!)
+    return await queryWithTags(connection, tags!, includePrivateArticles)
   }
 }
 
 export const countArticle = async (
   tags?: string[],
+  includePrivateArticles?: boolean,
 ): Promise<CountArticleReturnProps> => {
   return withConnection(async (connection) => {
     try {
       const resultsWithColumnData: any[] = await executeWithPreferQuery(
         connection,
         tags,
+        includePrivateArticles,
       )
 
       const resultRows = resultsWithColumnData[0]

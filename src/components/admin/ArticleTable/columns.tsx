@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { ActionButton } from './actions'
 import { Button } from '@/components/ui/button'
-import { ArrowUpDown } from 'lucide-react'
+import { ArrowUpDown, Lock } from 'lucide-react'
 import TagList from '@/components/model/TagList'
 import { PresentationArticleOverview } from '@/layers/use-case/article/ArticleUseCase'
 
@@ -13,6 +13,7 @@ export const columns: ColumnDef<PresentationArticleOverview>[] = [
     header: 'ID',
     cell: ({ row }) => {
       const id: string = row.getValue('id')
+      const isPublic: boolean = row.original.isPublic
 
       return (
         <div className="max-w-[150px] text-ellipsis overflow-hidden">
@@ -20,6 +21,9 @@ export const columns: ColumnDef<PresentationArticleOverview>[] = [
             href={`/article/${id}`}
             className="decoration-inherit text-inherit whitespace-nowrap"
           >
+            {!isPublic && (
+              <Lock className="h-4 w-4 inline-block mr-1 text-amber-500 dark:text-yellow-500" />
+            )}
             {id}
           </a>
         </div>

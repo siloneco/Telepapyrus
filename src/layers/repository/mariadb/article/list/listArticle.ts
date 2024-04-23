@@ -10,6 +10,7 @@ import { PoolConnection } from 'mysql2/promise'
 export type ListArticleProps = {
   tags?: string[]
   page?: number
+  includePrivateArticles?: boolean
 }
 
 export type ListArticleReturnProps = {
@@ -37,8 +38,11 @@ const createError = (message?: string): ListArticleReturnProps => {
   return data
 }
 
-const queryAll = async (connection: PoolConnection): Promise<any[]> => {
-  return await connection.query(listAllQuery)
+const queryAll = async (
+  connection: PoolConnection,
+  includePrivateArticles: boolean,
+): Promise<any[]> => {
+  return await connection.query(listAllQuery, { includePrivateArticles })
 }
 
 const queryWithPage = async (
@@ -66,6 +70,7 @@ const queryWithTags = async (
 
 const executeWithPreferQuery = async (
   connection: PoolConnection,
+  includePrivateArticles: boolean,
   tags?: string[],
   page?: number,
 ): Promise<any[]> => {
@@ -73,10 +78,20 @@ const executeWithPreferQuery = async (
   const haveTags = tags !== undefined && tags.length > 0
 
   if (!havePage && !haveTags) {
-    return await queryAll(connection)
+    return await queryAll(connection, includePrivateArticles)
   } else if (havePage && !haveTags) {
+    if (includePrivateArticles) {
+      throw new Error(
+        'Not implemented: including unlisted articles with page is not supported.',
+      )
+    }
     return await queryWithPage(connection, page!)
   } else if (havePage && haveTags) {
+    if (includePrivateArticles) {
+      throw new Error(
+        'Not implemented: including unlisted articles with page and tags is not supported.',
+      )
+    }
     return await queryWithTags(connection, tags!, page!)
   } else {
     // !havePage && haveTags
@@ -87,11 +102,13 @@ const executeWithPreferQuery = async (
 export const listArticle = async ({
   tags,
   page,
+  includePrivateArticles = false,
 }: ListArticleProps): Promise<ListArticleReturnProps> => {
   return withConnection(async (connection) => {
     try {
       const resultsWithColumnData: any[] = await executeWithPreferQuery(
         connection,
+        includePrivateArticles,
         tags,
         page,
       )
@@ -108,7 +125,7 @@ export const listArticle = async ({
           tags: rawTags ? rawTags.split(',') : [],
           date: data.date,
           last_updated: data.last_updated,
-          isPublic: true, // Edit this when you implement private article
+          isPublic: data.public === 1,
         }
 
         results.push(overview)

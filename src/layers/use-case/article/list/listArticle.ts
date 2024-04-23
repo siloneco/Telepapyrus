@@ -12,11 +12,12 @@ const cacheTTL = 60
 
 export const listArticle = async (
   repo: ArticleRepository,
-  { page, tags }: ListArticleProps,
+  { page, tags, includePrivateArticles = false }: ListArticleProps,
 ): Promise<Result<PresentationArticleOverview[], Error>> => {
   const cacheKeyObject = {
     page,
     tags: tags ? tags.sort() : [],
+    includePrivateArticles,
   }
   const cacheKey = JSON.stringify(cacheKeyObject)
 
@@ -25,7 +26,7 @@ export const listArticle = async (
     return new Success(cached)
   }
 
-  const result = await repo.listArticle({ page, tags })
+  const result = await repo.listArticle({ page, tags, includePrivateArticles })
   if (result.success) {
     const resultData: PresentationArticleOverview[] = result.data!.map(
       (article) => ({

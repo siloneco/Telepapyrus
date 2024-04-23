@@ -30,7 +30,7 @@ export const WriteWorkspaceContext = createContext({
   initialValues: {
     description: '',
     tags: [''],
-    isPublic: true,
+    isPublic: false,
   },
   loadingWorkspace: true,
   isPreviewLoadingState: true,
@@ -64,7 +64,7 @@ export function useWriteWorkspaceProvider({
     initialValues: {
       description: initialDescription,
       tags: initialTags,
-      isPublic: true,
+      isPublic: false,
     },
     loadingWorkspace: loadingWorkspace,
     isPreviewLoadingState: loadingPreview,

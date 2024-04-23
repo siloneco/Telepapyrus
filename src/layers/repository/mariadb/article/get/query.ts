@@ -5,6 +5,7 @@ SELECT
   articles.description,
   articles.content,
   articles.date,
+  articles.public,
   articles.last_updated,
   tag.tag
 FROM

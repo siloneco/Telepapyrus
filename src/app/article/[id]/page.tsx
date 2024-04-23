@@ -47,6 +47,7 @@ export async function generateMetadata(
   return {
     title: data.title,
     description: data.description,
+    robots: data.isPublic === false ? 'noindex' : undefined,
   }
 }
 
@@ -77,6 +78,7 @@ export default async function Page({ params }: PageProps) {
         date={data.date}
         lastUpdated={data.last_updated}
         tags={data.tags}
+        isPublic={data.isPublic}
       />
       <ArticleRenderer content={data.content} />
     </div>

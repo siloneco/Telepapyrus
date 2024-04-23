@@ -29,6 +29,7 @@ const baseArticle: PresentationArticle = {
   tags: ['tag1', 'tag2'],
   date: '2024/01/01',
   last_updated: '2024/01/01',
+  isPublic: true,
 } as const
 
 const basePublishableDraft: PublishableDraft = {

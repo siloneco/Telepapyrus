@@ -57,6 +57,7 @@ export const updateArticle = async (
         title: data.title,
         description: data.description,
         content: data.content,
+        isPublic: data.isPublic,
       })
 
       const updateAffectedRows: number = updateResult[0].affectedRows

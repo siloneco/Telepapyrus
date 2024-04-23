@@ -1,5 +1,5 @@
 export const updateArticleSQL = () => `
-UPDATE articles SET title = :title, description = :description, content = :content, last_updated = now(3) WHERE id = :id;
+UPDATE articles SET title = :title, description = :description, content = :content, last_updated = now(3), public = :isPublic WHERE id = :id;
 `
 
 export const deleteTagsSQL = () => `

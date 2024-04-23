@@ -19,10 +19,10 @@ const formSchema = z.object({
     }),
   tags: z.string().array().optional(),
   visibility: z
-    .enum(['public', 'private'], {
+    .enum(['public', 'unlisted'], {
       required_error: '公開範囲を指定してください',
     })
-    .default('private'),
+    .default('unlisted'),
   confirm: z.literal<boolean>(true),
 })
 
@@ -36,7 +36,7 @@ type ReturnProps = {
       title: string
       description: string
       tags?: string[] | undefined
-      visibility: 'public' | 'private'
+      visibility: 'public' | 'unlisted'
       confirm: boolean
     },
     any

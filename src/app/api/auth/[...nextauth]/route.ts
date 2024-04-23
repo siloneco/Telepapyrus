@@ -10,7 +10,7 @@ type GitHubEmail = {
   email: string
   verified: boolean
   primary: boolean
-  visibility: 'public' | 'private'
+  visibility: 'public' | 'unlisted'
 }
 
 const handler = NextAuth({
