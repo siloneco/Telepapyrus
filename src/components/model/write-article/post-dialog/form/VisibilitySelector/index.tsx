@@ -27,7 +27,6 @@ export default function VisibilitySelector({ form }: Props) {
       render={({ field }) => {
         if (field.value === undefined && initialValues.isPublic !== undefined) {
           const initVisibility = initialValues.isPublic ? 'public' : 'unlisted'
-          console.log(initVisibility)
           form.setValue('visibility', initVisibility)
           field.value = initVisibility
         }

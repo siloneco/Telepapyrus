@@ -27,8 +27,6 @@ export default async function ArticleHeader({
   const session = await getServerSession(authOptions)
   const isValidAdmin = session !== undefined && session !== null
 
-  console.log(`isPublic: ${isPublic}`)
-
   const fullWidthTitle = tags.length > 0
 
   const Title: FC = () => <h1 className="text-3xl font-bold">{title}</h1>
