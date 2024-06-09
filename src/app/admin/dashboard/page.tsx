@@ -43,7 +43,7 @@ export default async function Page() {
 
   return (
     <div className="max-w-5xl mx-auto mt-5 mb-10">
-      <h1 className="text-4xl font-bold text-center">Dashboard (WIP)</h1>
+      <h1 className="text-4xl font-bold text-center">Dashboard</h1>
       <div className="w-1/2 mx-auto mt-4">
         <h2 className="w-fit text-xl font-bold">記事を作成する</h2>
         <NewArticleInput />
