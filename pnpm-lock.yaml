@@ -33,8 +33,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.1
       lucide-react:
-        specifier: 0.403.0
-        version: 0.403.0(react@18.3.1)
+        specifier: 0.407.0
+        version: 0.407.0(react@18.3.1)
       mysql2:
         specifier: ^3.6.1
         version: 3.10.2
@@ -3197,8 +3197,8 @@ packages:
     resolution: {integrity: sha512-MhWWlVnuab1RG5/zMRRcVGXZLCXrZTgfwMikgzCegsPnG62yDQo5JnqKkrK4jO5iKqDAZGItAqN5CtKBCBWRUA==}
     engines: {node: '>=16.14'}
 
-  lucide-react@0.403.0:
-    resolution: {integrity: sha512-ldD3NT444k4Mi+n+43xC8XaHr88MNdhOIApIE15r7O+PcVYEBXNOOFo904cBC6Hsja+zHc1lqw0mqUgBECeisw==}
+  lucide-react@0.407.0:
+    resolution: {integrity: sha512-+dRIu9Sry+E8wPF9+sY5eKld2omrU4X5IKXxrgqBt+o11IIHVU0QOfNoVWFuj0ZRDrxr4Wci26o2mKZqLGE0lA==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
@@ -8180,7 +8180,7 @@ snapshots:
 
   lru-cache@8.0.5: {}
 
-  lucide-react@0.403.0(react@18.3.1):
+  lucide-react@0.407.0(react@18.3.1):
     dependencies:
       react: 18.3.1
 
