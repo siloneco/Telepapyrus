@@ -64,7 +64,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-error-boundary:
         specifier: ^4.0.11
-        version: 4.0.13(react@18.3.1)
+        version: 4.1.0(react@18.3.1)
       react-hook-form:
         specifier: ^7.50.1
         version: 7.53.0(react@18.3.1)
@@ -384,16 +384,16 @@ packages:
     resolution: {integrity: sha512-0CX6F+BI2s9dkUqr08KFrAIZgNFj75rdBU/DjCyYLIaV/quFjkk6T+EJ2LkZHyZTbEV4L5p97mNkUsHl2wLFAw==}
     engines: {node: '>=6.9.0'}
 
-  '@babel/runtime@7.24.0':
-    resolution: {integrity: sha512-Chk32uHMg6TnQdvw2e9IlqPpFX/6NLuK0Ys2PqLb7/gL5uFn9mXvK715FGLlOLQrcO4qIkNHkvPGktzzXexsFw==}
-    engines: {node: '>=6.9.0'}
-
   '@babel/runtime@7.24.4':
     resolution: {integrity: sha512-dkxf7+hn8mFBwKjs9bvBlArzLVxVbS8usaPUDd5p2a9JCL9tB8OaOVN1isD4+Xyk4ns89/xeOmbQvgdK7IIVdA==}
     engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.25.6':
     resolution: {integrity: sha512-VBj9MYyDb9tuLq7yzqjgzt6Q+IBQLrGZfdjOekyEirZPHxXWoTSGUTMrpsfi58Up73d13NfYLv8HT9vmznjzhQ==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.25.7':
+    resolution: {integrity: sha512-FjoyLe754PMiYsFaN5C94ttGiOmBNYTf6pLr4xXHAT5uctHb092PBszndLDR5XA/jghQvn4n7JMHl7dmTgbm9w==}
     engines: {node: '>=6.9.0'}
 
   '@babel/template@7.23.9':
@@ -3990,8 +3990,9 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-error-boundary@4.0.13:
-    resolution: {integrity: sha512-b6PwbdSv8XeOSYvjt8LpgpKrZ0yGdtZokYwkwV2wlcZbxgopHX/hgPl5VgpnoVOWd868n1hktM8Qm4b+02MiLQ==}
+  react-error-boundary@4.1.0:
+    resolution: {integrity: sha512-GFnM3kyswd+9Oy7oX1lxdr39ANHD3ty6cyAK4Kyku+w8Aq9fnK7+yRytKOaPLzOhgtGq18AfTXmDtwlojBPTRg==}
+    engines: {node: '>=20', pnpm: '=9'}
     peerDependencies:
       react: '>=16.13.1'
 
@@ -5004,15 +5005,15 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
-  '@babel/runtime@7.24.0':
-    dependencies:
-      regenerator-runtime: 0.14.1
-
   '@babel/runtime@7.24.4':
     dependencies:
       regenerator-runtime: 0.14.1
 
   '@babel/runtime@7.25.6':
+    dependencies:
+      regenerator-runtime: 0.14.1
+
+  '@babel/runtime@7.25.7':
     dependencies:
       regenerator-runtime: 0.14.1
 
@@ -5965,7 +5966,7 @@ snapshots:
 
   '@radix-ui/react-use-callback-ref@1.0.1(@types/react@18.3.11)(react@18.3.1)':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.24.4
       react: 18.3.1
     optionalDependencies:
       '@types/react': 18.3.11
@@ -5993,7 +5994,7 @@ snapshots:
 
   '@radix-ui/react-use-escape-keydown@1.0.3(@types/react@18.3.11)(react@18.3.1)':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.24.4
       '@radix-ui/react-use-callback-ref': 1.0.1(@types/react@18.3.11)(react@18.3.1)
       react: 18.3.1
     optionalDependencies:
@@ -6008,7 +6009,7 @@ snapshots:
 
   '@radix-ui/react-use-layout-effect@1.0.1(@types/react@18.3.11)(react@18.3.1)':
     dependencies:
-      '@babel/runtime': 7.25.6
+      '@babel/runtime': 7.24.4
       react: 18.3.1
     optionalDependencies:
       '@types/react': 18.3.11
@@ -9397,9 +9398,9 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-error-boundary@4.0.13(react@18.3.1):
+  react-error-boundary@4.1.0(react@18.3.1):
     dependencies:
-      '@babel/runtime': 7.24.0
+      '@babel/runtime': 7.25.7
       react: 18.3.1
 
   react-hook-form@7.53.0(react@18.3.1):
