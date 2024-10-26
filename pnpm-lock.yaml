@@ -64,7 +64,7 @@ importers:
         version: 18.3.1(react@18.3.1)
       react-error-boundary:
         specifier: ^4.0.11
-        version: 4.1.1(react@18.3.1)
+        version: 4.1.2(react@18.3.1)
       react-hook-form:
         specifier: ^7.50.1
         version: 7.53.1(react@18.3.1)
@@ -386,10 +386,6 @@ packages:
 
   '@babel/runtime@7.24.4':
     resolution: {integrity: sha512-dkxf7+hn8mFBwKjs9bvBlArzLVxVbS8usaPUDd5p2a9JCL9tB8OaOVN1isD4+Xyk4ns89/xeOmbQvgdK7IIVdA==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/runtime@7.25.7':
-    resolution: {integrity: sha512-FjoyLe754PMiYsFaN5C94ttGiOmBNYTf6pLr4xXHAT5uctHb092PBszndLDR5XA/jghQvn4n7JMHl7dmTgbm9w==}
     engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.26.0':
@@ -3990,9 +3986,8 @@ packages:
     peerDependencies:
       react: ^18.3.1
 
-  react-error-boundary@4.1.1:
-    resolution: {integrity: sha512-EOAEsbVm2EQD8zPS4m24SiaR/506RPC3CjMcjJ5JWKECsctyLsDTKxB26Hvl7jcz7KweSOkBYAcY/hmMpMn2jA==}
-    engines: {pnpm: '=9'}
+  react-error-boundary@4.1.2:
+    resolution: {integrity: sha512-GQDxZ5Jd+Aq/qUxbCm1UtzmL/s++V7zKgE8yMktJiCQXCCFZnMZh9ng+6/Ne6PjNSXH0L9CjeOEREfRnq6Duag==}
     peerDependencies:
       react: '>=16.13.1'
 
@@ -5006,10 +5001,6 @@ snapshots:
       regenerator-runtime: 0.14.1
 
   '@babel/runtime@7.24.4':
-    dependencies:
-      regenerator-runtime: 0.14.1
-
-  '@babel/runtime@7.25.7':
     dependencies:
       regenerator-runtime: 0.14.1
 
@@ -9398,9 +9389,9 @@ snapshots:
       react: 18.3.1
       scheduler: 0.23.2
 
-  react-error-boundary@4.1.1(react@18.3.1):
+  react-error-boundary@4.1.2(react@18.3.1):
     dependencies:
-      '@babel/runtime': 7.25.7
+      '@babel/runtime': 7.26.0
       react: 18.3.1
 
   react-hook-form@7.53.1(react@18.3.1):
