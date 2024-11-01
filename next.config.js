@@ -17,6 +17,9 @@ const nextConfig = {
     })
     return config
   },
+  // Required for next-mdx-remote to work on Next.js v15
+  // See: https://github.com/hashicorp/next-mdx-remote/issues/467
+  transpilePackages: ['next-mdx-remote'],
   output: 'standalone',
   images: {
     remotePatterns: remotePattern.hostname ? [remotePattern] : [],
