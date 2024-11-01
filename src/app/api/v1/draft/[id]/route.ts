@@ -12,9 +12,9 @@ import {
 export const dynamic = 'force-dynamic'
 
 type Props = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export async function GET(request: Request, { params }: Props) {
@@ -24,7 +24,7 @@ export async function GET(request: Request, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { id } = params
+  const { id } = await params
 
   const result = await getDraftUseCase().getDraft(id)
 
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { id } = params
+  const { id } = await params
   const data: Draft = await request.json()
 
   data.id = id
@@ -79,7 +79,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { id } = params
+  const { id } = await params
 
   const result = await getDraftUseCase().deleteDraft(id)
 

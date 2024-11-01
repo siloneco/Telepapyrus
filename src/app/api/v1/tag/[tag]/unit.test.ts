@@ -71,9 +71,7 @@ describe('POST /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: {
-        tag: mockKeyMap.success,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.success }),
     })
 
     expect(result.status).toBe(401)
@@ -85,9 +83,7 @@ describe('POST /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: {
-        tag: mockKeyMap.success,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.success }),
     })
 
     const createTagMock = tagUseCaseMock.createTag as jest.Mock
@@ -103,9 +99,7 @@ describe('POST /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: {
-        tag: mockKeyMap.alreadyExists,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.alreadyExists }),
     })
 
     const createTagMock = tagUseCaseMock.createTag as jest.Mock
@@ -121,9 +115,7 @@ describe('POST /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: {
-        tag: mockKeyMap.invalidData,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.invalidData }),
     })
 
     const createTagMock = tagUseCaseMock.createTag as jest.Mock
@@ -139,9 +131,7 @@ describe('POST /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: {
-        tag: mockKeyMap.error,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.error }),
     })
 
     const createTagMock = tagUseCaseMock.createTag as jest.Mock
@@ -167,9 +157,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: {
-        tag: mockKeyMap.success,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.success }),
     })
 
     expect(result.status).toBe(401)
@@ -181,9 +169,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: {
-        tag: mockKeyMap.success,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.success }),
     })
 
     const deleteTagMock = tagUseCaseMock.deleteTag as jest.Mock
@@ -199,9 +185,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: {
-        tag: mockKeyMap.notExists,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.notExists }),
     })
 
     const deleteTagMock = tagUseCaseMock.deleteTag as jest.Mock
@@ -217,9 +201,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: {
-        tag: mockKeyMap.illegalBehavior,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.illegalBehavior }),
     })
 
     const deleteTagMock = tagUseCaseMock.deleteTag as jest.Mock
@@ -235,9 +217,7 @@ describe('DELETE /api/v1/tag/[tag]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: {
-        tag: mockKeyMap.error,
-      },
+      params: Promise.resolve({ tag: mockKeyMap.error }),
     })
 
     const deleteTagMock = tagUseCaseMock.deleteTag as jest.Mock

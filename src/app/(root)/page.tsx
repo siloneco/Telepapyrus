@@ -35,11 +35,11 @@ export const metadata: Metadata = {
 }
 
 type Props = {
-  searchParams: { [key: string]: string | string[] | undefined }
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export default async function Page({ searchParams }: Props) {
-  const rawPage = searchParams['page']
+  const rawPage = (await searchParams).page
   const maxPage: number = await getMaxPageNumber()
   const pageParseResult = convertSearchParamPageToInteger(rawPage, maxPage)
 
