@@ -151,7 +151,7 @@ describe('GET /api/v1/article/[id]', () => {
     expect(getServerSessionMock.mock.calls).toHaveLength(0)
 
     const result: NextResponse<any> = await GET(req, {
-      params: { id: baseArticle.id },
+      params: Promise.resolve({ id: baseArticle.id }),
     })
 
     expect(result.status).toBe(401)
@@ -164,7 +164,7 @@ describe('GET /api/v1/article/[id]', () => {
     const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
-      params: { id: mockKeyMap.success },
+      params: Promise.resolve({ id: mockKeyMap.success }),
     })
 
     expect(data.status).toBe(200)
@@ -177,7 +177,7 @@ describe('GET /api/v1/article/[id]', () => {
     const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
-      params: { id: mockKeyMap.notExists },
+      params: Promise.resolve({ id: mockKeyMap.notExists }),
     })
 
     expect(data.status).toBe(404)
@@ -187,7 +187,7 @@ describe('GET /api/v1/article/[id]', () => {
     const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
-      params: { id: mockKeyMap.scopeError },
+      params: Promise.resolve({ id: mockKeyMap.scopeError }),
     })
 
     expect(data.status).toBe(500)
@@ -197,7 +197,7 @@ describe('GET /api/v1/article/[id]', () => {
     const req = new NextRequest('http://localhost/')
 
     const data: NextResponse<any> = await GET(req, {
-      params: { id: mockKeyMap.error },
+      params: Promise.resolve({ id: mockKeyMap.error }),
     })
 
     expect(data.status).toBe(500)
@@ -222,7 +222,7 @@ describe('POST /api/v1/article/[id]', () => {
     expect(getServerSessionMock.mock.calls).toHaveLength(0)
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: baseArticle.id },
+      params: Promise.resolve({ id: baseArticle.id }),
     })
 
     expect(result.status).toBe(401)
@@ -239,7 +239,7 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: mockKeyMap.success },
+      params: Promise.resolve({ id: mockKeyMap.success }),
     })
 
     expect(result.status).toBe(200)
@@ -254,7 +254,7 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: mockKeyMap.alreadyExists },
+      params: Promise.resolve({ id: mockKeyMap.alreadyExists }),
     })
 
     expect(result.status).toBe(409)
@@ -269,7 +269,7 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: mockKeyMap.invalidData },
+      params: Promise.resolve({ id: mockKeyMap.invalidData }),
     })
     expect(result.status).toBe(400)
     expect(articleUseCaseMock.createArticle).toHaveBeenCalledTimes(3)
@@ -283,7 +283,7 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: mockKeyMap.error },
+      params: Promise.resolve({ id: mockKeyMap.error }),
     })
 
     expect(result.status).toBe(500)
@@ -298,7 +298,7 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: mockKeyMap.success },
+      params: Promise.resolve({ id: mockKeyMap.success }),
     })
 
     expect(result.status).toBe(200)
@@ -313,7 +313,7 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: mockKeyMap.notExists },
+      params: Promise.resolve({ id: mockKeyMap.notExists }),
     })
 
     expect(result.status).toBe(404)
@@ -328,7 +328,7 @@ describe('POST /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await POST(req, {
-      params: { id: mockKeyMap.invalidData },
+      params: Promise.resolve({ id: mockKeyMap.invalidData }),
     })
     expect(result.status).toBe(400)
     expect(articleUseCaseMock.updateArticle).toHaveBeenCalledTimes(3)
@@ -354,7 +354,7 @@ describe('DELETE /api/v1/article/[id]', () => {
     expect(getServerSessionMock.mock.calls).toHaveLength(0)
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: { id: baseArticle.id },
+      params: Promise.resolve({ id: baseArticle.id }),
     })
 
     expect(result.status).toBe(401)
@@ -367,7 +367,7 @@ describe('DELETE /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: { id: mockKeyMap.success },
+      params: Promise.resolve({ id: mockKeyMap.success }),
     })
 
     expect(result.status).toBe(200)
@@ -379,7 +379,7 @@ describe('DELETE /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: { id: mockKeyMap.notExists },
+      params: Promise.resolve({ id: mockKeyMap.notExists }),
     })
 
     expect(result.status).toBe(404)
@@ -391,7 +391,7 @@ describe('DELETE /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: { id: mockKeyMap.scopeError },
+      params: Promise.resolve({ id: mockKeyMap.scopeError }),
     })
     expect(result.status).toBe(500)
   })
@@ -402,7 +402,7 @@ describe('DELETE /api/v1/article/[id]', () => {
     })
 
     const result: NextResponse<any> = await DELETE(req, {
-      params: { id: mockKeyMap.error },
+      params: Promise.resolve({ id: mockKeyMap.error }),
     })
     expect(result.status).toBe(500)
   })

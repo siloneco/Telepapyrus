@@ -19,8 +19,7 @@ async function getArticle(id: string): Promise<PresentationArticle | null> {
 }
 
 type MetadataProps = {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: Promise<{ id: string }>
 }
 
 export async function generateMetadata(
@@ -28,7 +27,7 @@ export async function generateMetadata(
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const NOT_FOUND_PAGE_TITLE = '404 Not Found | Silolab Blog'
-  const id = decodeURI(params.id)
+  const id = decodeURI((await params).id)
 
   if (id.length > ARTICLE_ID_MAX_LENGTH || !isValidID(id)) {
     return {
@@ -52,13 +51,13 @@ export async function generateMetadata(
 }
 
 type PageProps = {
-  params: {
+  params: Promise<{
     id: string
-  }
+  }>
 }
 
 export default async function Page({ params }: PageProps) {
-  const id = decodeURI(params.id)
+  const id = decodeURI((await params).id)
 
   if (id.length > ARTICLE_ID_MAX_LENGTH || !isValidID(id)) {
     notFound()

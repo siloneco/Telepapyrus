@@ -1,5 +1,6 @@
 import { Metadata } from 'next'
 import SigninPage from '@/components/auth/LoginPage'
+import { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: 'ログイン | Silolab Blog',
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 }
 
 export default function Page() {
-  return <SigninPage />
+  return (
+    <Suspense>
+      <SigninPage />
+    </Suspense>
+  )
 }

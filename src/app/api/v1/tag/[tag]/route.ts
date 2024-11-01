@@ -12,9 +12,9 @@ import {
 export const dynamic = 'force-dynamic'
 
 type Props = {
-  params: {
+  params: Promise<{
     tag: string
-  }
+  }>
 }
 
 export async function POST(request: NextRequest, { params }: Props) {
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { tag } = params
+  const { tag } = await params
 
   const result = await getTagUseCase().createTag(tag)
 
@@ -57,7 +57,7 @@ export async function DELETE(request: NextRequest, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { tag } = params
+  const { tag } = await params
 
   const result = await getTagUseCase().deleteTag(tag)
 

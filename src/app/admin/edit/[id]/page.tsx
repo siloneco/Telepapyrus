@@ -4,15 +4,14 @@ import WriteWorkspace from '@/components/model/write-article/WriteWorkspace'
 import { getArticleUseCase } from '@/layers/use-case/article/ArticleUseCase'
 
 type MetadataProps = {
-  params: { id: string }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: Promise<{ id: string }>
 }
 
 export async function generateMetadata(
   { params }: MetadataProps,
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const id: string = params.id
+  const id: string = (await params).id
 
   return {
     title: `${id} - Edit | Silolab Blog`,
@@ -20,13 +19,11 @@ export async function generateMetadata(
 }
 
 type Props = {
-  params: {
-    id: string
-  }
+  params: Promise<{ id: string }>
 }
 
 export default async function Page({ params }: Props) {
-  const { id } = params
+  const { id } = await params
 
   const result = await getArticleUseCase().getArticle(id)
   if (result.isFailure()) {

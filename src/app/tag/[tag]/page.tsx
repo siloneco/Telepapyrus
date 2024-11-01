@@ -36,32 +36,30 @@ async function getMaxPageNumber(tag: string): Promise<number | null> {
 }
 
 type Props = {
-  params: {
-    tag: string
-  }
-  searchParams: { [key: string]: string | string[] | undefined }
+  params: Promise<{ tag: string }>
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export async function generateMetadata(
   { params }: Props,
   _parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  params.tag = decodeURI(params.tag)
+  const tag = decodeURI((await params).tag)
 
   return {
-    title: `タグ ${params.tag} が付いている記事`,
+    title: `タグ ${tag} が付いている記事`,
     robots: 'noindex',
   }
 }
 
 export default async function Page({ params, searchParams }: Props) {
-  const tag = decodeURI(params.tag)
+  const tag = decodeURI((await params).tag)
 
   if (tag.length > TAG_NAME_MAX_LENGTH) {
     notFound()
   }
 
-  const rawPage = searchParams['page']
+  const rawPage = (await searchParams).page
   const maxPageNum: number = (await getMaxPageNumber(tag)) ?? 1
   const pageParseResult = convertSearchParamPageToInteger(rawPage, maxPageNum)
 

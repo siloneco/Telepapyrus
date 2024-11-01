@@ -14,9 +14,7 @@ import {
 export const dynamic = 'force-dynamic'
 
 type Props = {
-  params: {
-    id: string
-  }
+  params: Promise<{ id: string }>
 }
 
 type RequestJson = PublishableDraft & { update?: boolean }
@@ -28,7 +26,7 @@ export async function GET(request: Request, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { id } = params
+  const { id } = await params
 
   const result = await getArticleUseCase().getArticle(id)
 
@@ -60,7 +58,7 @@ export async function POST(request: Request, { params }: Props) {
   }
 
   const data: RequestJson = await request.json()
-  data.id = params.id
+  data.id = (await params).id
 
   if (data.update === undefined || data.update === false) {
     const result = await getArticleUseCase().createArticle(data)
@@ -116,7 +114,7 @@ export async function DELETE(request: Request, { params }: Props) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  const { id } = params
+  const { id } = await params
 
   const result = await getArticleUseCase().deleteArticle(id)
 
