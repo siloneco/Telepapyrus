@@ -32,7 +32,7 @@
         "actions/setup-node",
         "mariadb",
         "node",
-        "gcr.io/distroless/nodejs20-debian12"
+        "gcr.io/distroless/nodejs22-debian12"
       ],
       "pinDigests": false
     }

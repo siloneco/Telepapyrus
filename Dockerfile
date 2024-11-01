@@ -1,5 +1,5 @@
 # Setup pnpm
-FROM node:20-alpine AS pnpm
+FROM node:22-alpine AS pnpm
 
 # Enable pnpm
 ENV PNPM_HOME="/pnpm"
@@ -33,7 +33,7 @@ RUN SHARP_VERSION=`node -p -e "require('./package.d.json').dependencies.sharp"` 
 
 
 # Create runner image
-FROM gcr.io/distroless/nodejs20-debian12:nonroot AS runner
+FROM gcr.io/distroless/nodejs22-debian12:nonroot AS runner
 
 WORKDIR /app
 
@@ -46,10 +46,10 @@ COPY --from=build --chown=65532:65532 /work/.next/static ./.next/static
 
 ARG PORT=3000
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
-ENV HOSTNAME "0.0.0.0"
-ENV PORT $PORT
+ENV HOSTNAME="0.0.0.0"
+ENV PORT=$PORT
 
 EXPOSE $PORT
 
