@@ -1,5 +1,5 @@
 # Setup pnpm
-FROM node:20-alpine AS pnpm
+FROM node:22-alpine AS pnpm
 
 # Enable pnpm
 ENV PNPM_HOME="/pnpm"
