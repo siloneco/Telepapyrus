@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 
-export const dynamic = 'force-static'
+export const dynamic = 'force-dynamic'
 
 const baseUrl = process.env.BASE_URL || ''
 
