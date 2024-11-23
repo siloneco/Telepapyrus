@@ -2,12 +2,12 @@ name: Code Style Test
 on:
   push:
     paths-ignore:
-      - '**.md'
-      - 'renovate.json'
+      - "**.md"
+      - "renovate.json"
   pull_request:
     paths-ignore:
-      - '**.md'
-      - 'renovate.json'
+      - "**.md"
+      - "renovate.json"
 
 jobs:
   build-test:
@@ -37,4 +37,5 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - run: pnpm run lint
+      - run: pnpm run eslint
       - run: pnpm run type-check

@@ -7,6 +7,7 @@
     "dev": "next dev",
     "fmt": "prettier --write 'src/**/*.{js,jsx,ts,tsx,json,css,scss}'",
     "lint": "next lint",
+    "eslint": "eslint src/",
     "type-check": "tsc --noEmit",
     "preinstall": "npx only-allow pnpm",
     "start": "next start",
@@ -20,7 +21,7 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "eslint --ext .ts,.js,.tsx ."
+    "src/**/*.{ts,tsx}": "eslint src/"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
@@ -56,6 +57,8 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@eslint/js": "^9.15.0",
     "@radix-ui/react-alert-dialog": "1.1.2",
     "@radix-ui/react-checkbox": "1.1.2",
     "@radix-ui/react-dialog": "1.1.2",
