@@ -193,7 +193,7 @@ importers:
         specifier: 29.7.0
         version: 29.7.0
       lint-staged:
-        specifier: ^15.2.10
+        specifier: 15.2.10
         version: 15.2.10
       postcss:
         specifier: 8.4.49
