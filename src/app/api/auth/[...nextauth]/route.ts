@@ -38,7 +38,9 @@ const handler = NextAuth({
       })
 
       const emails = await emailRes.json()
-      const primaryEmail = emails.find((e: GitHubEmail) => e.primary).email
+      const primaryEmail = emails.find(
+        (e: GitHubEmail) => e.verified && e.primary,
+      ).email
 
       user.email = primaryEmail
 
