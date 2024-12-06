@@ -45,7 +45,7 @@ jobs:
         if: steps.check-mysql-cli.outputs.files_exists == 'false'
         run: sudo apt-get update && sudo apt-get -y install mysql-client
 
-      - uses: corrupt952/actions-retry-command@v1.0.7
+      - uses: corrupt952/actions-retry-command@3f634a8c767d6fdde08095e3c3c4d42aa2d79bb3 # v1.0.7
         with:
           command: 'mysql --protocol=tcp -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
           working_directory: ${{ github.workspace }}
