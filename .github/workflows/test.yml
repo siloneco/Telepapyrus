@@ -2,12 +2,12 @@ name: Test with Jest
 on:
   push:
     paths-ignore:
-      - '**.md'
-      - 'renovate.json'
+      - "**.md"
+      - "renovate.json"
   pull_request:
     paths-ignore:
-      - '**.md'
-      - 'renovate.json'
+      - "**.md"
+      - "renovate.json"
 
 jobs:
   test:
@@ -40,13 +40,17 @@ jobs:
         id: check-mysql-cli
         uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3
         with:
-          files: '/usr/bin/mysql'
+          files: "/usr/bin/mysql"
       - name: Install MySQL CLI
         if: steps.check-mysql-cli.outputs.files_exists == 'false'
         run: sudo apt-get update && sudo apt-get -y install mysql-client
 
-      - name: Setup MariaDB
-        run: 'mysql --protocol=tcp -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
+      - uses: corrupt952/actions-retry-command@v1.0.7
+        with:
+          command: 'mysql --protocol=tcp -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
+          working_directory: ${{ github.workspace }}
+          max_attempts: 3
+          retry_interval: 10
 
       - run: cp ./.github/workflows/test-data/.env.test ./.env.test.local
 
