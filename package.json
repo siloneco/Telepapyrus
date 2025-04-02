@@ -78,7 +78,7 @@
     "@types/mysql": "2.15.27",
     "@types/node": "22.13.1",
     "@types/react": "18.3.20",
-    "@types/react-dom": "18.3.5",
+    "@types/react-dom": "18.3.6",
     "autoprefixer": "10.4.21",
     "eslint": "9.20.1",
     "eslint-config-next": "15.1.7",
