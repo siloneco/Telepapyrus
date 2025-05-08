@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@hookform/resolvers':
         specifier: ^3.3.4
-        version: 3.10.0(react-hook-form@7.56.2(react@18.3.1))
+        version: 3.10.0(react-hook-form@7.56.3(react@18.3.1))
       '@radix-ui/react-tabs':
         specifier: ^1.0.4
         version: 1.1.11(@types/react-dom@18.3.7(@types/react@18.3.21))(@types/react@18.3.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -67,7 +67,7 @@ importers:
         version: 4.1.2(react@18.3.1)
       react-hook-form:
         specifier: ^7.50.1
-        version: 7.56.2(react@18.3.1)
+        version: 7.56.3(react@18.3.1)
       react-icons:
         specifier: ^5.0.0
         version: 5.5.0(react@18.3.1)
@@ -4111,8 +4111,8 @@ packages:
     peerDependencies:
       react: '>=16.13.1'
 
-  react-hook-form@7.56.2:
-    resolution: {integrity: sha512-vpfuHuQMF/L6GpuQ4c3ZDo+pRYxIi40gQqsCmmfUBwm+oqvBhKhwghCuj2o00YCgSfU6bR9KC/xnQGWm3Gr08A==}
+  react-hook-form@7.56.3:
+    resolution: {integrity: sha512-IK18V6GVbab4TAo1/cz3kqajxbDPGofdF0w7VHdCo0Nt8PrPlOZcuuDq9YYIV1BtjcX78x0XsldbQRQnQXWXmw==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18 || ^19
@@ -5285,9 +5285,9 @@ snapshots:
 
   '@floating-ui/utils@0.2.1': {}
 
-  '@hookform/resolvers@3.10.0(react-hook-form@7.56.2(react@18.3.1))':
+  '@hookform/resolvers@3.10.0(react-hook-form@7.56.3(react@18.3.1))':
     dependencies:
-      react-hook-form: 7.56.2(react@18.3.1)
+      react-hook-form: 7.56.3(react@18.3.1)
 
   '@humanfs/core@0.19.1': {}
 
@@ -9700,7 +9700,7 @@ snapshots:
       '@babel/runtime': 7.26.0
       react: 18.3.1
 
-  react-hook-form@7.56.2(react@18.3.1):
+  react-hook-form@7.56.3(react@18.3.1):
     dependencies:
       react: 18.3.1
 
