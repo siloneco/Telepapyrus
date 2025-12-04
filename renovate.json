@@ -26,6 +26,14 @@
       "automerge": true
     },
     {
+      "groupName": "[Node] Update dependencies",
+      "matchFileNames": ["package.json"]
+    },
+    {
+      "groupName": "[CI/CD] Update dependencies",
+      "matchFileNames": [".github/workflows/**/*.yml"]
+    },
+    {
       "matchPackageNames": [
         "actions/checkout",
         "actions/cache",
