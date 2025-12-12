@@ -51,6 +51,7 @@
     "remark-gfm": "4.0.1",
     "sharp": "^0.34.0",
     "shiki": "^1.1.7",
+    "sonner": "^2.0.7",
     "tailwind-merge": "2.6.0",
     "tailwindcss-animate": "1.0.7",
     "unist-util-visit": "^5.0.0",

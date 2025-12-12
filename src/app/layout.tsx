@@ -5,7 +5,7 @@ import './global.css'
 import { cn } from '@/lib/utils'
 import { ThemeProvider } from 'next-themes'
 import Footer from '@/components/layout/Footer'
-import { Toaster } from '@/components/ui/toaster'
+import { Toaster } from "@/components/ui/sonner"
 
 const fontSans = FontSans({
   subsets: ['latin'],

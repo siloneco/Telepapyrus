@@ -10,8 +10,8 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Check, ExternalLink, MoreHorizontal } from 'lucide-react'
 import { DeleteDialogTrigger, DeleteDialogWrapper } from './delete-dialog'
-import { useToast } from '@/components/ui/use-toast'
 import { PresentationArticleOverview } from '@/layers/use-case/article/ArticleUseCase'
+import { toast } from 'sonner'
 
 function getBaseURL(): string {
   const protocol = document.location.protocol
@@ -28,8 +28,6 @@ type Props = {
 }
 
 export function ActionButton({ article }: Props) {
-  const { toast } = useToast()
-
   const executeDelete = (id: string) => {
     fetch(`${getBaseURL()}/api/v1/article/${id}`, {
       method: 'DELETE',
@@ -39,11 +37,9 @@ export function ActionButton({ article }: Props) {
   }
 
   const showCopiedToast = () => {
-    toast({
-      title: 'コピーしました！',
-      titleIcon: <Check size={24} className="text-green-500" />,
-      className:
-        'md:w-48 bg-card text-card-foreground dark:bg-secondary dark:text-secondary-foreground',
+    toast("コピーしました！", {
+      icon: <Check size={24} className="text-green-500" />,
+      className: 'md:w-48 bg-card text-card-foreground dark:bg-secondary dark:text-secondary-foreground',
       duration: 1500,
     })
   }
