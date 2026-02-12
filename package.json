@@ -77,14 +77,14 @@
     "@testing-library/user-event": "14.6.1",
     "@types/jest": "29.5.14",
     "@types/mysql": "2.15.27",
-    "@types/node": "22.19.9",
+    "@types/node": "22.19.10",
     "@types/react": "18.3.28",
     "@types/react-dom": "18.3.7",
     "autoprefixer": "10.4.24",
     "eslint": "9.39.2",
     "eslint-config-next": "15.5.12",
     "eslint-config-prettier": "9.1.2",
-    "eslint-plugin-unused-imports": "4.3.0",
+    "eslint-plugin-unused-imports": "4.4.1",
     "husky": "9.1.7",
     "jest": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
@@ -97,5 +97,5 @@
     "ts-node": "10.9.2",
     "typescript": "5.9.3"
   },
-  "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264"
+  "packageManager": "pnpm@10.29.2+sha512.bef43fa759d91fd2da4b319a5a0d13ef7a45bb985a3d7342058470f9d2051a3ba8674e629672654686ef9443ad13a82da2beb9eeb3e0221c87b8154fff9d74b8"
 }
