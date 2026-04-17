@@ -172,8 +172,8 @@ importers:
         specifier: 18.3.7
         version: 18.3.7(@types/react@18.3.28)
       autoprefixer:
-        specifier: 10.4.27
-        version: 10.4.27(postcss@8.5.9)
+        specifier: 10.5.0
+        version: 10.5.0(postcss@8.5.9)
       eslint:
         specifier: 9.39.4
         version: 9.39.4(jiti@1.21.7)
@@ -1767,8 +1767,8 @@ packages:
   asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
 
-  autoprefixer@10.4.27:
-    resolution: {integrity: sha512-NP9APE+tO+LuJGn7/9+cohklunJsXWiaWEfV3si4Gi/XHDwVNgkwr1J3RQYFIvPy76GmJ9/bW8vyoU1LcxwKHA==}
+  autoprefixer@10.5.0:
+    resolution: {integrity: sha512-FMhOoZV4+qR6aTUALKX2rEqGG+oyATvwBt9IIzVR5rMa2HRWPkxf+P+PAJLD1I/H5/II+HuZcBJYEFBpq39ong==}
     engines: {node: ^10 || ^12 || >=14}
     hasBin: true
     peerDependencies:
@@ -6437,7 +6437,7 @@ snapshots:
 
   asynckit@0.4.0: {}
 
-  autoprefixer@10.4.27(postcss@8.5.9):
+  autoprefixer@10.5.0(postcss@8.5.9):
     dependencies:
       browserslist: 4.28.2
       caniuse-lite: 1.0.30001787
