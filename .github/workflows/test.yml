@@ -19,7 +19,7 @@ jobs:
       contents: read
     services:
       mariadb:
-        image: mariadb:11.8.6
+        image: mariadb:11.8.8
         ports:
           - 3306:3306
         env:
@@ -32,13 +32,13 @@ jobs:
           run_install: false
       - uses: actions/setup-node@v4
         with:
-          node-version: 22.22.2
+          node-version: 22.23.2
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Check MySQL CLI existence
         id: check-mysql-cli
-        uses: andstor/file-existence-action@076e0072799f4942c8bc574a82233e1e4d13e9d6 # v3
+        uses: andstor/file-existence-action@558493d6c74bf472d87c84eab196434afc2fa029 # v3
         with:
           files: "/usr/bin/mysql"
       - name: Install MySQL CLI
