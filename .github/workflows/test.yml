@@ -19,20 +19,20 @@ jobs:
       contents: read
     services:
       mariadb:
-        image: mariadb:11.8.6
+        image: mariadb:12.3.2
         ports:
           - 3306:3306
         env:
           MYSQL_ROOT_PASSWORD: passwd
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v2
+      - uses: actions/checkout@v7
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
         with:
-          version: 9
+          version: 11
           run_install: false
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
-          node-version: 22.22.2
+          node-version: 24.19.0
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -45,7 +45,7 @@ jobs:
         if: steps.check-mysql-cli.outputs.files_exists == 'false'
         run: sudo apt-get update && sudo apt-get -y install mysql-client
 
-      - uses: corrupt952/actions-retry-command@3f634a8c767d6fdde08095e3c3c4d42aa2d79bb3 # v1.0.7
+      - uses: corrupt952/actions-retry-command@a83e67b2e2c26a4e69d1b6bbf77e6464bf9602b9 # v2.0.0
         with:
           command: 'mysql --protocol=tcp -h localhost --port 3306 -u root -ppasswd -e "$(cat ./.github/workflows/test-data/test-mariadb-setup.sql)"'
           working_directory: ${{ github.workspace }}
